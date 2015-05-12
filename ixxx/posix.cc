@@ -213,6 +213,13 @@ namespace ixxx {
         throw_errno(Function::WAITID);
       return r;
     }
+    ssize_t write(int fd, const void *buf, size_t count)
+    {
+      int r = ::write(fd, buf, count);
+      if (r == -1)
+        throw_errno(Function::WRITE);
+      return r;
+    }
     int nanosleep(const struct timespec *req, struct timespec *rem)
     {
       int r = ::nanosleep(req, rem);

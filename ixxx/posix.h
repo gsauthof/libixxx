@@ -72,6 +72,7 @@ namespace ixxx {
     int unlinkat(int dirfd, const char *pathname, int flags);
     int unlinkat(int dirfd, const std::string &pathname, int flags);
     int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
+    ssize_t write(int fd, const void *buf, size_t count);
   }
 }
 

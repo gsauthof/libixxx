@@ -96,6 +96,7 @@ namespace ixxx {
     "unlink",
     "unlinkat",
     "waitid",
+    "write",
     0
   };
   namespace {

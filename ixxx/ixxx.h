@@ -63,6 +63,7 @@ namespace ixxx {
       UNLINK,
       UNLINKAT,
       WAITID,
+      WRITE,
       LAST_
     };
     std::ostream &operator<<(std::ostream &o, Function f);
