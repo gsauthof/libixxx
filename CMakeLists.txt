@@ -2,14 +2,18 @@ cmake_minimum_required(VERSION 2.8.8)
 project(ixxx CXX)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 
-# only for the unittests, ixxx.cc/h don't depend on it
-find_package(Boost 1.53
-  COMPONENTS
-    system
-    filesystem
-    unit_test_framework
-  REQUIRED)
+# guard from super-projects, i.e. when it is added as subdirectory
+IF(${CMAKE_PROJECT_NAME} STREQUAL "ixxx")
 
+  # only for the unittests, ixxx.cc/h don't depend on it
+  find_package(Boost 1.53
+    COMPONENTS
+      system
+      filesystem
+      unit_test_framework
+    REQUIRED)
+
+endif()
 
 #SET_SOURCE_FILES_PROPERTIES(ixxx.cc PROPERTIES COMPILE_FLAGS -D_XOPEN_SOURCE=600)
 
