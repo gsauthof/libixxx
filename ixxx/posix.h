@@ -67,6 +67,8 @@ namespace ixxx {
     int openat(int dirfd, const char *pathname, int flags, mode_t mode);
     int openat(int dirfd, const std::string &pathname, int flags);
     int openat(int dirfd, const std::string &pathname, int flags, mode_t mode);
+    char *mkdtemp(char *template_string);
+    ssize_t read(int fd, void *buf, size_t count);
     int unlink(const char *pathname);
     int unlink(const std::string &pathname);
     int unlinkat(int dirfd, const char *pathname, int flags);

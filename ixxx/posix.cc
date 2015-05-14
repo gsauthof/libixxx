@@ -175,6 +175,23 @@ namespace ixxx {
       return linkat(olddirfd, oldpath.c_str(), newdirfd, newpath.c_str(), flags);
     }
 #endif
+
+    char *mkdtemp(char *template_string)
+    {
+      char *r = ::mkdtemp(template_string);
+      if (!r)
+        throw_errno(Function::MKDTEMP);
+      return r;
+    }
+
+    ssize_t read(int fd, void *buf, size_t count)
+    {
+      int r = ::read(fd, buf, count);
+      if (r == -1)
+        throw_errno(Function::READ);
+      return r;
+    }
+
     int unlink(const char *pathname)
     {
       int r = ::unlink(pathname);
