@@ -141,5 +141,42 @@ BOOST_AUTO_TEST_SUITE( ixxx )
 
   BOOST_AUTO_TEST_SUITE_END()
 
+  BOOST_AUTO_TEST_SUITE(shared)
+
+    BOOST_AUTO_TEST_CASE(enums)
+    {
+      {
+        ostringstream o;
+        o << ixxx::Function::CLOSE;
+        BOOST_CHECK_EQUAL(o.str(), "close");
+      }
+      {
+        ostringstream o;
+        o << ixxx::Function::WRITE;
+        BOOST_CHECK_EQUAL(o.str(), "write");
+      }
+      {
+        ostringstream o;
+        o << ixxx::Function::ISATTY;
+        BOOST_CHECK_EQUAL(o.str(), "isatty");
+      }
+    }
+
+    BOOST_AUTO_TEST_CASE(end_markers)
+    {
+      {
+        ostringstream o;
+        o << ixxx::Function::FIRST_;
+        BOOST_CHECK_EQUAL(o.str(), "?UNK?");
+      }
+      {
+        ostringstream o;
+        o << ixxx::Function::LAST_;
+        BOOST_CHECK_EQUAL(o.str(), "?UNK?");
+      }
+    }
+
+  BOOST_AUTO_TEST_SUITE_END()
+
 BOOST_AUTO_TEST_SUITE_END()
 
