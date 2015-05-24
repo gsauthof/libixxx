@@ -83,6 +83,7 @@ namespace ixxx {
     "fopen",
     "fork",
     "fsync",
+    "ftruncate",
     "fwrite",
     "getenv",
     "gethostname",
