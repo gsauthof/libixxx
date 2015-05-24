@@ -50,6 +50,7 @@ namespace ixxx {
       FOPEN,
       FORK,
       FSYNC,
+      FTRUNCATE,
       FWRITE,
       GETENV,
       GETHOSTNAME,

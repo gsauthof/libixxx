@@ -46,6 +46,7 @@ namespace ixxx {
     int fileno(FILE *stream);
     pid_t fork();
     int fsync(int fd);
+    int ftruncate(int fd, off_t length);
     int gethostname(char *name, size_t len);
     int isatty(int fd);
     int link(const char *oldpath, const char *newpath);

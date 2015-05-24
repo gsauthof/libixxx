@@ -140,6 +140,13 @@ namespace ixxx {
         throw_errno(Function::FSYNC);
       return r;
     }
+    int ftruncate(int fd, off_t length)
+    {
+      int r = ::ftruncate(fd, length);
+      if (r == -1)
+        throw_errno(Function::FTRUNCATE);
+      return r;
+    }
     int gethostname(char *name, size_t len)
     {
       int r = ::gethostname(name, len);
