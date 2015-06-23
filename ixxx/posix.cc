@@ -35,6 +35,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <sys/mman.h>
 
 using namespace std;
 
@@ -132,6 +133,17 @@ namespace ixxx {
       if (r == -1)
         throw_errno(Function::CLOSE);
       return r;
+    }
+    int fstat(int fd, struct stat *buf)
+    {
+      int r = ::fstat(fd, buf);
+      if (r == -1)
+        throw_errno(Function::FSTAT);
+      return r;
+    }
+    int fstat(int fd, struct stat &buf)
+    {
+      return ixxx::posix::fstat(fd, &buf);
     }
     int fsync(int fd)
     {
@@ -242,6 +254,21 @@ namespace ixxx {
       int r = ::write(fd, buf, count);
       if (r == -1)
         throw_errno(Function::WRITE);
+      return r;
+    }
+    void *mmap(void *addr, size_t length, int prot, int flags,
+        int fd, off_t offset)
+    {
+      void *r = ::mmap(addr, length, prot, flags, fd, offset);
+      if (r == MAP_FAILED)
+        throw_errno(Function::MMAP);
+      return r;
+    }
+    int munmap(void *addr, size_t length)
+    {
+      int r = ::munmap(addr, length);
+      if (r == -1)
+        throw_errno(Function::MUNMAP);
       return r;
     }
     int nanosleep(const struct timespec *req, struct timespec *rem)

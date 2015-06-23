@@ -45,6 +45,8 @@ namespace ixxx {
     FILE *fdopen(int fd, const char *mode);
     int fileno(FILE *stream);
     pid_t fork();
+    int fstat(int fd, struct stat *buf);
+    int fstat(int fd, struct stat &buf);
     int fsync(int fd);
     int ftruncate(int fd, off_t length);
     int gethostname(char *name, size_t len);
@@ -59,6 +61,9 @@ namespace ixxx {
     int linkat(int olddirfd, const std::string &oldpath, int newdirfd,
         const std::string &newpath, int flags);
 #endif
+    void *mmap(void *addr, size_t length, int prot, int flags,
+        int fd, off_t offset);
+    int munmap(void *addr, size_t length);
     int nanosleep(const struct timespec *req, struct timespec *rem);
     int open(const char *pathname, int flags);
     int open(const char *pathname, int flags, mode_t mode);
