@@ -36,6 +36,9 @@ IF(${CMAKE_PROJECT_NAME} STREQUAL "ixxx")
     ${Boost_INCLUDE_DIRS}
   )
 
+  # for executing it from a quickfix environment
+  add_custom_target(check COMMAND ut)
+
 endif()
 
 set(LIB_SRC ixxx/ixxx.cc ixxx/ansi.cc ixxx/posix.cc)
