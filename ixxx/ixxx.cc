@@ -98,6 +98,7 @@ namespace ixxx {
     "open",
     "openat",
     "read",
+    "stat",
     "time",
     "unlink",
     "unlinkat",

@@ -211,6 +211,18 @@ namespace ixxx {
       return r;
     }
 
+    int stat(const char *pathname, struct stat *buf)
+    {
+      int r = ::stat(pathname, buf);
+      if (r == -1)
+        throw_errno(Function::STAT);
+      return r;
+    }
+    int stat(const std::string &pathname, struct stat *buf)
+    {
+      return ixxx::posix::stat(pathname.c_str(), buf);
+    }
+
     int unlink(const char *pathname)
     {
       int r = ::unlink(pathname);

@@ -65,6 +65,7 @@ namespace ixxx {
       OPEN,
       OPENAT,
       READ,
+      STAT,
       TIME,
       UNLINK,
       UNLINKAT,
