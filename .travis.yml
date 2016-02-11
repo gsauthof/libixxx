@@ -18,9 +18,8 @@ dist: trusty
 before_install:
   # in case the default sources yield hashsum errors ...
   # from https://github.com/The-Compiler/qutebrowser/blob/master/scripts/dev/ci_install.py#L71-L74
-  - sudo sed -i 's/us-central1\.gce/us/' /etc/apt/sources.list
-  - if [ "$TRAVIS_OS_NAME" = linux ]; then sudo apt-get update -qq ; fi
-  - if [ "$TRAVIS_OS_NAME" = linux ]; then sudo apt-get install -qq libboost-dev libboost-test-dev ; fi
+  - if [ "$TRAVIS_OS_NAME" = linux ]; then if sudo apt-get update -qq ; then : else sudo sed -i 's/us-central1\.gce/us/' /etc/apt/sources.list ; sudo apt-get update -qq ; fi ; fi
+  - if [ "$TRAVIS_OS_NAME" = linux ]; then sudo apt-get install -qq libboost-dev libboost-test-dev libboost-system-dev libboost-filesystem-dev ; fi
 
 # install:
 
