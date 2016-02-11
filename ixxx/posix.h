@@ -53,8 +53,8 @@ namespace ixxx {
     int isatty(int fd);
     int link(const char *oldpath, const char *newpath);
     int link(const std::string &oldpath, const std::string &newpath);
-    // Solaris 10 does not have linkat()
-#if defined(__sun)
+    // Solaris 10 and Mac OS X don't not have linkat()
+#if defined(__sun) || (defined(__APPLE__) && defined(__MACH__))
 #else
     int linkat(int olddirfd, const char *oldpath, int newdirfd,
         const char *newpath, int flags);
@@ -69,11 +69,15 @@ namespace ixxx {
     int open(const char *pathname, int flags, mode_t mode);
     int open(const std::string &pathname, int flags);
     int open(const std::string &pathname, int flags, mode_t mode);
+    // Mac OS X doesn't have openat and mkdtemp
+#if (defined(__APPLE__) && defined(__MACH__))
+#else
     int openat(int dirfd, const char *pathname, int flags);
     int openat(int dirfd, const char *pathname, int flags, mode_t mode);
     int openat(int dirfd, const std::string &pathname, int flags);
     int openat(int dirfd, const std::string &pathname, int flags, mode_t mode);
     char *mkdtemp(char *template_string);
+#endif
     ssize_t read(int fd, void *buf, size_t count);
     int stat(const char *pathname, struct stat *buf);
     int stat(const std::string &pathname, struct stat *buf);

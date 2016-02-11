@@ -105,6 +105,8 @@ namespace ixxx {
     {
       return posix::open(pathname.c_str(), flags, mode);
     }
+#if (defined(__APPLE__) && defined(__MACH__))
+#else
     int openat(int dirfd, const char *pathname, int flags)
     {
       int r = ::openat(dirfd, pathname, flags);
@@ -127,6 +129,7 @@ namespace ixxx {
     {
       return openat(dirfd, pathname, flags, mode);
     }
+#endif
     int close(int fd)
     {
       int r = ::close(fd);
@@ -195,6 +198,8 @@ namespace ixxx {
     }
 #endif
 
+#if (defined(__APPLE__) && defined(__MACH__))
+#else
     char *mkdtemp(char *template_string)
     {
       char *r = ::mkdtemp(template_string);
@@ -202,6 +207,7 @@ namespace ixxx {
         throw_errno(Function::MKDTEMP);
       return r;
     }
+#endif
 
     ssize_t read(int fd, void *buf, size_t count)
     {
