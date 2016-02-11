@@ -21,6 +21,8 @@ endif()
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+add_definitions(-D_XOPEN_SOURCE=700)
+
 # guard from super-projects, i.e. when it is added as subdirectory
 IF(${CMAKE_PROJECT_NAME} STREQUAL "ixxx")
 
