@@ -128,12 +128,20 @@ BOOST_AUTO_TEST_SUITE( ixxx )
           throw;
         }
       } catch (const ixxx::errno_error &e) {
+#if (defined(__APPLE__) && defined(__MACH__))
+        BOOST_CHECK_EQUAL(e.code(), ECHILD);
+#else
         BOOST_CHECK_EQUAL(e.code(), EINVAL);
+#endif
         BOOST_CHECK_EQUAL(e.function(), ixxx::Function::WAITID);
         caught = true;
       }
       ostringstream o;
+#if (defined(__APPLE__) && defined(__MACH__))
+      o << "waitid: " << strerror(ECHILD) << " (" << ECHILD << ')';
+#else
       o << "waitid: " << strerror(EINVAL) << " (" << EINVAL << ')';
+#endif
       //BOOST_CHECK_EQUAL(message, "waitid: Invalid argument (22)");
       BOOST_CHECK_EQUAL(message, o.str());
       BOOST_CHECK_EQUAL(caught, true);
