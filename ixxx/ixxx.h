@@ -37,6 +37,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ixxx/ansi.h>
 #include <ixxx/posix.h>
 
+// Mac OS X pollutes the global namespace with a FWRITE
+// macro ... undeffing it such that we can use it
+// as enum value ...
+#ifdef FWRITE
+  #undef FWRITE
+#endif
+
 namespace ixxx {
   
     enum class Function {
