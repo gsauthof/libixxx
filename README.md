@@ -5,6 +5,8 @@ not miss checking any error condition.
 
 2014-02-01, Georg Sauthoff <mail@georg.so>
 
+[![Build Status](https://travis-ci.org/gsauthof/libixxx.svg?branch=master)](https://travis-ci.org/gsauthof/libixxx)
+
 ## Design
 
 - All errors are reported via exceptions
