@@ -181,7 +181,7 @@ namespace ixxx {
       return link(oldpath.c_str(), newpath.c_str());
     }
     // Solaris 10 does not have linkat()
-#if defined(__sun)
+#if defined(__sun) || (defined(__APPLE__) && defined(__MACH__))
 #else
     int linkat(int olddirfd, const char *oldpath,
         int newdirfd, const char *newpath, int flags)
@@ -240,6 +240,8 @@ namespace ixxx {
     {
       return unlink(pathname.c_str());
     }
+#if (defined(__APPLE__) && defined(__MACH__))
+#else
     int unlinkat(int dirfd, const char *pathname, int flags)
     {
       int r = ::unlinkat(dirfd, pathname, flags);
@@ -251,6 +253,7 @@ namespace ixxx {
     {
       return unlinkat(dirfd, pathname.c_str(), flags);
     }
+#endif
 
     int isatty(int fd)
     {
