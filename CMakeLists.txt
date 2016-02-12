@@ -21,7 +21,13 @@ endif()
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+# Request POSIX 2008 definitions
 add_definitions(-D_XOPEN_SOURCE=700)
+# Access mkdtemp() on Mac OS X
+# (it is in POSIX 2008 but this is too new for Apple)
+if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  add_definitions(-D_DARWIN_C_SOURCE)
+endif()
 
 # guard from super-projects, i.e. when it is added as subdirectory
 IF(${CMAKE_PROJECT_NAME} STREQUAL "ixxx")
@@ -34,7 +40,7 @@ IF(${CMAKE_PROJECT_NAME} STREQUAL "ixxx")
     unittest/ixxx.cc
   )
   target_link_libraries(ut ${Boost_LIBRARIES})
-  set_property( TARGET ut PROPERTY INCLUDE_DIRECTORIES
+  set_property(TARGET ut PROPERTY INCLUDE_DIRECTORIES
     ${Boost_INCLUDE_DIRS}
   )
 

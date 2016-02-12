@@ -198,8 +198,6 @@ namespace ixxx {
     }
 #endif
 
-#if (defined(__APPLE__) && defined(__MACH__))
-#else
     char *mkdtemp(char *template_string)
     {
       char *r = ::mkdtemp(template_string);
@@ -207,7 +205,6 @@ namespace ixxx {
         throw_errno(Function::MKDTEMP);
       return r;
     }
-#endif
 
     ssize_t read(int fd, void *buf, size_t count)
     {

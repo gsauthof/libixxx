@@ -69,15 +69,15 @@ namespace ixxx {
     int open(const char *pathname, int flags, mode_t mode);
     int open(const std::string &pathname, int flags);
     int open(const std::string &pathname, int flags, mode_t mode);
-    // Mac OS X doesn't have openat and mkdtemp
+    // Mac OS X doesn't have openat
 #if (defined(__APPLE__) && defined(__MACH__))
 #else
     int openat(int dirfd, const char *pathname, int flags);
     int openat(int dirfd, const char *pathname, int flags, mode_t mode);
     int openat(int dirfd, const std::string &pathname, int flags);
     int openat(int dirfd, const std::string &pathname, int flags, mode_t mode);
-    char *mkdtemp(char *template_string);
 #endif
+    char *mkdtemp(char *template_string);
     ssize_t read(int fd, void *buf, size_t count);
     int stat(const char *pathname, struct stat *buf);
     int stat(const std::string &pathname, struct stat *buf);
