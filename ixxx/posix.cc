@@ -123,11 +123,11 @@ namespace ixxx {
     }
     int openat(int dirfd, const std::string &pathname, int flags)
     {
-      return openat(dirfd, pathname, flags);
+      return openat(dirfd, pathname.c_str(), flags);
     }
     int openat(int dirfd, const std::string &pathname, int flags, mode_t mode)
     {
-      return openat(dirfd, pathname, flags, mode);
+      return openat(dirfd, pathname.c_str(), flags, mode);
     }
 #endif
     int close(int fd)
