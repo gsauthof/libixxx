@@ -115,6 +115,7 @@ BOOST_AUTO_TEST_SUITE( ixxx )
 
   BOOST_AUTO_TEST_SUITE( posix )
 
+#if !defined(__MINGW32__) && !defined(__MINGW64__)
     BOOST_AUTO_TEST_CASE( exception_errno_message )
     {
       string message;
@@ -142,6 +143,30 @@ BOOST_AUTO_TEST_SUITE( ixxx )
 #else
       o << "waitid: " << strerror(EINVAL) << " (" << EINVAL << ')';
 #endif
+      //BOOST_CHECK_EQUAL(message, "waitid: Invalid argument (22)");
+      BOOST_CHECK_EQUAL(message, o.str());
+      BOOST_CHECK_EQUAL(caught, true);
+    }
+#endif
+
+    BOOST_AUTO_TEST_CASE( open_exception_errno_message )
+    {
+      string message;
+      bool caught = false;
+      try {
+        try {
+          posix::open("does_not_exist_23_42", O_RDWR);
+        } catch (const exception &e) {
+          message = e.what();
+          throw;
+        }
+      } catch (const ixxx::errno_error &e) {
+        BOOST_CHECK_EQUAL(e.code(), ENOENT);
+        BOOST_CHECK_EQUAL(e.function(), ixxx::Function::OPEN);
+        caught = true;
+      }
+      ostringstream o;
+      o << "open: " << strerror(ENOENT) << " (" << ENOENT << ')';
       //BOOST_CHECK_EQUAL(message, "waitid: Invalid argument (22)");
       BOOST_CHECK_EQUAL(message, o.str());
       BOOST_CHECK_EQUAL(caught, true);
