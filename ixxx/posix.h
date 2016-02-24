@@ -32,7 +32,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <sys/wait.h>
+#if !defined(__MINGW32__) && !defined(__MINGW64__)
+  #include <sys/wait.h>
+#endif
 #include <fcntl.h>
 #include <time.h>
 #include <unistd.h>
@@ -44,26 +46,41 @@ namespace ixxx {
     int dup(int oldfd);
     FILE *fdopen(int fd, const char *mode);
     int fileno(FILE *stream);
+#if !defined(__MINGW32__) && !defined(__MINGW64__)
     pid_t fork();
+#endif
     int fstat(int fd, struct stat *buf);
     int fstat(int fd, struct stat &buf);
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
     int fsync(int fd);
+#endif
     int ftruncate(int fd, off_t length);
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
     int gethostname(char *name, size_t len);
+#endif
     int isatty(int fd);
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
     int link(const char *oldpath, const char *newpath);
     int link(const std::string &oldpath, const std::string &newpath);
+#endif
     // Solaris 10 and Mac OS X don't not have linkat()
 #if defined(__sun) || (defined(__APPLE__) && defined(__MACH__))
+#elif (defined(__MINGW32__) || defined(__MINGW64__))
 #else
     int linkat(int olddirfd, const char *oldpath, int newdirfd,
         const char *newpath, int flags);
     int linkat(int olddirfd, const std::string &oldpath, int newdirfd,
         const std::string &newpath, int flags);
 #endif
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
     void *mmap(void *addr, size_t length, int prot, int flags,
         int fd, off_t offset);
     int munmap(void *addr, size_t length);
+#endif
     int nanosleep(const struct timespec *req, struct timespec *rem);
     int open(const char *pathname, int flags);
     int open(const char *pathname, int flags, mode_t mode);
@@ -71,24 +88,31 @@ namespace ixxx {
     int open(const std::string &pathname, int flags, mode_t mode);
     // Mac OS X doesn't have openat
 #if (defined(__APPLE__) && defined(__MACH__))
+#elif (defined(__MINGW32__) || defined(__MINGW64__))
 #else
     int openat(int dirfd, const char *pathname, int flags);
     int openat(int dirfd, const char *pathname, int flags, mode_t mode);
     int openat(int dirfd, const std::string &pathname, int flags);
     int openat(int dirfd, const std::string &pathname, int flags, mode_t mode);
 #endif
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
     char *mkdtemp(char *template_string);
+#endif
     ssize_t read(int fd, void *buf, size_t count);
     int stat(const char *pathname, struct stat *buf);
     int stat(const std::string &pathname, struct stat *buf);
     int unlink(const char *pathname);
     int unlink(const std::string &pathname);
 #if (defined(__APPLE__) && defined(__MACH__))
+#elif (defined(__MINGW32__) || defined(__MINGW64__))
 #else
     int unlinkat(int dirfd, const char *pathname, int flags);
     int unlinkat(int dirfd, const std::string &pathname, int flags);
 #endif
+#if !defined(__MINGW32__) && !defined(__MINGW64__)
     int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
+#endif
     ssize_t write(int fd, const void *buf, size_t count);
   }
 }

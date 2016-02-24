@@ -35,7 +35,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <sys/mman.h>
+#if !defined(__MINGW32__) && !defined(__MINGW64__)
+  #include <sys/mman.h>
+#endif
 
 using namespace std;
 
@@ -75,6 +77,7 @@ namespace ixxx {
       return r;
     }
 
+#if !defined(__MINGW32__) && !defined(__MINGW64__)
     pid_t fork()
     {
       pid_t r = ::fork();
@@ -82,6 +85,7 @@ namespace ixxx {
         throw_errno(Function::FORK);
       return r;
     }
+#endif
 
     int open(const char *pathname, int flags)
     {
@@ -106,6 +110,7 @@ namespace ixxx {
       return posix::open(pathname.c_str(), flags, mode);
     }
 #if (defined(__APPLE__) && defined(__MACH__))
+#elif (defined(__MINGW32__) || defined(__MINGW64__))
 #else
     int openat(int dirfd, const char *pathname, int flags)
     {
@@ -148,6 +153,8 @@ namespace ixxx {
     {
       return ixxx::posix::fstat(fd, &buf);
     }
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
     int fsync(int fd)
     {
       int r = ::fsync(fd);
@@ -155,6 +162,7 @@ namespace ixxx {
         throw_errno(Function::FSYNC);
       return r;
     }
+#endif
     int ftruncate(int fd, off_t length)
     {
       int r = ::ftruncate(fd, length);
@@ -162,6 +170,8 @@ namespace ixxx {
         throw_errno(Function::FTRUNCATE);
       return r;
     }
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
     int gethostname(char *name, size_t len)
     {
       int r = ::gethostname(name, len);
@@ -169,6 +179,9 @@ namespace ixxx {
         throw_errno(Function::GETHOSTNAME);
       return r;
     }
+#endif
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
     int link(const char *oldpath, const char *newpath)
     {
       int r = ::link(oldpath, newpath);
@@ -180,8 +193,10 @@ namespace ixxx {
     {
       return link(oldpath.c_str(), newpath.c_str());
     }
+#endif
     // Solaris 10 does not have linkat()
 #if defined(__sun) || (defined(__APPLE__) && defined(__MACH__))
+#elif (defined(__MINGW32__) || defined(__MINGW64__))
 #else
     int linkat(int olddirfd, const char *oldpath,
         int newdirfd, const char *newpath, int flags)
@@ -198,6 +213,8 @@ namespace ixxx {
     }
 #endif
 
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
     char *mkdtemp(char *template_string)
     {
       char *r = ::mkdtemp(template_string);
@@ -205,6 +222,7 @@ namespace ixxx {
         throw_errno(Function::MKDTEMP);
       return r;
     }
+#endif
 
     ssize_t read(int fd, void *buf, size_t count)
     {
@@ -238,6 +256,7 @@ namespace ixxx {
       return unlink(pathname.c_str());
     }
 #if (defined(__APPLE__) && defined(__MACH__))
+#elif (defined(__MINGW32__) || defined(__MINGW64__))
 #else
     int unlinkat(int dirfd, const char *pathname, int flags)
     {
@@ -260,6 +279,7 @@ namespace ixxx {
       return r;
     }
 
+#if !defined(__MINGW32__) && !defined(__MINGW64__)
     int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options)
     {
       int r = ::waitid(idtype, id, infop, options);
@@ -267,6 +287,7 @@ namespace ixxx {
         throw_errno(Function::WAITID);
       return r;
     }
+#endif
     ssize_t write(int fd, const void *buf, size_t count)
     {
       int r = ::write(fd, buf, count);
@@ -274,6 +295,8 @@ namespace ixxx {
         throw_errno(Function::WRITE);
       return r;
     }
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
     void *mmap(void *addr, size_t length, int prot, int flags,
         int fd, off_t offset)
     {
@@ -289,6 +312,7 @@ namespace ixxx {
         throw_errno(Function::MUNMAP);
       return r;
     }
+#endif
     int nanosleep(const struct timespec *req, struct timespec *rem)
     {
       int r = ::nanosleep(req, rem);

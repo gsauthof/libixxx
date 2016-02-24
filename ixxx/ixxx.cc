@@ -50,7 +50,12 @@ namespace {
 #ifdef _GNU_SOURCE
     x = ::strerror_r(errno_, buffer.data(), buffer.size());
 #else
+  #if defined(__MINGW32__) || defined(__MINGW64__)
+    // cf. sec_api/string_s.h
+    int r = strerror_s(buffer.data(), buffer.size(), errno_);
+  #else
     int r = ::strerror_r(errno_, buffer.data(), buffer.size());
+  #endif
     (void)r;
 #endif
     o << x << " (" << errno_ << ')';
