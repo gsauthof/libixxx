@@ -172,6 +172,18 @@ BOOST_AUTO_TEST_SUITE( ixxx )
       BOOST_CHECK_EQUAL(caught, true);
     }
 
+    BOOST_AUTO_TEST_CASE(open_newlines)
+    {
+      int fd = posix::open("newlines", O_CREAT | O_WRONLY, 0666);
+      const char inp1[] = "Hello\n";
+      posix::write(fd, inp1, sizeof(inp1)-1);
+      const char inp2[] = "World\n";
+      posix::write(fd, inp2, sizeof(inp2)-1);
+      posix::close(fd);
+      BOOST_CHECK_EQUAL(boost::filesystem::file_size("newlines"),
+          12u);
+    }
+
   BOOST_AUTO_TEST_SUITE_END()
 
   BOOST_AUTO_TEST_SUITE(shared)
