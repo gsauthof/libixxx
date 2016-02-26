@@ -89,7 +89,14 @@ namespace ixxx {
 
     int open(const char *pathname, int flags)
     {
-      int r = ::open(pathname, flags);
+      int r = ::open(pathname, flags
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+          // without that, windows opens it in 'text mode',
+          // i.e. it converts \n to \r\n on write()s ...
+          // (similar to fopen() without the "b")
+          | _O_BINARY
+#endif
+          );
       if (r == -1)
         throw_errno(Function::OPEN);
       return r;
@@ -100,7 +107,11 @@ namespace ixxx {
     }
     int open(const char *pathname, int flags, mode_t mode)
     {
-      int r = ::open(pathname, flags, mode);
+      int r = ::open(pathname, flags
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+          | _O_BINARY
+#endif
+          , mode);
       if (r == -1)
         throw_errno(Function::OPEN);
       return r;
