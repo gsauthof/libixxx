@@ -44,6 +44,9 @@ namespace ixxx {
     size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
     char  *getenv(const char *name);
     char  *getenv(const std::string &name);
+    void   setenv(const char *name, const char *value, bool overwrite);
+    void   setenv(const std::string &name, const std::string &value,
+        bool overwrite);
     time_t time  (time_t *t);
 
   }

@@ -103,6 +103,7 @@ namespace ixxx {
     "open",
     "openat",
     "read",
+    "setenv",
     "stat",
     "time",
     "unlink",
