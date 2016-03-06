@@ -184,7 +184,15 @@ BOOST_AUTO_TEST_SUITE( ixxx )
           12u);
     }
 
-  BOOST_AUTO_TEST_SUITE_END()
+    BOOST_AUTO_TEST_CASE(getsetenv)
+    {
+      ixxx::posix::setenv("FOO23", "42", true);
+      BOOST_CHECK_EQUAL(ixxx::ansi::getenv("FOO23"), string("42"));
+      ixxx::posix::setenv("FOO23", "xyz", true);
+      BOOST_CHECK_EQUAL(ixxx::ansi::getenv("FOO23"), string("xyz"));
+    }
+
+  BOOST_AUTO_TEST_SUITE_END() // posix
 
   BOOST_AUTO_TEST_SUITE(shared)
 

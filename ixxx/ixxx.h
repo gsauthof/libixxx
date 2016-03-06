@@ -65,6 +65,7 @@ namespace ixxx {
       ISATTY,
       LINK,
       LINKAT,
+      MALLOC,
       MKDTEMP,
       MMAP,
       MUNMAP,

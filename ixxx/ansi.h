@@ -44,6 +44,7 @@ namespace ixxx {
     size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
     char  *getenv(const char *name);
     char  *getenv(const std::string &name);
+    void *malloc(size_t n);
     time_t time  (time_t *t);
 
   }

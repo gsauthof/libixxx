@@ -96,6 +96,7 @@ namespace ixxx {
     "isatty",
     "link",
     "linkat",
+    "malloc",
     "mkdtemp",
     "mmap",
     "munmap",

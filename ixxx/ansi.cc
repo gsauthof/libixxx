@@ -102,6 +102,13 @@ namespace ixxx {
       return getenv(name.c_str());
     }
 
+    void *malloc(size_t n)
+    {
+      void *r = ::malloc(n);
+      if (!r && n)
+        throw_errno(Function::MALLOC);
+      return r;
+    }
 
   }
 }

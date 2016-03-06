@@ -245,7 +245,19 @@ namespace ixxx {
 
     void setenv(const char *name, const char *value, bool overwrite)
     {
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+      if (!overwrite && ::getenv(name))
+        return;
+      size_t a = strlen(name);
+      size_t b = strlen(value);
+      size_t n = a  + 1 +  b + 1;
+      char *s = static_cast<char*>(ixxx::ansi::malloc(n));
+      mempcpy(mempcpy(mempcpy(s, name, a), "=", 1), value, b);
+      s[n-1] = 0;
+      int r = ::putenv(s);
+#else
       int r = ::setenv(name, value, overwrite);
+#endif
       if (r == -1)
         throw_errno(Function::SETENV);
     }
