@@ -101,16 +101,7 @@ namespace ixxx {
     {
       return getenv(name.c_str());
     }
-    void setenv(const char *name, const char *value, bool overwrite)
-    {
-      int r = ::setenv(name, value, overwrite);
-      if (r == -1)
-        throw_errno(Function::SETENV);
-    }
-    void setenv(const std::string &name, const std::string &value,
-        bool overwrite)
-    {
-      setenv(name.c_str(), value.c_str(), overwrite);
-    }
+
+
   }
 }

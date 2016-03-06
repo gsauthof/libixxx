@@ -243,6 +243,17 @@ namespace ixxx {
       return r;
     }
 
+    void setenv(const char *name, const char *value, bool overwrite)
+    {
+      int r = ::setenv(name, value, overwrite);
+      if (r == -1)
+        throw_errno(Function::SETENV);
+    }
+    void setenv(const std::string &name, const std::string &value,
+        bool overwrite)
+    {
+      setenv(name.c_str(), value.c_str(), overwrite);
+    }
     int stat(const char *pathname, struct stat *buf)
     {
       int r = ::stat(pathname, buf);

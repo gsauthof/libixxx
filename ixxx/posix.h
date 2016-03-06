@@ -100,6 +100,9 @@ namespace ixxx {
     char *mkdtemp(char *template_string);
 #endif
     ssize_t read(int fd, void *buf, size_t count);
+    void   setenv(const char *name, const char *value, bool overwrite);
+    void   setenv(const std::string &name, const std::string &value,
+        bool overwrite);
     int stat(const char *pathname, struct stat *buf);
     int stat(const std::string &pathname, struct stat *buf);
     int unlink(const char *pathname);
