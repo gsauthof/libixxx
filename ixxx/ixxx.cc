@@ -87,6 +87,7 @@ namespace ixxx {
     "fileno",
     "fopen",
     "fork",
+    "fputs",
     "fstat",
     "fsync",
     "ftruncate",

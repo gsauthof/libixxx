@@ -42,6 +42,8 @@ namespace ixxx {
     FILE  *fopen (const char *path, const char *mode);
     FILE  *fopen (const std::string &path, const char *mode);
     size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
+    int    fputs(const char *s, FILE *stream);
+    int    fputs(const std::string &s, FILE *stream);
     char  *getenv(const char *name);
     char  *getenv(const std::string &name);
     void *malloc(size_t n);

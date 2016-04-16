@@ -65,6 +65,17 @@ namespace ixxx {
         throw_errno(Function::FWRITE);
       return r;
     }
+    int fputs(const char *s, FILE *stream)
+    {
+      int r = ::fputs(s, stream);
+      if (r == EOF)
+        throw_errno(Function::FPUTS);
+      return r;
+    }
+    int fputs(const std::string &s, FILE *stream)
+    {
+      return ansi::fputs(s.c_str(), stream);
+    }
     int fflush(FILE *stream)
     {
       int r = ::fflush(stream);

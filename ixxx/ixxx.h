@@ -56,6 +56,7 @@ namespace ixxx {
       FILENO,
       FOPEN,
       FORK,
+      FPUTS,
       FSTAT,
       FSYNC,
       FTRUNCATE,
