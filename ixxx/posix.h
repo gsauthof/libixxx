@@ -106,8 +106,11 @@ namespace ixxx {
     void   setenv(const char *name, const char *value, bool overwrite);
     void   setenv(const std::string &name, const std::string &value,
         bool overwrite);
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
     int sigaction(int signum, const struct sigaction *act,
                                     struct sigaction *oldact);
+#endif
     int stat(const char *pathname, struct stat *buf);
     int stat(const std::string &pathname, struct stat *buf);
     int unlink(const char *pathname);

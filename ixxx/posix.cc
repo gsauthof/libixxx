@@ -274,6 +274,8 @@ namespace ixxx {
     {
       setenv(name.c_str(), value.c_str(), overwrite);
     }
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
     int sigaction(int signum, const struct sigaction *act,
                                     struct sigaction *oldact)
     {
@@ -282,6 +284,7 @@ namespace ixxx {
         throw_errno(Function::SIGACTION);
       return r;
     }
+#endif
     int stat(const char *pathname, struct stat *buf)
     {
       int r = ::stat(pathname, buf);
