@@ -46,6 +46,22 @@ namespace ixxx {
   namespace ansi {
 
 
+    int fclose(FILE *stream)
+    {
+      int r = ::fclose(stream);
+      if (r == EOF)
+        throw_errno(Function::FCLOSE);
+      return r;
+    }
+
+    int fflush(FILE *stream)
+    {
+      int r = ::fflush(stream);
+      if (r == EOF)
+        throw_errno(Function::FFLUSH);
+      return r;
+    }
+
     FILE *fopen(const char *path, const char *mode)
     {
       FILE *f = ::fopen(path, mode);
@@ -58,13 +74,7 @@ namespace ixxx {
     {
       return ansi::fopen(path.c_str(), mode);
     }
-    size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
-    {
-      size_t r = ::fwrite(ptr, size, nmemb, stream);
-      if (r != size*nmemb)
-        throw_errno(Function::FWRITE);
-      return r;
-    }
+
     int fputs(const char *s, FILE *stream)
     {
       int r = ::fputs(s, stream);
@@ -76,25 +86,12 @@ namespace ixxx {
     {
       return ansi::fputs(s.c_str(), stream);
     }
-    int fflush(FILE *stream)
+
+    size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
     {
-      int r = ::fflush(stream);
-      if (r == EOF)
-        throw_errno(Function::FFLUSH);
-      return r;
-    }
-    int fclose(FILE *stream)
-    {
-      int r = ::fclose(stream);
-      if (r == EOF)
-        throw_errno(Function::FCLOSE);
-      return r;
-    }
-    time_t time(time_t *t)
-    {
-      time_t r = ::time(t);
-      if (r == ((time_t)-1))
-        throw_errno(Function::TIME);
+      size_t r = ::fwrite(ptr, size, nmemb, stream);
+      if (r != size*nmemb)
+        throw_errno(Function::FWRITE);
       return r;
     }
 
@@ -118,6 +115,14 @@ namespace ixxx {
       void *r = ::malloc(n);
       if (!r && n)
         throw_errno(Function::MALLOC);
+      return r;
+    }
+
+    time_t time(time_t *t)
+    {
+      time_t r = ::time(t);
+      if (r == ((time_t)-1))
+        throw_errno(Function::TIME);
       return r;
     }
 

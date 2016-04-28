@@ -54,6 +54,13 @@ namespace ixxx {
 
   namespace posix {
 
+    int close(int fd)
+    {
+      int r = ::close(fd);
+      if (r == -1)
+        throw_errno(Function::CLOSE);
+      return r;
+    }
     int dup(int oldfd)
     {
       int r = ::dup(oldfd);
@@ -94,6 +101,140 @@ namespace ixxx {
       return r;
     }
 #endif
+
+    int fstat(int fd, struct stat *buf)
+    {
+      int r = ::fstat(fd, buf);
+      if (r == -1)
+        throw_errno(Function::FSTAT);
+      return r;
+    }
+    int fstat(int fd, struct stat &buf)
+    {
+      return ixxx::posix::fstat(fd, &buf);
+    }
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
+    int fsync(int fd)
+    {
+      int r = ::fsync(fd);
+      if (r == -1)
+        throw_errno(Function::FSYNC);
+      return r;
+    }
+#endif
+    int ftruncate(int fd, off_t length)
+    {
+      int r = ::ftruncate(fd, length);
+      if (r == -1)
+        throw_errno(Function::FTRUNCATE);
+      return r;
+    }
+
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
+    int gethostname(char *name, size_t len)
+    {
+      int r = ::gethostname(name, len);
+      if (r == -1)
+        throw_errno(Function::GETHOSTNAME);
+      return r;
+    }
+#endif
+
+    int isatty(int fd)
+    {
+      int r = ::isatty(fd);
+      if (r == -1)
+        throw_errno(Function::ISATTY);
+      return r;
+    }
+
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
+    int link(const char *oldpath, const char *newpath)
+    {
+      int r = ::link(oldpath, newpath);
+      if (r == -1)
+        throw_errno(Function::LINK);
+      return r;
+    }
+    int link(const std::string &oldpath, const std::string &newpath)
+    {
+      return link(oldpath.c_str(), newpath.c_str());
+    }
+#endif
+    // Solaris 10 does not have linkat()
+#if defined(__sun) || (defined(__APPLE__) && defined(__MACH__))
+#elif (defined(__MINGW32__) || defined(__MINGW64__))
+#else
+    int linkat(int olddirfd, const char *oldpath,
+        int newdirfd, const char *newpath, int flags)
+    {
+      int r = ::linkat(olddirfd, oldpath, newdirfd, newpath, flags);
+      if (r == -1)
+        throw_errno(Function::LINKAT);
+      return r;
+    }
+    int linkat(int olddirfd, const std::string &oldpath,
+        int newdirfd, const std::string &newpath, int flags)
+    {
+      return linkat(olddirfd, oldpath.c_str(), newdirfd, newpath.c_str(), flags);
+    }
+#endif
+
+    off_t lseek(int fd, off_t offset, int whence)
+    {
+      off_t r = ::lseek(fd, offset, whence);
+      if (r == -1)
+        throw_errno(Function::LSEEK);
+      return r;
+    }
+
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
+    char *mkdtemp(char *template_string)
+    {
+      char *r = ::mkdtemp(template_string);
+      if (!r)
+        throw_errno(Function::MKDTEMP);
+      return r;
+    }
+#endif
+
+    int mkstemp(char *tmplate)
+    {
+      int r = ::mkstemp(tmplate);
+      if (r == -1)
+        throw_errno(Function::MKSTEMP);
+      return r;
+    }
+
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
+    void *mmap(void *addr, size_t length, int prot, int flags,
+        int fd, off_t offset)
+    {
+      void *r = ::mmap(addr, length, prot, flags, fd, offset);
+      if (r == MAP_FAILED)
+        throw_errno(Function::MMAP);
+      return r;
+    }
+    int munmap(void *addr, size_t length)
+    {
+      int r = ::munmap(addr, length);
+      if (r == -1)
+        throw_errno(Function::MUNMAP);
+      return r;
+    }
+#endif
+    int nanosleep(const struct timespec *req, struct timespec *rem)
+    {
+      int r = ::nanosleep(req, rem);
+      if (r == -1)
+        throw_errno(Function::NANOSLEEP);
+      return r;
+    }
 
     int open(const char *pathname, int flags)
     {
@@ -152,94 +293,6 @@ namespace ixxx {
     int openat(int dirfd, const std::string &pathname, int flags, mode_t mode)
     {
       return openat(dirfd, pathname.c_str(), flags, mode);
-    }
-#endif
-    int close(int fd)
-    {
-      int r = ::close(fd);
-      if (r == -1)
-        throw_errno(Function::CLOSE);
-      return r;
-    }
-    int fstat(int fd, struct stat *buf)
-    {
-      int r = ::fstat(fd, buf);
-      if (r == -1)
-        throw_errno(Function::FSTAT);
-      return r;
-    }
-    int fstat(int fd, struct stat &buf)
-    {
-      return ixxx::posix::fstat(fd, &buf);
-    }
-#if (defined(__MINGW32__) || defined(__MINGW64__))
-#else
-    int fsync(int fd)
-    {
-      int r = ::fsync(fd);
-      if (r == -1)
-        throw_errno(Function::FSYNC);
-      return r;
-    }
-#endif
-    int ftruncate(int fd, off_t length)
-    {
-      int r = ::ftruncate(fd, length);
-      if (r == -1)
-        throw_errno(Function::FTRUNCATE);
-      return r;
-    }
-#if (defined(__MINGW32__) || defined(__MINGW64__))
-#else
-    int gethostname(char *name, size_t len)
-    {
-      int r = ::gethostname(name, len);
-      if (r == -1)
-        throw_errno(Function::GETHOSTNAME);
-      return r;
-    }
-#endif
-#if (defined(__MINGW32__) || defined(__MINGW64__))
-#else
-    int link(const char *oldpath, const char *newpath)
-    {
-      int r = ::link(oldpath, newpath);
-      if (r == -1)
-        throw_errno(Function::LINK);
-      return r;
-    }
-    int link(const std::string &oldpath, const std::string &newpath)
-    {
-      return link(oldpath.c_str(), newpath.c_str());
-    }
-#endif
-    // Solaris 10 does not have linkat()
-#if defined(__sun) || (defined(__APPLE__) && defined(__MACH__))
-#elif (defined(__MINGW32__) || defined(__MINGW64__))
-#else
-    int linkat(int olddirfd, const char *oldpath,
-        int newdirfd, const char *newpath, int flags)
-    {
-      int r = ::linkat(olddirfd, oldpath, newdirfd, newpath, flags);
-      if (r == -1)
-        throw_errno(Function::LINKAT);
-      return r;
-    }
-    int linkat(int olddirfd, const std::string &oldpath,
-        int newdirfd, const std::string &newpath, int flags)
-    {
-      return linkat(olddirfd, oldpath.c_str(), newdirfd, newpath.c_str(), flags);
-    }
-#endif
-
-#if (defined(__MINGW32__) || defined(__MINGW64__))
-#else
-    char *mkdtemp(char *template_string)
-    {
-      char *r = ::mkdtemp(template_string);
-      if (!r)
-        throw_errno(Function::MKDTEMP);
-      return r;
     }
 #endif
 
@@ -324,13 +377,6 @@ namespace ixxx {
     }
 #endif
 
-    int isatty(int fd)
-    {
-      int r = ::isatty(fd);
-      if (r == -1)
-        throw_errno(Function::ISATTY);
-      return r;
-    }
 
 #if !defined(__MINGW32__) && !defined(__MINGW64__)
     int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options)
@@ -349,46 +395,6 @@ namespace ixxx {
       return r;
     }
 
-    off_t lseek(int fd, off_t offset, int whence)
-    {
-      off_t r = ::lseek(fd, offset, whence);
-      if (r == -1)
-        throw_errno(Function::LSEEK);
-      return r;
-    }
-    int mkstemp(char *tmplate)
-    {
-      int r = ::mkstemp(tmplate);
-      if (r == -1)
-        throw_errno(Function::MKSTEMP);
-      return r;
-    }
-
-#if (defined(__MINGW32__) || defined(__MINGW64__))
-#else
-    void *mmap(void *addr, size_t length, int prot, int flags,
-        int fd, off_t offset)
-    {
-      void *r = ::mmap(addr, length, prot, flags, fd, offset);
-      if (r == MAP_FAILED)
-        throw_errno(Function::MMAP);
-      return r;
-    }
-    int munmap(void *addr, size_t length)
-    {
-      int r = ::munmap(addr, length);
-      if (r == -1)
-        throw_errno(Function::MUNMAP);
-      return r;
-    }
-#endif
-    int nanosleep(const struct timespec *req, struct timespec *rem)
-    {
-      int r = ::nanosleep(req, rem);
-      if (r == -1)
-        throw_errno(Function::NANOSLEEP);
-      return r;
-    }
 
   }
 

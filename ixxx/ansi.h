@@ -46,7 +46,7 @@ namespace ixxx {
     int    fputs(const std::string &s, FILE *stream);
     char  *getenv(const char *name);
     char  *getenv(const std::string &name);
-    void *malloc(size_t n);
+    void  *malloc(size_t n);
     time_t time  (time_t *t);
 
   }
