@@ -38,6 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if !defined(__MINGW32__) && !defined(__MINGW64__)
   #include <sys/mman.h>
 #endif
+#include <signal.h>
 
 using namespace std;
 
@@ -58,6 +59,13 @@ namespace ixxx {
       int r = ::dup(oldfd);
       if (r == -1)
         throw_errno(Function::DUP);
+      return r;
+    }
+    int dup2(int oldfd, int newfd)
+    {
+      int r = ::dup2(oldfd, newfd);
+      if (r == -1)
+        throw_errno(Function::DUP2);
       return r;
     }
 
@@ -266,6 +274,14 @@ namespace ixxx {
     {
       setenv(name.c_str(), value.c_str(), overwrite);
     }
+    int sigaction(int signum, const struct sigaction *act,
+                                    struct sigaction *oldact)
+    {
+      int r = ::sigaction(signum, act, oldact);
+      if (r == -1)
+        throw_errno(Function::SIGACTION);
+      return r;
+    }
     int stat(const char *pathname, struct stat *buf)
     {
       int r = ::stat(pathname, buf);
@@ -329,6 +345,22 @@ namespace ixxx {
         throw_errno(Function::WRITE);
       return r;
     }
+
+    off_t lseek(int fd, off_t offset, int whence)
+    {
+      off_t r = ::lseek(fd, offset, whence);
+      if (r == -1)
+        throw_errno(Function::LSEEK);
+      return r;
+    }
+    int mkstemp(char *tmplate)
+    {
+      int r = ::mkstemp(tmplate);
+      if (r == -1)
+        throw_errno(Function::MKSTEMP);
+      return r;
+    }
+
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
     void *mmap(void *addr, size_t length, int prot, int flags,

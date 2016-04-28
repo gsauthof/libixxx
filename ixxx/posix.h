@@ -44,6 +44,7 @@ namespace ixxx {
 
     int close(int fd);
     int dup(int oldfd);
+    int dup2(int oldfd, int newfd);
     FILE *fdopen(int fd, const char *mode);
     int fileno(FILE *stream);
 #if !defined(__MINGW32__) && !defined(__MINGW64__)
@@ -75,6 +76,12 @@ namespace ixxx {
     int linkat(int olddirfd, const std::string &oldpath, int newdirfd,
         const std::string &newpath, int flags);
 #endif
+    off_t lseek(int fd, off_t offset, int whence);
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+#else
+    char *mkdtemp(char *template_string);
+#endif
+    int mkstemp(char *tmplate);
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
     void *mmap(void *addr, size_t length, int prot, int flags,
@@ -95,14 +102,12 @@ namespace ixxx {
     int openat(int dirfd, const std::string &pathname, int flags);
     int openat(int dirfd, const std::string &pathname, int flags, mode_t mode);
 #endif
-#if (defined(__MINGW32__) || defined(__MINGW64__))
-#else
-    char *mkdtemp(char *template_string);
-#endif
     ssize_t read(int fd, void *buf, size_t count);
     void   setenv(const char *name, const char *value, bool overwrite);
     void   setenv(const std::string &name, const std::string &value,
         bool overwrite);
+    int sigaction(int signum, const struct sigaction *act,
+                                    struct sigaction *oldact);
     int stat(const char *pathname, struct stat *buf);
     int stat(const std::string &pathname, struct stat *buf);
     int unlink(const char *pathname);
