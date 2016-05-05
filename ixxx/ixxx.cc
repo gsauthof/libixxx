@@ -112,6 +112,7 @@ namespace ixxx {
     "setenv",
     "sigaction",
     "stat",
+    "strtol",
     "time",
     "unlink",
     "unlinkat",

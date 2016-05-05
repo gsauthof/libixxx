@@ -82,6 +82,7 @@ namespace ixxx {
       SETENV,
       SIGACTION,
       STAT,
+      STRTOL,
       TIME,
       UNLINK,
       UNLINKAT,

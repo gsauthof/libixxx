@@ -118,6 +118,20 @@ namespace ixxx {
       return r;
     }
 
+    long strtol(const char *nptr, char **endptr, int base)
+    {
+      errno = 0;
+      char *s = 0;
+      long r = ::strtol(nptr, &s, base);
+      if (errno)
+        throw_errno(Function::STRTOL);
+      if (s == nptr)
+        throw ixxx::runtime_error(Function::STRTOL, "no digits found");
+      if (endptr)
+        *endptr = s;
+      return r;
+    }
+
     time_t time(time_t *t)
     {
       time_t r = ::time(t);

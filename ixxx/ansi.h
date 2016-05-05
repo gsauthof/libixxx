@@ -47,6 +47,7 @@ namespace ixxx {
     char  *getenv(const char *name);
     char  *getenv(const std::string &name);
     void  *malloc(size_t n);
+    long   strtol(const char *nptr, char **endptr, int base);
     time_t time  (time_t *t);
 
   }
