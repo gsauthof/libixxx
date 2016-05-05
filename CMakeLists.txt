@@ -30,13 +30,18 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
   add_definitions(-D_DARWIN_C_SOURCE)
 endif()
 
+set(LIB_SRC
+  ixxx/ixxx.cc
+  ixxx/ansi.cc
+  ixxx/posix.cc
+  ixxx/linux.cc
+  )
+
 # guard from super-projects, i.e. when it is added as subdirectory
 IF(${CMAKE_PROJECT_NAME} STREQUAL "ixxx")
 
   add_executable(ut
-    ixxx/ixxx.cc
-    ixxx/ansi.cc
-    ixxx/posix.cc
+    ${LIB_SRC}
     unittest/main.cc
     unittest/ixxx.cc
   )
@@ -50,7 +55,6 @@ IF(${CMAKE_PROJECT_NAME} STREQUAL "ixxx")
 
 endif()
 
-set(LIB_SRC ixxx/ixxx.cc ixxx/ansi.cc ixxx/posix.cc)
 add_library(ixxx SHARED
   ${LIB_SRC}
 )

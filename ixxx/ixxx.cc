@@ -107,6 +107,7 @@ namespace ixxx {
     "nanosleep",
     "open",
     "openat",
+    "prctl",
     "read",
     "setenv",
     "sigaction",

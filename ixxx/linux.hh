@@ -25,89 +25,20 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 }}} */
-
-#ifndef IXXX_H
-#define IXXX_H
-
-#include <stdexcept>
-#include <string>
-#include <ostream>
-
-
-#include <ixxx/ansi.hh>
-#include <ixxx/posix.hh>
-#include <ixxx/linux.hh>
-
-// Mac OS X pollutes the global namespace with a FWRITE
-// macro ... undeffing it such that we can use it
-// as enum value ...
-#ifdef FWRITE
-  #undef FWRITE
-#endif
+#ifndef IXXX_LINUX_HH
+#define IXXX_LINUX_HH
 
 namespace ixxx {
-  
-    enum class Function {
-      FIRST_,
-      CLOSE,
-      DUP,
-      DUP2,
-      FCLOSE,
-      FDOPEN,
-      FFLUSH,
-      FILENO,
-      FOPEN,
-      FORK,
-      FPUTS,
-      FSTAT,
-      FSYNC,
-      FTRUNCATE,
-      FWRITE,
-      GETENV,
-      GETHOSTNAME,
-      ISATTY,
-      LINK,
-      LINKAT,
-      LSEEK,
-      MALLOC,
-      MKDTEMP,
-      MKSTEMP,
-      MMAP,
-      MUNMAP,
-      NANOSLEEP,
-      OPEN,
-      OPENAT,
-      PRCTL,
-      READ,
-      SETENV,
-      SIGACTION,
-      STAT,
-      TIME,
-      UNLINK,
-      UNLINKAT,
-      WAITID,
-      WRITE,
-      LAST_
-    };
-    std::ostream &operator<<(std::ostream &o, Function f);
+  namespace linux {
 
-  class runtime_error : public std::runtime_error {
-    private:
-        Function function_;
-    public:
-        runtime_error(Function f, const std::string &msg);
-        Function function() const;
-  };
-
-  class errno_error : public runtime_error {
-    private:
-      int errno_ {0};
-    public:
-        errno_error(Function f, int e);
-      int code() const;
-  };
-
-
-}
+#if defined(__linux__)
+    int prctl(int option, unsigned long arg2, unsigned long arg3 = 0,
+        unsigned long arg4 = 0, unsigned long arg5 = 0);
 
 #endif
+
+  } // linux
+} // ixxx
+
+#endif // IXXX_LINUX_HH
+
