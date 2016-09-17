@@ -45,6 +45,7 @@ namespace ixxx {
     int close(int fd);
     int dup(int oldfd);
     int dup2(int oldfd, int newfd);
+    int fcntl(int fd, int cmd, int arg1);
     FILE *fdopen(int fd, const char *mode);
     int fileno(FILE *stream);
 #if !defined(__MINGW32__) && !defined(__MINGW64__)

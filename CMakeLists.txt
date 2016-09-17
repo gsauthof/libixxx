@@ -42,6 +42,7 @@ set(LIB_SRC
   ixxx/ansi.cc
   ixxx/posix.cc
   ixxx/linux.cc
+  ixxx/socket.cc
   )
 
 # guard from super-projects, i.e. when it is added as subdirectory

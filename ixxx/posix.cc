@@ -32,6 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdio.h>
 #include <errno.h>
 #include <sys/types.h>
+#include <sys/socket.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -73,6 +74,13 @@ namespace ixxx {
       int r = ::dup2(oldfd, newfd);
       if (r == -1)
         throw_errno(Function::DUP2);
+      return r;
+    }
+    int fcntl(int fd, int cmd, int arg1)
+    {
+      int r = ::fcntl(fd, cmd, arg1);
+      if (r == -1)
+        throw_errno(Function::FCNTL);
       return r;
     }
 
