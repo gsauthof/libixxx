@@ -85,6 +85,7 @@ namespace ixxx {
       READ,
       SETENV,
       SETSOCKOPT,
+      SHUTDOWN,
       SIGACTION,
       SOCKET,
       STAT,

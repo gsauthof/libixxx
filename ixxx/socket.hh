@@ -39,6 +39,7 @@ namespace ixxx {
     int listen(int sockfd, int backlog);
     int setsockopt(int sockfd, int level, int optname, const void *optval,
         socklen_t optlen);
+    int shutdown(int socket, int how);
     int socket(int domain, int type, int protocol);
 
   }

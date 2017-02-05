@@ -115,6 +115,7 @@ namespace ixxx {
     "read",
     "setenv",
     "setsockopt",
+    "shutdown",
     "sigaction",
     "socket",
     "stat",

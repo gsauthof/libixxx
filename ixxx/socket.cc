@@ -82,6 +82,13 @@ namespace ixxx {
         throw_errno(Function::SETSOCKOPT);
       return r;
     }
+    int shutdown(int socket, int how)
+    {
+      int r = ::shutdown(socket, how);
+      if (r == -1)
+        throw_errno(Function::SHUTDOWN);
+      return r;
+    }
     int socket(int domain, int type, int protocol)
     {
       int r = ::socket(domain, type, protocol);
