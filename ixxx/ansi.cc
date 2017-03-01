@@ -131,6 +131,21 @@ namespace ixxx {
         *endptr = s;
       return r;
     }
+    int system(const string &command)
+    {
+      return system(command.c_str());
+    }
+    int system(const char *command)
+    {
+      int r = ::system(command);
+      if (r == -1)
+        throw_errno(Function::SYSTEM);
+      if (!command && !r)
+        throw runtime_error(Function::SYSTEM, "shell unavailable");
+      if (r)
+        throw runtime_error(Function::SYSTEM, "child failed");
+      return r;
+    }
 
     time_t time(time_t *t)
     {

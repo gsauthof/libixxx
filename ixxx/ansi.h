@@ -48,6 +48,8 @@ namespace ixxx {
     char  *getenv(const std::string &name);
     void  *malloc(size_t n);
     long   strtol(const char *nptr, char **endptr, int base);
+    int    system(const char *command);
+    int    system(const std::string &command);
     time_t time  (time_t *t);
 
   }

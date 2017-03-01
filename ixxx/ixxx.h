@@ -90,6 +90,7 @@ namespace ixxx {
       SOCKET,
       STAT,
       STRTOL,
+      SYSTEM,
       TIME,
       UNLINK,
       UNLINKAT,

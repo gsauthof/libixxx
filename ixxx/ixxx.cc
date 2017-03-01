@@ -120,6 +120,7 @@ namespace ixxx {
     "socket",
     "stat",
     "strtol",
+    "system",
     "time",
     "unlink",
     "unlinkat",
