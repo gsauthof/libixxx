@@ -29,6 +29,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define IXXX_LINUX_HH
 
 namespace ixxx {
+
+  // work-around GCC/Clang that `define linux 1` with -std=gnu++11/14 ...
+  #ifdef linux
+    #undef linux
+  #endif
+
   namespace linux {
 
 #if defined(__linux__)
