@@ -231,5 +231,27 @@ BOOST_AUTO_TEST_SUITE( ixxx )
 
   BOOST_AUTO_TEST_SUITE_END()
 
+  BOOST_AUTO_TEST_SUITE(mixed)
+
+    BOOST_AUTO_TEST_CASE(imf_fixdate)
+    {
+      static const char fmt[] = "%a, %d %b %Y %H:%M:%S GMT";
+      time_t now = 0;
+      if (now  == time_t(-1))
+        now = ixxx::ansi::time();
+      else
+        now = 1501746457;
+      struct tm tm;
+      ixxx::posix::gmtime_r(&now, &tm);
+      array<char, 30> a;
+      ixxx::ansi::strftime(a, fmt, &tm);
+      BOOST_CHECK_EQUAL(string(a.data()), "Thu, 03 Aug 2017 07:47:37 GMT");
+      a[0] = 0;
+      ixxx::ansi::strftime(a.data(), a.size(), fmt, &tm);
+      BOOST_CHECK_EQUAL(string(a.data()), "Thu, 03 Aug 2017 07:47:37 GMT");
+    }
+
+  BOOST_AUTO_TEST_SUITE_END()
+
 BOOST_AUTO_TEST_SUITE_END()
 

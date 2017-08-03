@@ -150,6 +150,14 @@ namespace ixxx {
     }
 #endif
 
+    struct tm *gmtime_r(const time_t *timep, struct tm *result)
+    {
+      struct tm *r = ::gmtime_r(timep, result);
+      if (!r)
+        throw ixxx::runtime_error(Function::GMTIME_R,
+            "Year doesn't fit into integer");
+      return r;
+    }
     int isatty(int fd)
     {
       int r = ::isatty(fd);

@@ -62,6 +62,7 @@ namespace ixxx {
 #else
     int gethostname(char *name, size_t len);
 #endif
+    struct tm *gmtime_r(const time_t *timep, struct tm *result);
     int isatty(int fd);
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else

@@ -30,6 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define IXXX_ANSI_H
 
 #include <string>
+#include <array>
 #include <stdio.h>
 #include <time.h>
 
@@ -47,10 +48,18 @@ namespace ixxx {
     char  *getenv(const char *name);
     char  *getenv(const std::string &name);
     void  *malloc(size_t n);
+    size_t strftime(char *s, size_t max, const char *format,
+        const struct tm *tm);
+    template <size_t U>
+    size_t strftime(std::array<char, U> &s, const char *format,
+        const struct tm *tm)
+    {
+      return ixxx::ansi::strftime(s.data(), s.size(), format, tm);
+    }
     long   strtol(const char *nptr, char **endptr, int base);
     int    system(const char *command);
     int    system(const std::string &command);
-    time_t time  (time_t *t);
+    time_t time  (time_t *t = nullptr);
 
   }
 

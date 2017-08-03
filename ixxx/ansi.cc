@@ -118,6 +118,16 @@ namespace ixxx {
       return r;
     }
 
+    size_t strftime(char *s, size_t max, const char *format,
+        const struct tm *tm)
+    {
+      size_t r = ::strftime(s, max, format, tm);
+      if (!r)
+        throw ixxx::runtime_error(Function::STRFTIME,
+            "destination buffer too small");
+      return r;
+    }
+
     long strtol(const char *nptr, char **endptr, int base)
     {
       errno = 0;
