@@ -35,7 +35,8 @@ not miss checking any error condition.
 
     $ mkdir build
     $ cd build
-    $ cmake ../CMakeLists.txt ..
+    $ cmake ..
+    $ make
 
 This creates the library and also the unittests. Execute the unittests via:
 
