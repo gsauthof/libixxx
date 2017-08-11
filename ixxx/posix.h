@@ -79,6 +79,14 @@ namespace ixxx {
         const std::string &newpath, int flags);
 #endif
     off_t lseek(int fd, off_t offset, int whence);
+    void mkdir(const char *pathname, mode_t mode);
+    void mkdir(const std::string &pathname, mode_t mode);
+#if defined(__sun) || (defined(__APPLE__) && defined(__MACH__))
+#elif (defined(__MINGW32__) || defined(__MINGW64__))
+#else
+    void mkdirat(int dirfd, const char *pathname, mode_t mode);
+    void mkdirat(int dirfd, const std::string &pathname, mode_t mode);
+#endif
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
     char *mkdtemp(char *template_string);
@@ -105,6 +113,8 @@ namespace ixxx {
     int openat(int dirfd, const std::string &pathname, int flags, mode_t mode);
 #endif
     ssize_t read(int fd, void *buf, size_t count);
+    void rmdir(const char *pathname);
+    void rmdir(const std::string &pathname);
     void   setenv(const char *name, const char *value, bool overwrite);
     void   setenv(const std::string &name, const std::string &value,
         bool overwrite);

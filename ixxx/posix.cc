@@ -206,6 +206,30 @@ namespace ixxx {
         throw_errno(Function::LSEEK);
       return r;
     }
+    void mkdir(const char *pathname, mode_t mode)
+    {
+      int r = ::mkdir(pathname, mode);
+      if (r == -1)
+        throw_errno(Function::MKDIR);
+    }
+    void mkdir(const std::string &pathname, mode_t mode)
+    {
+      mkdir(pathname.c_str(), mode);
+    }
+#if defined(__sun) || (defined(__APPLE__) && defined(__MACH__))
+#elif (defined(__MINGW32__) || defined(__MINGW64__))
+#else
+    void mkdirat(int dirfd, const char *pathname, mode_t mode)
+    {
+      int r = ::mkdirat(dirfd, pathname, mode);
+      if (r == -1)
+        throw_errno(Function::MKDIRAT);
+    }
+    void mkdirat(int dirfd, const std::string &pathname, mode_t mode)
+    {
+      mkdirat(dirfd, pathname.c_str(), mode);
+    }
+#endif
 
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
@@ -318,6 +342,17 @@ namespace ixxx {
       if (r == -1)
         throw_errno(Function::READ);
       return r;
+    }
+
+    void rmdir(const char *pathname)
+    {
+      int r = ::rmdir(pathname);
+      if (r == -1)
+        throw_errno(Function::RMDIR);
+    }
+    void rmdir(const std::string &pathname)
+    {
+      rmdir(pathname.c_str());
     }
 
     void setenv(const char *name, const char *value, bool overwrite)
