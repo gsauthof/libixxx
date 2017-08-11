@@ -38,8 +38,8 @@ namespace ixxx {
 
   namespace ansi {
 
-    int    fclose(FILE *stream);
-    int    fflush(FILE *stream);
+    void   fclose(FILE *stream);
+    void   fflush(FILE *stream);
     FILE  *fopen (const char *path, const char *mode);
     FILE  *fopen (const std::string &path, const char *mode);
     size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
@@ -57,8 +57,8 @@ namespace ixxx {
       return ixxx::ansi::strftime(s.data(), s.size(), format, tm);
     }
     long   strtol(const char *nptr, char **endptr, int base);
-    int    system(const char *command);
-    int    system(const std::string &command);
+    void   system(const char *command);
+    void   system(const std::string &command);
     time_t time  (time_t *t = nullptr);
 
   }

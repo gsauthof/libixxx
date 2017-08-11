@@ -46,20 +46,18 @@ namespace ixxx {
   namespace ansi {
 
 
-    int fclose(FILE *stream)
+    void fclose(FILE *stream)
     {
       int r = ::fclose(stream);
       if (r == EOF)
         throw_errno(Function::FCLOSE);
-      return r;
     }
 
-    int fflush(FILE *stream)
+    void fflush(FILE *stream)
     {
       int r = ::fflush(stream);
       if (r == EOF)
         throw_errno(Function::FFLUSH);
-      return r;
     }
 
     FILE *fopen(const char *path, const char *mode)
@@ -141,11 +139,11 @@ namespace ixxx {
         *endptr = s;
       return r;
     }
-    int system(const string &command)
+    void system(const string &command)
     {
-      return system(command.c_str());
+      system(command.c_str());
     }
-    int system(const char *command)
+    void system(const char *command)
     {
       int r = ::system(command);
       if (r == -1)
@@ -154,7 +152,6 @@ namespace ixxx {
         throw runtime_error(Function::SYSTEM, "shell unavailable");
       if (r)
         throw runtime_error(Function::SYSTEM, "child failed");
-      return r;
     }
 
     time_t time(time_t *t)

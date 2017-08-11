@@ -55,12 +55,11 @@ namespace ixxx {
 
   namespace posix {
 
-    int close(int fd)
+    void close(int fd)
     {
       int r = ::close(fd);
       if (r == -1)
         throw_errno(Function::CLOSE);
-      return r;
     }
     int dup(int oldfd)
     {
@@ -110,43 +109,39 @@ namespace ixxx {
     }
 #endif
 
-    int fstat(int fd, struct stat *buf)
+    void fstat(int fd, struct stat *buf)
     {
       int r = ::fstat(fd, buf);
       if (r == -1)
         throw_errno(Function::FSTAT);
-      return r;
     }
-    int fstat(int fd, struct stat &buf)
+    void fstat(int fd, struct stat &buf)
     {
-      return ixxx::posix::fstat(fd, &buf);
+      ixxx::posix::fstat(fd, &buf);
     }
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    int fsync(int fd)
+    void fsync(int fd)
     {
       int r = ::fsync(fd);
       if (r == -1)
         throw_errno(Function::FSYNC);
-      return r;
     }
 #endif
-    int ftruncate(int fd, off_t length)
+    void ftruncate(int fd, off_t length)
     {
       int r = ::ftruncate(fd, length);
       if (r == -1)
         throw_errno(Function::FTRUNCATE);
-      return r;
     }
 
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    int gethostname(char *name, size_t len)
+    void gethostname(char *name, size_t len)
     {
       int r = ::gethostname(name, len);
       if (r == -1)
         throw_errno(Function::GETHOSTNAME);
-      return r;
     }
 #endif
 
@@ -168,34 +163,32 @@ namespace ixxx {
 
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    int link(const char *oldpath, const char *newpath)
+    void link(const char *oldpath, const char *newpath)
     {
       int r = ::link(oldpath, newpath);
       if (r == -1)
         throw_errno(Function::LINK);
-      return r;
     }
-    int link(const std::string &oldpath, const std::string &newpath)
+    void link(const std::string &oldpath, const std::string &newpath)
     {
-      return link(oldpath.c_str(), newpath.c_str());
+      link(oldpath.c_str(), newpath.c_str());
     }
 #endif
     // Solaris 10 does not have linkat()
 #if defined(__sun) || (defined(__APPLE__) && defined(__MACH__))
 #elif (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    int linkat(int olddirfd, const char *oldpath,
+    void linkat(int olddirfd, const char *oldpath,
         int newdirfd, const char *newpath, int flags)
     {
       int r = ::linkat(olddirfd, oldpath, newdirfd, newpath, flags);
       if (r == -1)
         throw_errno(Function::LINKAT);
-      return r;
     }
-    int linkat(int olddirfd, const std::string &oldpath,
+    void linkat(int olddirfd, const std::string &oldpath,
         int newdirfd, const std::string &newpath, int flags)
     {
-      return linkat(olddirfd, oldpath.c_str(), newdirfd, newpath.c_str(), flags);
+      linkat(olddirfd, oldpath.c_str(), newdirfd, newpath.c_str(), flags);
     }
 #endif
 
@@ -242,12 +235,11 @@ namespace ixxx {
     }
 #endif
 
-    int mkstemp(char *tmplate)
+    void mkstemp(char *tmplate)
     {
       int r = ::mkstemp(tmplate);
       if (r == -1)
         throw_errno(Function::MKSTEMP);
-      return r;
     }
 
 #if (defined(__MINGW32__) || defined(__MINGW64__))
@@ -260,20 +252,18 @@ namespace ixxx {
         throw_errno(Function::MMAP);
       return r;
     }
-    int munmap(void *addr, size_t length)
+    void munmap(void *addr, size_t length)
     {
       int r = ::munmap(addr, length);
       if (r == -1)
         throw_errno(Function::MUNMAP);
-      return r;
     }
 #endif
-    int nanosleep(const struct timespec *req, struct timespec *rem)
+    void nanosleep(const struct timespec *req, struct timespec *rem)
     {
       int r = ::nanosleep(req, rem);
       if (r == -1)
         throw_errno(Function::NANOSLEEP);
-      return r;
     }
 
     int open(const char *pathname, int flags)
@@ -380,62 +370,57 @@ namespace ixxx {
     }
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    int sigaction(int signum, const struct sigaction *act,
+    void sigaction(int signum, const struct sigaction *act,
                                     struct sigaction *oldact)
     {
       int r = ::sigaction(signum, act, oldact);
       if (r == -1)
         throw_errno(Function::SIGACTION);
-      return r;
     }
 #endif
-    int stat(const char *pathname, struct stat *buf)
+    void stat(const char *pathname, struct stat *buf)
     {
       int r = ::stat(pathname, buf);
       if (r == -1)
         throw_errno(Function::STAT);
-      return r;
     }
-    int stat(const std::string &pathname, struct stat *buf)
+    void stat(const std::string &pathname, struct stat *buf)
     {
-      return ixxx::posix::stat(pathname.c_str(), buf);
+      ixxx::posix::stat(pathname.c_str(), buf);
     }
 
-    int unlink(const char *pathname)
+    void unlink(const char *pathname)
     {
       int r = ::unlink(pathname);
       if (r == -1)
         throw_errno(Function::UNLINK);
-      return r;
     }
-    int unlink(const std::string &pathname)
+    void unlink(const std::string &pathname)
     {
-      return unlink(pathname.c_str());
+      unlink(pathname.c_str());
     }
 #if (defined(__APPLE__) && defined(__MACH__))
 #elif (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    int unlinkat(int dirfd, const char *pathname, int flags)
+    void unlinkat(int dirfd, const char *pathname, int flags)
     {
       int r = ::unlinkat(dirfd, pathname, flags);
       if (r == -1)
         throw_errno(Function::UNLINKAT);
-      return r;
     }
-    int unlinkat(int dirfd, const std::string &pathname, int flags)
+    void unlinkat(int dirfd, const std::string &pathname, int flags)
     {
-      return unlinkat(dirfd, pathname.c_str(), flags);
+      unlinkat(dirfd, pathname.c_str(), flags);
     }
 #endif
 
 
 #if !defined(__MINGW32__) && !defined(__MINGW64__)
-    int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options)
+    void waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options)
     {
       int r = ::waitid(idtype, id, infop, options);
       if (r == -1)
         throw_errno(Function::WAITID);
-      return r;
     }
 #endif
     ssize_t write(int fd, const void *buf, size_t count)

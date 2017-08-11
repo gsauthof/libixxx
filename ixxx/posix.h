@@ -42,7 +42,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace ixxx {
   namespace posix {
 
-    int close(int fd);
+    void close(int fd);
     int dup(int oldfd);
     int dup2(int oldfd, int newfd);
     int fcntl(int fd, int cmd, int arg1);
@@ -51,31 +51,31 @@ namespace ixxx {
 #if !defined(__MINGW32__) && !defined(__MINGW64__)
     pid_t fork();
 #endif
-    int fstat(int fd, struct stat *buf);
-    int fstat(int fd, struct stat &buf);
+    void fstat(int fd, struct stat *buf);
+    void fstat(int fd, struct stat &buf);
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    int fsync(int fd);
+    void fsync(int fd);
 #endif
-    int ftruncate(int fd, off_t length);
+    void ftruncate(int fd, off_t length);
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    int gethostname(char *name, size_t len);
+    void gethostname(char *name, size_t len);
 #endif
     struct tm *gmtime_r(const time_t *timep, struct tm *result);
     int isatty(int fd);
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    int link(const char *oldpath, const char *newpath);
-    int link(const std::string &oldpath, const std::string &newpath);
+    void link(const char *oldpath, const char *newpath);
+    void link(const std::string &oldpath, const std::string &newpath);
 #endif
     // Solaris 10 and Mac OS X don't not have linkat()
 #if defined(__sun) || (defined(__APPLE__) && defined(__MACH__))
 #elif (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    int linkat(int olddirfd, const char *oldpath, int newdirfd,
+    void linkat(int olddirfd, const char *oldpath, int newdirfd,
         const char *newpath, int flags);
-    int linkat(int olddirfd, const std::string &oldpath, int newdirfd,
+    void linkat(int olddirfd, const std::string &oldpath, int newdirfd,
         const std::string &newpath, int flags);
 #endif
     off_t lseek(int fd, off_t offset, int whence);
@@ -91,14 +91,14 @@ namespace ixxx {
 #else
     char *mkdtemp(char *template_string);
 #endif
-    int mkstemp(char *tmplate);
+    void mkstemp(char *tmplate);
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
     void *mmap(void *addr, size_t length, int prot, int flags,
         int fd, off_t offset);
-    int munmap(void *addr, size_t length);
+    void munmap(void *addr, size_t length);
 #endif
-    int nanosleep(const struct timespec *req, struct timespec *rem);
+    void nanosleep(const struct timespec *req, struct timespec *rem);
     int open(const char *pathname, int flags);
     int open(const char *pathname, int flags, mode_t mode);
     int open(const std::string &pathname, int flags);
@@ -115,26 +115,26 @@ namespace ixxx {
     ssize_t read(int fd, void *buf, size_t count);
     void rmdir(const char *pathname);
     void rmdir(const std::string &pathname);
-    void   setenv(const char *name, const char *value, bool overwrite);
-    void   setenv(const std::string &name, const std::string &value,
+    void setenv(const char *name, const char *value, bool overwrite);
+    void setenv(const std::string &name, const std::string &value,
         bool overwrite);
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    int sigaction(int signum, const struct sigaction *act,
+    void sigaction(int signum, const struct sigaction *act,
                                     struct sigaction *oldact);
 #endif
-    int stat(const char *pathname, struct stat *buf);
-    int stat(const std::string &pathname, struct stat *buf);
-    int unlink(const char *pathname);
-    int unlink(const std::string &pathname);
+    void stat(const char *pathname, struct stat *buf);
+    void stat(const std::string &pathname, struct stat *buf);
+    void unlink(const char *pathname);
+    void unlink(const std::string &pathname);
 #if (defined(__APPLE__) && defined(__MACH__))
 #elif (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    int unlinkat(int dirfd, const char *pathname, int flags);
-    int unlinkat(int dirfd, const std::string &pathname, int flags);
+    void unlinkat(int dirfd, const char *pathname, int flags);
+    void unlinkat(int dirfd, const std::string &pathname, int flags);
 #endif
 #if !defined(__MINGW32__) && !defined(__MINGW64__)
-    int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
+    void waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
 #endif
     ssize_t write(int fd, const void *buf, size_t count);
   }
