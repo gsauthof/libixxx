@@ -235,11 +235,12 @@ namespace ixxx {
     }
 #endif
 
-    void mkstemp(char *tmplate)
+    int mkstemp(char *tmplate)
     {
       int r = ::mkstemp(tmplate);
       if (r == -1)
         throw_errno(Function::MKSTEMP);
+      return r;
     }
 
 #if (defined(__MINGW32__) || defined(__MINGW64__))

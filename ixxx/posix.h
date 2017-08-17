@@ -91,7 +91,7 @@ namespace ixxx {
 #else
     char *mkdtemp(char *template_string);
 #endif
-    void mkstemp(char *tmplate);
+    int mkstemp(char *tmplate);
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
     void *mmap(void *addr, size_t length, int prot, int flags,
