@@ -30,6 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "ixxx.h"
 
 #include <stdio.h>
+#include <dirent.h>
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -60,6 +61,12 @@ namespace ixxx {
       int r = ::close(fd);
       if (r == -1)
         throw_errno(Function::CLOSE);
+    }
+    void closedir(DIR *dirp)
+    {
+      int r = ::closedir(dirp);
+      if (r == -1)
+        throw_errno(Function::CLOSEDIR);
     }
     int dup(int oldfd)
     {
@@ -327,11 +334,31 @@ namespace ixxx {
     }
 #endif
 
+    DIR *opendir(const char *name)
+    {
+      DIR *r = ::opendir(name);
+      if (!r)
+        throw_errno(Function::OPENDIR);
+      return r;
+    }
+    DIR *opendir(const std::string &name)
+    {
+      return opendir(name.c_str());
+    }
+
     ssize_t read(int fd, void *buf, size_t count)
     {
       int r = ::read(fd, buf, count);
       if (r == -1)
         throw_errno(Function::READ);
+      return r;
+    }
+    struct dirent *readdir(DIR *dirp)
+    {
+      errno = 0;
+      struct dirent *r = ::readdir(dirp);
+      if (errno)
+        throw_errno(Function::READDIR);
       return r;
     }
 

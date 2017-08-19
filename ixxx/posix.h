@@ -29,6 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define IXXX_POSIX_H
 
 #include <string>
+#include <dirent.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -112,6 +113,8 @@ namespace ixxx {
     int openat(int dirfd, const std::string &pathname, int flags);
     int openat(int dirfd, const std::string &pathname, int flags, mode_t mode);
 #endif
+    DIR *opendir(const char *name);
+    DIR *opendir(const std::string &name);
     ssize_t read(int fd, void *buf, size_t count);
     void rmdir(const char *pathname);
     void rmdir(const std::string &pathname);
