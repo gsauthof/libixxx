@@ -31,4 +31,4 @@ before_script:
   - cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE ..
 
 # PWD -> build
-script: make -j1 ixxx_static ixxx check
+script: make -j1 ixxx_static ixxx check VERBOSE=1
