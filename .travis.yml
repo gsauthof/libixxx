@@ -28,6 +28,7 @@ before_script:
   - mkdir build
   - cd build
   # PWD -> build
+  - cmake --version
   - cmake -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE ..
 
 # PWD -> build

@@ -4,8 +4,8 @@ project(ixxx CXX)
 # guard from super-projects, i.e. when it is added as subdirectory
 IF(${CMAKE_PROJECT_NAME} STREQUAL "ixxx")
 
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}
-      -std=c++11 -Wall -Wmissing-declarations")
+  set(CMAKE_CXX_FLAGS
+    "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wmissing-declarations")
 
   # only for the unittests, ixxx.cc/h don't depend on it
   find_package(Boost 1.53
