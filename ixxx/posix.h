@@ -44,6 +44,7 @@ namespace ixxx {
   namespace posix {
 
     void close(int fd);
+    void closedir(DIR *dirp);
     int dup(int oldfd);
     int dup2(int oldfd, int newfd);
     int fcntl(int fd, int cmd, int arg1);
@@ -116,6 +117,7 @@ namespace ixxx {
     DIR *opendir(const char *name);
     DIR *opendir(const std::string &name);
     ssize_t read(int fd, void *buf, size_t count);
+    struct dirent *readdir(DIR *dirp);
     void rmdir(const char *pathname);
     void rmdir(const std::string &pathname);
     void setenv(const char *name, const char *value, bool overwrite);
