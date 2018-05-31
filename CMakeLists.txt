@@ -39,7 +39,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 endif()
 
 set(LIB_SRC
-  ixxx/ixxx.cc
+  ixxx/sys_error.cc
   ixxx/ansi.cc
   ixxx/posix.cc
   ixxx/linux.cc

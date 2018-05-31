@@ -28,7 +28,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "ixxx.h"
 
-#include <stdexcept>
 #include <sstream>
 #include <array>
 
@@ -36,6 +35,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <errno.h>
 
 using namespace std;
+
+
+
 
 namespace {
 

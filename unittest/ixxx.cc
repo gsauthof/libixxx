@@ -30,7 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <boost/filesystem.hpp>
 namespace fs = boost::filesystem;
 
-#include <ixxx/ixxx.h>
+#include <ixxx/ixxx.hh>
 
 #include <errno.h>
 #include <string.h>
@@ -65,9 +65,7 @@ BOOST_AUTO_TEST_SUITE( ixxx )
       try {
         int fd = posix::open(filename, O_WRONLY, 0666);
         posix::close(fd);
-        // This does not catch the exception on gcc/clang
-        // } catch (const errno_error &e) {
-      } catch (const ::errno_error &e) {
+      } catch (const sys_error &e) {
         caught = true;
         BOOST_CHECK_EQUAL(e.code(), ENOENT);
       }
@@ -85,7 +83,7 @@ BOOST_AUTO_TEST_SUITE( ixxx )
       try {
         int fd = posix::open(filename, O_WRONLY, 0666);
         posix::close(fd);
-      } catch (const errno_error &e) {
+      } catch (const sys_error &e) {
         caught = true;
         BOOST_CHECK_EQUAL(e.code(), ENOENT);
         BOOST_CHECK(e.function() == Function::OPEN);
@@ -104,9 +102,9 @@ BOOST_AUTO_TEST_SUITE( ixxx )
       bool caught = false;
       try {
         string s(ansi::getenv("DOESNOTEXISTNOTEXIST"));
-      } catch (runtime_error &e) {
+      } catch (getenv_error &e) {
         caught = true;
-        BOOST_CHECK_EQUAL(e.function(), Function::GETENV);
+        BOOST_CHECK(e.function() == Function::GETENV);
       }
       BOOST_CHECK_EQUAL(caught, true);
     }
@@ -128,13 +126,13 @@ BOOST_AUTO_TEST_SUITE( ixxx )
           message = e.what();
           throw;
         }
-      } catch (const ixxx::errno_error &e) {
+      } catch (const ixxx::sys_error &e) {
 #if (defined(__APPLE__) && defined(__MACH__))
         BOOST_CHECK_EQUAL(e.code(), ECHILD);
 #else
         BOOST_CHECK_EQUAL(e.code(), EINVAL);
 #endif
-        BOOST_CHECK_EQUAL(e.function(), ixxx::Function::WAITID);
+        BOOST_CHECK(e.function() == ixxx::Function::WAITID);
         caught = true;
       }
       ostringstream o;
@@ -160,9 +158,9 @@ BOOST_AUTO_TEST_SUITE( ixxx )
           message = e.what();
           throw;
         }
-      } catch (const ixxx::errno_error &e) {
+      } catch (const ixxx::open_error &e) {
         BOOST_CHECK_EQUAL(e.code(), ENOENT);
-        BOOST_CHECK_EQUAL(e.function(), ixxx::Function::OPEN);
+        BOOST_CHECK(e.function() == ixxx::Function::OPEN);
         caught = true;
       }
       ostringstream o;
@@ -193,43 +191,6 @@ BOOST_AUTO_TEST_SUITE( ixxx )
     }
 
   BOOST_AUTO_TEST_SUITE_END() // posix
-
-  BOOST_AUTO_TEST_SUITE(shared)
-
-    BOOST_AUTO_TEST_CASE(enums)
-    {
-      {
-        ostringstream o;
-        o << ixxx::Function::CLOSE;
-        BOOST_CHECK_EQUAL(o.str(), "close");
-      }
-      {
-        ostringstream o;
-        o << ixxx::Function::WRITE;
-        BOOST_CHECK_EQUAL(o.str(), "write");
-      }
-      {
-        ostringstream o;
-        o << ixxx::Function::ISATTY;
-        BOOST_CHECK_EQUAL(o.str(), "isatty");
-      }
-    }
-
-    BOOST_AUTO_TEST_CASE(end_markers)
-    {
-      {
-        ostringstream o;
-        o << ixxx::Function::FIRST_;
-        BOOST_CHECK_EQUAL(o.str(), "?UNK?");
-      }
-      {
-        ostringstream o;
-        o << ixxx::Function::LAST_;
-        BOOST_CHECK_EQUAL(o.str(), "?UNK?");
-      }
-    }
-
-  BOOST_AUTO_TEST_SUITE_END()
 
   BOOST_AUTO_TEST_SUITE(mixed)
 

@@ -27,7 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }}} */
 
 #include "socket.hh"
-#include "ixxx.h"
+#include "sys_error.hh"
 
 #include <stdio.h>
 #include <errno.h>
@@ -41,21 +41,13 @@ using namespace std;
 
 namespace ixxx {
 
-  namespace {
-    void throw_errno(Function f)
-    {
-      int e = errno;
-      throw errno_error(f, e);
-    }
-  }
-
   namespace posix {
 
     int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
     {
       int r = ::accept(sockfd, addr, addrlen);
       if (r == -1)
-        throw_errno(Function::ACCEPT);
+        throw accept_error(errno);
       return r;
     }
 
@@ -63,7 +55,7 @@ namespace ixxx {
     {
       int r = ::bind(sockfd, addr, addrlen);
       if (r == -1)
-        throw_errno(Function::BIND);
+        throw bind_error(errno);
       return r;
     }
 
@@ -71,29 +63,28 @@ namespace ixxx {
     {
       int r = ::listen(sockfd, backlog);
       if (r == -1)
-        throw_errno(Function::LISTEN);
+        throw listen_error(errno);
       return r;
     }
-    int setsockopt(int sockfd, int level, int optname,
-                              const void *optval, socklen_t optlen)
+    int setsockopt(int sockfd, int level, int optname, const void *optval, socklen_t optlen)
     {
       int r = ::setsockopt(sockfd, level, optname, optval, optlen);
       if (r == -1)
-        throw_errno(Function::SETSOCKOPT);
+        throw setsockopt_error(errno);
       return r;
     }
     int shutdown(int socket, int how)
     {
       int r = ::shutdown(socket, how);
       if (r == -1)
-        throw_errno(Function::SHUTDOWN);
+        throw shutdown_error(errno);
       return r;
     }
     int socket(int domain, int type, int protocol)
     {
       int r = ::socket(domain, type, protocol);
       if (r == -1)
-        throw_errno(Function::SOCKET);
+        throw socket_error(errno);
       return r;
     }
 

@@ -26,22 +26,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 }}} */
 
-#include "ansi.h"
-#include "ixxx.h"
-
-#include <sstream>
+#include "ansi.hh"
+#include "sys_error.hh"
 
 using namespace std;
 
 namespace ixxx {
-
-  namespace {
-    void throw_errno(Function f)
-    {
-      int e = errno;
-      throw errno_error(f, e);
-    }
-  }
 
   namespace ansi {
 
@@ -50,21 +40,21 @@ namespace ixxx {
     {
       int r = ::fclose(stream);
       if (r == EOF)
-        throw_errno(Function::FCLOSE);
+        throw fclose_error(errno);
     }
 
     void fflush(FILE *stream)
     {
       int r = ::fflush(stream);
       if (r == EOF)
-        throw_errno(Function::FFLUSH);
+        throw fflush_error(errno);
     }
 
     FILE *fopen(const char *path, const char *mode)
     {
       FILE *f = ::fopen(path, mode);
       if (!f) {
-        throw_errno(Function::FOPEN);
+        throw fopen_error(errno);
       }
       return f;
     }
@@ -77,7 +67,7 @@ namespace ixxx {
     {
       int r = ::fputs(s, stream);
       if (r == EOF)
-        throw_errno(Function::FPUTS);
+        throw fputs_error(errno);
       return r;
     }
     int fputs(const std::string &s, FILE *stream)
@@ -89,18 +79,15 @@ namespace ixxx {
     {
       size_t r = ::fwrite(ptr, size, nmemb, stream);
       if (r != size*nmemb)
-        throw_errno(Function::FWRITE);
+        throw fwrite_error(errno);
       return r;
     }
 
     char *getenv(const char *name)
     {
       char *r = ::getenv(name);
-      if (!r) {
-        ostringstream o;
-        o << "environment variable " << name << " not defined!";
-        throw runtime_error(Function::GETENV, o.str());
-      }
+      if (!r)
+        throw getenv_error("environment variable not defined");
       return r;
     }
     char *getenv(const std::string &name)
@@ -112,17 +99,15 @@ namespace ixxx {
     {
       void *r = ::malloc(n);
       if (!r && n)
-        throw_errno(Function::MALLOC);
+        throw malloc_error(errno);
       return r;
     }
 
-    size_t strftime(char *s, size_t max, const char *format,
-        const struct tm *tm)
+    size_t strftime(char *s, size_t max, const char *format, const struct tm *tm)
     {
       size_t r = ::strftime(s, max, format, tm);
       if (!r)
-        throw ixxx::runtime_error(Function::STRFTIME,
-            "destination buffer too small");
+          throw strftime_error(errno, "destination buffer too small");
       return r;
     }
 
@@ -132,9 +117,9 @@ namespace ixxx {
       char *s = 0;
       long r = ::strtol(nptr, &s, base);
       if (errno)
-        throw_errno(Function::STRTOL);
+        throw strtol_error(errno);
       if (s == nptr)
-        throw ixxx::runtime_error(Function::STRTOL, "no digits found");
+        throw strtol_error(errno, "no digits found");
       if (endptr)
         *endptr = s;
       return r;
@@ -147,18 +132,18 @@ namespace ixxx {
     {
       int r = ::system(command);
       if (r == -1)
-        throw_errno(Function::SYSTEM);
+        throw system_error(errno);
       if (!command && !r)
-        throw runtime_error(Function::SYSTEM, "shell unavailable");
+        throw system_error(errno, "shell unavailable");
       if (r)
-        throw runtime_error(Function::SYSTEM, "child failed");
+        throw system_error(errno, "child failed");
     }
 
     time_t time(time_t *t)
     {
       time_t r = ::time(t);
       if (r == ((time_t)-1))
-        throw_errno(Function::TIME);
+        throw time_error(errno);
       return r;
     }
 

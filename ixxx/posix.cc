@@ -26,8 +26,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 }}} */
 
-#include "posix.h"
-#include "ixxx.h"
+#include "posix.hh"
+#include "sys_error.hh"
 
 #include <stdio.h>
 #include <dirent.h>
@@ -46,47 +46,39 @@ using namespace std;
 
 namespace ixxx {
 
-  namespace {
-    void throw_errno(Function f)
-    {
-      int e = errno;
-      throw errno_error(f, e);
-    }
-  }
-
   namespace posix {
 
     void close(int fd)
     {
       int r = ::close(fd);
       if (r == -1)
-        throw_errno(Function::CLOSE);
+        throw close_error(errno);
     }
     void closedir(DIR *dirp)
     {
       int r = ::closedir(dirp);
       if (r == -1)
-        throw_errno(Function::CLOSEDIR);
+        throw closedir_error(errno);
     }
     int dup(int oldfd)
     {
       int r = ::dup(oldfd);
       if (r == -1)
-        throw_errno(Function::DUP);
+        throw dup_error(errno);
       return r;
     }
     int dup2(int oldfd, int newfd)
     {
       int r = ::dup2(oldfd, newfd);
       if (r == -1)
-        throw_errno(Function::DUP2);
+        throw dup2_error(errno);
       return r;
     }
     int fcntl(int fd, int cmd, int arg1)
     {
       int r = ::fcntl(fd, cmd, arg1);
       if (r == -1)
-        throw_errno(Function::FCNTL);
+        throw fcntl_error(errno);
       return r;
     }
 
@@ -94,7 +86,7 @@ namespace ixxx {
     {
       int r = ::fileno(stream);
       if (r == -1)
-        throw_errno(Function::FILENO);
+        throw fileno_error(errno);
       return r;
     }
 
@@ -102,7 +94,7 @@ namespace ixxx {
     {
       FILE *r = ::fdopen(fd, mode);
       if (!r)
-        throw_errno(Function::FDOPEN);
+        throw fdopen_error(errno);
       return r;
     }
 
@@ -111,7 +103,7 @@ namespace ixxx {
     {
       pid_t r = ::fork();
       if (r == -1)
-        throw_errno(Function::FORK);
+        throw fork_error(errno);
       return r;
     }
 #endif
@@ -120,7 +112,7 @@ namespace ixxx {
     {
       int r = ::fstat(fd, buf);
       if (r == -1)
-        throw_errno(Function::FSTAT);
+        throw fstat_error(errno);
     }
     void fstat(int fd, struct stat &buf)
     {
@@ -132,14 +124,14 @@ namespace ixxx {
     {
       int r = ::fsync(fd);
       if (r == -1)
-        throw_errno(Function::FSYNC);
+        throw fsync_error(errno);
     }
 #endif
     void ftruncate(int fd, off_t length)
     {
       int r = ::ftruncate(fd, length);
       if (r == -1)
-        throw_errno(Function::FTRUNCATE);
+        throw ftruncate_error(errno);
     }
 
 #if (defined(__MINGW32__) || defined(__MINGW64__))
@@ -148,7 +140,7 @@ namespace ixxx {
     {
       int r = ::gethostname(name, len);
       if (r == -1)
-        throw_errno(Function::GETHOSTNAME);
+        throw gethostname_error(errno);
     }
 #endif
 
@@ -156,15 +148,14 @@ namespace ixxx {
     {
       struct tm *r = ::gmtime_r(timep, result);
       if (!r)
-        throw ixxx::runtime_error(Function::GMTIME_R,
-            "Year doesn't fit into integer");
+        throw gmtime_r_error(errno, "Year doesn't fit into integer");
       return r;
     }
     int isatty(int fd)
     {
       int r = ::isatty(fd);
       if (r == -1)
-        throw_errno(Function::ISATTY);
+        throw isatty_error(errno);
       return r;
     }
 
@@ -174,7 +165,7 @@ namespace ixxx {
     {
       int r = ::link(oldpath, newpath);
       if (r == -1)
-        throw_errno(Function::LINK);
+        throw link_error(errno);
     }
     void link(const std::string &oldpath, const std::string &newpath)
     {
@@ -185,15 +176,13 @@ namespace ixxx {
 #if defined(__sun) || (defined(__APPLE__) && defined(__MACH__))
 #elif (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    void linkat(int olddirfd, const char *oldpath,
-        int newdirfd, const char *newpath, int flags)
+    void linkat(int olddirfd, const char *oldpath, int newdirfd, const char *newpath, int flags)
     {
       int r = ::linkat(olddirfd, oldpath, newdirfd, newpath, flags);
       if (r == -1)
-        throw_errno(Function::LINKAT);
+        throw linkat_error(errno);
     }
-    void linkat(int olddirfd, const std::string &oldpath,
-        int newdirfd, const std::string &newpath, int flags)
+    void linkat(int olddirfd, const std::string &oldpath, int newdirfd, const std::string &newpath, int flags)
     {
       linkat(olddirfd, oldpath.c_str(), newdirfd, newpath.c_str(), flags);
     }
@@ -203,14 +192,14 @@ namespace ixxx {
     {
       off_t r = ::lseek(fd, offset, whence);
       if (r == -1)
-        throw_errno(Function::LSEEK);
+        throw lseek_error(errno);
       return r;
     }
     void mkdir(const char *pathname, mode_t mode)
     {
       int r = ::mkdir(pathname, mode);
       if (r == -1)
-        throw_errno(Function::MKDIR);
+        throw mkdir_error(errno);
     }
     void mkdir(const std::string &pathname, mode_t mode)
     {
@@ -223,7 +212,7 @@ namespace ixxx {
     {
       int r = ::mkdirat(dirfd, pathname, mode);
       if (r == -1)
-        throw_errno(Function::MKDIRAT);
+        throw mkdirat_error(errno);
     }
     void mkdirat(int dirfd, const std::string &pathname, mode_t mode)
     {
@@ -237,7 +226,7 @@ namespace ixxx {
     {
       char *r = ::mkdtemp(template_string);
       if (!r)
-        throw_errno(Function::MKDTEMP);
+        throw mkdtemp_error(errno);
       return r;
     }
 #endif
@@ -246,32 +235,31 @@ namespace ixxx {
     {
       int r = ::mkstemp(tmplate);
       if (r == -1)
-        throw_errno(Function::MKSTEMP);
+        throw mkstemp_error(errno);
       return r;
     }
 
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    void *mmap(void *addr, size_t length, int prot, int flags,
-        int fd, off_t offset)
+    void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset)
     {
       void *r = ::mmap(addr, length, prot, flags, fd, offset);
       if (r == MAP_FAILED)
-        throw_errno(Function::MMAP);
+        throw mmap_error(errno);
       return r;
     }
     void munmap(void *addr, size_t length)
     {
       int r = ::munmap(addr, length);
       if (r == -1)
-        throw_errno(Function::MUNMAP);
+        throw munmap_error(errno);
     }
 #endif
     void nanosleep(const struct timespec *req, struct timespec *rem)
     {
       int r = ::nanosleep(req, rem);
       if (r == -1)
-        throw_errno(Function::NANOSLEEP);
+        throw nanosleep_error(errno);
     }
 
     int open(const char *pathname, int flags)
@@ -285,7 +273,7 @@ namespace ixxx {
 #endif
           );
       if (r == -1)
-        throw_errno(Function::OPEN);
+        throw open_error(errno);
       return r;
     }
     int open(const string &pathname, int flags)
@@ -300,7 +288,7 @@ namespace ixxx {
 #endif
           , mode);
       if (r == -1)
-        throw_errno(Function::OPEN);
+        throw open_error(errno);
       return r;
     }
     int open(const string &pathname, int flags, mode_t mode)
@@ -314,14 +302,14 @@ namespace ixxx {
     {
       int r = ::openat(dirfd, pathname, flags);
       if (r == -1)
-        throw_errno(Function::OPENAT);
+        throw openat_error(errno);
       return r;
     }
     int openat(int dirfd, const char *pathname, int flags, mode_t mode)
     {
       int r = ::openat(dirfd, pathname, flags, mode);
       if (r == -1)
-        throw_errno(Function::OPENAT);
+        throw openat_error(errno);
       return r;
     }
     int openat(int dirfd, const std::string &pathname, int flags)
@@ -338,7 +326,7 @@ namespace ixxx {
     {
       DIR *r = ::opendir(name);
       if (!r)
-        throw_errno(Function::OPENDIR);
+        throw opendir_error(errno);
       return r;
     }
     DIR *opendir(const std::string &name)
@@ -350,7 +338,7 @@ namespace ixxx {
     {
       int r = ::read(fd, buf, count);
       if (r == -1)
-        throw_errno(Function::READ);
+        throw read_error(errno);
       return r;
     }
     struct dirent *readdir(DIR *dirp)
@@ -358,7 +346,7 @@ namespace ixxx {
       errno = 0;
       struct dirent *r = ::readdir(dirp);
       if (errno)
-        throw_errno(Function::READDIR);
+        throw readdir_error(errno);
       return r;
     }
 
@@ -366,7 +354,7 @@ namespace ixxx {
     {
       int r = ::rmdir(pathname);
       if (r == -1)
-        throw_errno(Function::RMDIR);
+        throw rmdir_error(errno);
     }
     void rmdir(const std::string &pathname)
     {
@@ -389,28 +377,26 @@ namespace ixxx {
       int r = ::setenv(name, value, overwrite);
 #endif
       if (r == -1)
-        throw_errno(Function::SETENV);
+        throw setenv_error(errno);
     }
-    void setenv(const std::string &name, const std::string &value,
-        bool overwrite)
+    void setenv(const std::string &name, const std::string &value, bool overwrite)
     {
       setenv(name.c_str(), value.c_str(), overwrite);
     }
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else
-    void sigaction(int signum, const struct sigaction *act,
-                                    struct sigaction *oldact)
+    void sigaction(int signum, const struct sigaction *act, struct sigaction *oldact)
     {
       int r = ::sigaction(signum, act, oldact);
       if (r == -1)
-        throw_errno(Function::SIGACTION);
+        throw sigaction_error(errno);
     }
 #endif
     void stat(const char *pathname, struct stat *buf)
     {
       int r = ::stat(pathname, buf);
       if (r == -1)
-        throw_errno(Function::STAT);
+        throw stat_error(errno);
     }
     void stat(const std::string &pathname, struct stat *buf)
     {
@@ -421,7 +407,7 @@ namespace ixxx {
     {
       int r = ::unlink(pathname);
       if (r == -1)
-        throw_errno(Function::UNLINK);
+        throw unlink_error(errno);
     }
     void unlink(const std::string &pathname)
     {
@@ -434,7 +420,7 @@ namespace ixxx {
     {
       int r = ::unlinkat(dirfd, pathname, flags);
       if (r == -1)
-        throw_errno(Function::UNLINKAT);
+        throw unlinkat_error(errno);
     }
     void unlinkat(int dirfd, const std::string &pathname, int flags)
     {
@@ -448,14 +434,14 @@ namespace ixxx {
     {
       int r = ::waitid(idtype, id, infop, options);
       if (r == -1)
-        throw_errno(Function::WAITID);
+        throw waitid_error(errno);
     }
 #endif
     ssize_t write(int fd, const void *buf, size_t count)
     {
       int r = ::write(fd, buf, count);
       if (r == -1)
-        throw_errno(Function::WRITE);
+        throw write_error(errno);
       return r;
     }
 
