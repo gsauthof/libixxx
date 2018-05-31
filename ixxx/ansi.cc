@@ -5,6 +5,9 @@
 #include "ansi.hh"
 #include "sys_error.hh"
 
+#include <errno.h>
+#include <stdlib.h>
+
 using namespace std;
 
 namespace ixxx {
