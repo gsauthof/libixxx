@@ -1,3 +1,7 @@
+// Copyright (c) 2018, Georg Sauthoff <mail@georg.so>
+
+// SPDX-License-Identifier: BSD-2-Clause
+
 #include "sys_error.hh"
 
 #include <array>

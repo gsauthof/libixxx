@@ -3,7 +3,7 @@ Thin C++ wrapper around POSIX/Ansi-C/Unix/Linux functions.
 Main rationale behind this is to simplify writing robust system code that does
 not miss checking any error condition.
 
-2014-2018, Georg Sauthoff <mail@georg.so>
+2014-2018, Georg Sauthoff <mail@georg.so>, BSD-2-Clause
 
 [![Build Status](https://travis-ci.org/gsauthof/libixxx.svg?branch=master)](https://travis-ci.org/gsauthof/libixxx)
 
