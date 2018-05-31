@@ -3,7 +3,7 @@ Thin C++ wrapper around POSIX/Ansi-C/Unix/Linux functions.
 Main rationale behind this is to simplify writing robust system code that does
 not miss checking any error condition.
 
-2014-02-01, Georg Sauthoff <mail@georg.so>
+2014-2018, Georg Sauthoff <mail@georg.so>
 
 [![Build Status](https://travis-ci.org/gsauthof/libixxx.svg?branch=master)](https://travis-ci.org/gsauthof/libixxx)
 
@@ -16,19 +16,20 @@ not miss checking any error condition.
 ## Example
 
     #include <iostream>
-    #include <ixxx/ixxx.h>
+    #include <ixxx/ixxx.hh>
 
     using namespace ixxx;
+    using namespace std;
 
     int main(int argc, char **argv)
     {
-      if (argc<2) { cerr << "Missing argument\n"; return 1; }
-      try {
-        posix::unlink(argv[1]);
-      } catch (const ixxx::runtime_error &e) {
-        cerr << "Error: " << e.what() << '\n';
-      }
-      return 0;
+        if (argc<2) { cerr << "Missing argument\n"; return 1; }
+        try {
+            posix::unlink(argv[1]);
+        } catch (const ixxx::sys_error& e) {
+            cerr << "Error: " << e.what() << '\n';
+        }
+        return 0;
     }
 
 ## Compile

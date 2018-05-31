@@ -62,6 +62,9 @@ IF(${CMAKE_PROJECT_NAME} STREQUAL "ixxx")
   # for executing it from a quickfix environment
   add_custom_target(check COMMAND ut)
 
+  add_executable(unlink example/unlink.cc)
+  target_link_libraries(unlink ixxx_static)
+
 endif()
 
 add_library(ixxx SHARED
