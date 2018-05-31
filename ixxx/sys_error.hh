@@ -7,6 +7,7 @@
 
 #include <exception>
 #include <memory>
+#include <string>
 
 namespace ixxx {
 
