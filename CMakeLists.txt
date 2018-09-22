@@ -46,15 +46,31 @@ set(LIB_SRC
   ixxx/socket.cc
   )
 
+add_library(ixxx SHARED
+  ${LIB_SRC}
+)
+add_library(ixxx_static STATIC
+  ${LIB_SRC}
+)
+
+if(WIN32)
+    target_link_libraries(ixxx PRIVATE wsock32 ws2_32)
+    target_link_libraries(ixxx_static PRIVATE wsock32 ws2_32)
+endif()
+
+# under windows shared/static libraries have the same extension ...
+if(${UNIX})
+  set_target_properties(ixxx_static PROPERTIES OUTPUT_NAME ixxx)
+endif()
+
 # guard from super-projects, i.e. when it is added as subdirectory
 IF(${CMAKE_PROJECT_NAME} STREQUAL "ixxx")
 
   add_executable(ut
-    ${LIB_SRC}
     unittest/main.cc
     unittest/ixxx.cc
   )
-  target_link_libraries(ut ${Boost_LIBRARIES})
+  target_link_libraries(ut ${Boost_LIBRARIES} ixxx_static)
   set_property(TARGET ut PROPERTY INCLUDE_DIRECTORIES
     ${Boost_INCLUDE_DIRS}
   )
@@ -67,15 +83,4 @@ IF(${CMAKE_PROJECT_NAME} STREQUAL "ixxx")
 
 endif()
 
-add_library(ixxx SHARED
-  ${LIB_SRC}
-)
-add_library(ixxx_static STATIC
-  ${LIB_SRC}
-)
-
-# under windows shared/static libraries have the same extension ...
-if(${UNIX})
-  set_target_properties(ixxx_static PROPERTIES OUTPUT_NAME ixxx)
-endif()
 

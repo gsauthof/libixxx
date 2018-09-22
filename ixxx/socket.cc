@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include <errno.h>
 #include <sys/types.h>
-#include <sys/socket.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -44,7 +43,12 @@ namespace ixxx {
     }
     int setsockopt(int sockfd, int level, int optname, const void *optval, socklen_t optlen)
     {
+#if defined(__MINGW32__) || defined(__MINGW64__)
+      int r = ::setsockopt(sockfd, level, optname,
+              static_cast<const char*>(optval), optlen);
+#else
       int r = ::setsockopt(sockfd, level, optname, optval, optlen);
+#endif
       if (r == -1)
         throw setsockopt_error(errno);
       return r;

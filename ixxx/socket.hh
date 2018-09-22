@@ -6,7 +6,13 @@
 #define IXXX_POSIX_SOCKET_H
 
 #include <sys/types.h>
-#include <sys/socket.h>
+
+#if defined(__MINGW32__) || defined(__MINGW64__)
+    #include <winsock2.h>
+    #include <ws2tcpip.h>
+#else
+    #include <sys/socket.h>
+#endif
 
 namespace ixxx {
   namespace posix {

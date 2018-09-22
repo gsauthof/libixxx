@@ -1,7 +1,12 @@
+# need to be activated when appveyor requires less excessive oauth permissions:
+# https://github.com/appveyor/ci/issues/2312
+
 init:
   # CMake refuses to generate MinGW Makefiles if sh.exe is in the Path
   #- ps: Get-Command sh.exe -All | Remove-Item
   - set PATH=C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin;%PATH%
+
+image: Visual Studio 2017
 
 build_script:
   - cd "%APPVEYOR_BUILD_FOLDER%"
