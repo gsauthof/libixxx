@@ -24,7 +24,9 @@ namespace ixxx {
     void closedir(DIR *dirp);
     int dup(int oldfd);
     int dup2(int oldfd, int newfd);
+#if !defined(__MINGW32__) && !defined(__MINGW64__)
     int fcntl(int fd, int cmd, int arg1);
+#endif
     FILE *fdopen(int fd, const char *mode);
     int fileno(FILE *stream);
 #if !defined(__MINGW32__) && !defined(__MINGW64__)

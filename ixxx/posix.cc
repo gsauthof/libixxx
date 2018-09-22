@@ -18,6 +18,8 @@
 #endif
 #include <signal.h>
 
+#include "ansi.hh"
+
 using namespace std;
 
 namespace ixxx {
@@ -50,6 +52,7 @@ namespace ixxx {
         throw dup2_error(errno);
       return r;
     }
+#if !defined(__MINGW32__) && !defined(__MINGW64__)
     int fcntl(int fd, int cmd, int arg1)
     {
       int r = ::fcntl(fd, cmd, arg1);
@@ -57,6 +60,7 @@ namespace ixxx {
         throw fcntl_error(errno);
       return r;
     }
+#endif
 
     int fileno(FILE *stream)
     {
@@ -173,7 +177,11 @@ namespace ixxx {
     }
     void mkdir(const char *pathname, mode_t mode)
     {
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+      int r = ::mkdir(pathname);
+#else
       int r = ::mkdir(pathname, mode);
+#endif
       if (r == -1)
         throw mkdir_error(errno);
     }
