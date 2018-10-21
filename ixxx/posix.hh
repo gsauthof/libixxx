@@ -5,6 +5,7 @@
 #ifndef IXXX_POSIX_H
 #define IXXX_POSIX_H
 
+#include <array>
 #include <string>
 #include <dirent.h>
 #include <stdio.h>
@@ -50,7 +51,7 @@ namespace ixxx {
     void link(const char *oldpath, const char *newpath);
     void link(const std::string &oldpath, const std::string &newpath);
 #endif
-    // Solaris 10 and Mac OS X don't not have linkat()
+    // Solaris 10 and Mac OS X don't have linkat()
 #if defined(__sun) || (defined(__APPLE__) && defined(__MACH__))
 #elif (defined(__MINGW32__) || defined(__MINGW64__))
 #else
@@ -60,6 +61,8 @@ namespace ixxx {
         const std::string &newpath, int flags);
 #endif
     off_t lseek(int fd, off_t offset, int whence);
+    int lstat(const char *pathname, struct stat *buf);
+    int lstat(const std::string &pathname, struct stat *buf);
     void mkdir(const char *pathname, mode_t mode);
     void mkdir(const std::string &pathname, mode_t mode);
 #if defined(__sun) || (defined(__APPLE__) && defined(__MACH__))
@@ -97,6 +100,15 @@ namespace ixxx {
     DIR *opendir(const std::string &name);
     ssize_t read(int fd, void *buf, size_t count);
     struct dirent *readdir(DIR *dirp);
+    ssize_t readlink(const char *pathname, char *buf, size_t n);
+    ssize_t readlink(const char *pathname, std::array<char, 4096> &buf);
+    ssize_t readlink(const std::string &pathname, std::array<char, 4096> &buf);
+#if _POSIX_C_SOURCE >= 200809L
+    ssize_t readlinkat(int dirfd, const char *pathname, char *buf, size_t n);
+    ssize_t readlinkat(int dirfd, const char *pathname, std::array<char, 4096> &buf);
+    ssize_t readlinkat(int dirfd, const std::string &pathname,
+            std::array<char, 4096> &buf);
+#endif
     void rmdir(const char *pathname);
     void rmdir(const std::string &pathname);
     void setenv(const char *name, const char *value, bool overwrite);

@@ -175,6 +175,17 @@ namespace ixxx {
         throw lseek_error(errno);
       return r;
     }
+    int lstat(const char *pathname, struct stat *buf)
+    {
+        int r = ::lstat(pathname, buf);
+        if (r == -1)
+            throw lstat_error(errno);
+        return r;
+    }
+    int lstat(const std::string &pathname, struct stat *buf)
+    {
+        return ixxx::posix::lstat(pathname.c_str(), buf);
+    }
     void mkdir(const char *pathname, mode_t mode)
     {
 #if (defined(__MINGW32__) || defined(__MINGW64__))
@@ -333,6 +344,46 @@ namespace ixxx {
         throw readdir_error(errno);
       return r;
     }
+
+    ssize_t readlink(const char *pathname, char *buf, size_t n)
+    {
+        ssize_t r = ::readlink(pathname, buf, n);
+        if (r == -1)
+            throw readlink_error(errno);
+        return r;
+    }
+    ssize_t readlink(const char *pathname, std::array<char, 4096> &buf)
+    {
+        auto k = buf.size() - 1;
+        auto l = readlink(pathname, buf.data(), k);
+        buf[l] = 0;
+        return l;
+    }
+    ssize_t readlink(const std::string &pathname, std::array<char, 4096> &buf)
+    {
+        return readlink(pathname.c_str(), buf);
+    }
+#if _POSIX_C_SOURCE >= 200809L
+    ssize_t readlinkat(int dirfd, const char *pathname, char *buf, size_t n)
+    {
+        ssize_t r = ::readlinkat(dirfd, pathname, buf, n);
+        if (r == -1)
+            throw readlinkat_error(errno);
+        return r;
+    }
+    ssize_t readlinkat(int dirfd, const char *pathname, std::array<char, 4096> &buf)
+    {
+        auto k = buf.size() - 1;
+        auto l = readlinkat(dirfd, pathname, buf.data(), k);
+        buf[l] = 0;
+        return l;
+    }
+    ssize_t readlinkat(int dirfd, const std::string &pathname,
+            std::array<char, 4096> &buf)
+    {
+        return readlinkat(dirfd, pathname.c_str(), buf);
+    }
+#endif
 
     void rmdir(const char *pathname)
     {

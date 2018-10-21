@@ -14,6 +14,7 @@ namespace ixxx {
 
   namespace ansi {
 
+    void  *calloc(size_t k, size_t n);
     void   fclose(FILE *stream);
     void   fflush(FILE *stream);
     FILE  *fopen (const char *path, const char *mode);
@@ -23,7 +24,9 @@ namespace ixxx {
     int    fputs(const std::string &s, FILE *stream);
     char  *getenv(const char *name);
     char  *getenv(const std::string &name);
+    ssize_t getline(char **line, size_t *n, FILE *f);
     void  *malloc(size_t n);
+    void  *realloc(void *p, size_t n);
     size_t strftime(char *s, size_t max, const char *format,
         const struct tm *tm);
     template <size_t U>

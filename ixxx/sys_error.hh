@@ -46,6 +46,7 @@ namespace ixxx {
     enum class Function {
         ACCEPT,
         BIND,
+        CALLOC,
         CLOSE,
         CLOSEDIR,
         DUP,
@@ -64,12 +65,14 @@ namespace ixxx {
         FWRITE,
         GETENV,
         GETHOSTNAME,
+        GETLINE,
         GMTIME_R,
         ISATTY,
         LINK,
         LINKAT,
         LISTEN,
         LSEEK,
+        LSTAT,
         MALLOC,
         MKDIR,
         MKDIRAT,
@@ -84,6 +87,9 @@ namespace ixxx {
         PRCTL,
         READ,
         READDIR,
+        READLINK,
+        READLINKAT,
+        REALLOC,
         RMDIR,
         SETENV,
         SETSOCKOPT,
@@ -107,6 +113,12 @@ namespace ixxx {
             const char* name() const override;
     };
     class bind_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class calloc_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;
@@ -220,6 +232,12 @@ namespace ixxx {
             Function function() const override;
             const char* name() const override;
     };
+    class getline_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
     class gmtime_r_error : public sys_error {
         public:
             using sys_error::sys_error;
@@ -251,6 +269,12 @@ namespace ixxx {
             const char* name() const override;
     };
     class lseek_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class lstat_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;
@@ -335,6 +359,24 @@ namespace ixxx {
             const char* name() const override;
     };
     class readdir_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class readlink_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class readlinkat_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class realloc_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;

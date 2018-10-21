@@ -87,6 +87,8 @@ namespace ixxx {
     const char* accept_error::name() const { return "accept"; }
     Function bind_error::function() const { return Function::BIND; }
     const char* bind_error::name() const { return "bind"; }
+    Function calloc_error::function() const { return Function::CALLOC; }
+    const char* calloc_error::name() const { return "calloc"; }
     Function close_error::function() const { return Function::CLOSE; }
     const char* close_error::name() const { return "close"; }
     Function closedir_error::function() const { return Function::CLOSEDIR; }
@@ -123,6 +125,8 @@ namespace ixxx {
     const char* getenv_error::name() const { return "getenv"; }
     Function gethostname_error::function() const { return Function::GETHOSTNAME; }
     const char* gethostname_error::name() const { return "gethostname"; }
+    Function getline_error::function() const { return Function::GETLINE; }
+    const char* getline_error::name() const { return "getline"; }
     Function gmtime_r_error::function() const { return Function::GMTIME_R; }
     const char* gmtime_r_error::name() const { return "gmtime_r"; }
     Function isatty_error::function() const { return Function::ISATTY; }
@@ -135,6 +139,8 @@ namespace ixxx {
     const char* listen_error::name() const { return "listen"; }
     Function lseek_error::function() const { return Function::LSEEK; }
     const char* lseek_error::name() const { return "lseek"; }
+    Function lstat_error::function() const { return Function::LSTAT; }
+    const char* lstat_error::name() const { return "lstat"; }
     Function malloc_error::function() const { return Function::MALLOC; }
     const char* malloc_error::name() const { return "malloc"; }
     Function mkdir_error::function() const { return Function::MKDIR; }
@@ -163,6 +169,12 @@ namespace ixxx {
     const char* read_error::name() const { return "read"; }
     Function readdir_error::function() const { return Function::READDIR; }
     const char* readdir_error::name() const { return "readdir"; }
+    Function readlink_error::function() const { return Function::READLINK; }
+    const char* readlink_error::name() const { return "readlink"; }
+    Function readlinkat_error::function() const { return Function::READLINKAT; }
+    const char* readlinkat_error::name() const { return "readlinkat"; }
+    Function realloc_error::function() const { return Function::REALLOC; }
+    const char* realloc_error::name() const { return "realloc"; }
     Function rmdir_error::function() const { return Function::RMDIR; }
     const char* rmdir_error::name() const { return "rmdir"; }
     Function setenv_error::function() const { return Function::SETENV; }
