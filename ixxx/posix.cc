@@ -175,16 +175,15 @@ namespace ixxx {
         throw lseek_error(errno);
       return r;
     }
-    int lstat(const char *pathname, struct stat *buf)
+    void lstat(const char *pathname, struct stat *buf)
     {
         int r = ::lstat(pathname, buf);
         if (r == -1)
             throw lstat_error(errno);
-        return r;
     }
-    int lstat(const std::string &pathname, struct stat *buf)
+    void lstat(const std::string &pathname, struct stat *buf)
     {
-        return ixxx::posix::lstat(pathname.c_str(), buf);
+        ixxx::posix::lstat(pathname.c_str(), buf);
     }
     void mkdir(const char *pathname, mode_t mode)
     {
