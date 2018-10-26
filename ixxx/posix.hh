@@ -17,6 +17,7 @@
 #include <fcntl.h>
 #include <time.h>
 #include <unistd.h>
+#include <spawn.h>
 
 namespace ixxx {
   namespace posix {
@@ -98,6 +99,9 @@ namespace ixxx {
 #endif
     DIR *opendir(const char *name);
     DIR *opendir(const std::string &name);
+
+    void pipe(int pipefd[2]);
+
     ssize_t read(int fd, void *buf, size_t count);
     struct dirent *readdir(DIR *dirp);
     ssize_t readlink(const char *pathname, char *buf, size_t n);
@@ -119,6 +123,23 @@ namespace ixxx {
     void sigaction(int signum, const struct sigaction *act,
                                     struct sigaction *oldact);
 #endif
+
+    void spawn(pid_t *pid, const char *path,
+            const posix_spawn_file_actions_t *file_actions,
+            const posix_spawnattr_t *attrp,
+            char *const *argv, char *const *envp);
+    void spawnp(pid_t *pid, const char *file,
+            const posix_spawn_file_actions_t *file_actions,
+            const posix_spawnattr_t *attrp,
+            char *const *argv, char *const *envp);
+    void spawn_file_actions_init(posix_spawn_file_actions_t *as);
+    void spawn_file_actions_destroy(posix_spawn_file_actions_t *as);
+    void spawn_file_actions_addopen(posix_spawn_file_actions_t *as,
+            int fd, const char *path, int flags, mode_t mode);
+    void spawn_file_actions_addclose(posix_spawn_file_actions_t *as, int fd);
+    void spawn_file_actions_adddup2(posix_spawn_file_actions_t *as,
+            int oldfd, int newfd);
+
     void stat(const char *pathname, struct stat *buf);
     void stat(const std::string &pathname, struct stat *buf);
     void unlink(const char *pathname);

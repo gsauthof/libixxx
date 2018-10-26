@@ -163,6 +163,8 @@ namespace ixxx {
     const char* openat_error::name() const { return "openat"; }
     Function opendir_error::function() const { return Function::OPENDIR; }
     const char* opendir_error::name() const { return "opendir"; }
+    Function pipe_error::function() const { return Function::PIPE; }
+    const char* pipe_error::name() const { return "pipe"; }
     Function prctl_error::function() const { return Function::PRCTL; }
     const char* prctl_error::name() const { return "prctl"; }
     Function read_error::function() const { return Function::READ; }
@@ -187,6 +189,20 @@ namespace ixxx {
     const char* sigaction_error::name() const { return "sigaction"; }
     Function socket_error::function() const { return Function::SOCKET; }
     const char* socket_error::name() const { return "socket"; }
+    Function spawn_error::function() const { return Function::SPAWN; }
+    const char* spawn_error::name() const { return "spawn"; }
+    Function spawn_file_actions_addclose_error::function() const { return Function::SPAWN_FILE_ACTIONS_ADDCLOSE; }
+    const char* spawn_file_actions_addclose_error::name() const { return "spawn_file_actions_addclose"; }
+    Function spawn_file_actions_adddup2_error::function() const { return Function::SPAWN_FILE_ACTIONS_ADDDUP2; }
+    const char* spawn_file_actions_adddup2_error::name() const { return "spawn_file_actions_adddup2"; }
+    Function spawn_file_actions_addopen_error::function() const { return Function::SPAWN_FILE_ACTIONS_ADDOPEN; }
+    const char* spawn_file_actions_addopen_error::name() const { return "spawn_file_actions_addopen"; }
+    Function spawn_file_actions_destroy_error::function() const { return Function::SPAWN_FILE_ACTIONS_DESTROY; }
+    const char* spawn_file_actions_destroy_error::name() const { return "spawn_file_actions_destroy"; }
+    Function spawn_file_actions_init_error::function() const { return Function::SPAWN_FILE_ACTIONS_INIT; }
+    const char* spawn_file_actions_init_error::name() const { return "spawn_file_actions_init"; }
+    Function spawnp_error::function() const { return Function::SPAWNP; }
+    const char* spawnp_error::name() const { return "spawnp"; }
     Function stat_error::function() const { return Function::STAT; }
     const char* stat_error::name() const { return "stat"; }
     Function strftime_error::function() const { return Function::STRFTIME; }

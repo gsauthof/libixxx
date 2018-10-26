@@ -84,6 +84,7 @@ namespace ixxx {
         OPEN,
         OPENAT,
         OPENDIR,
+        PIPE,
         PRCTL,
         READ,
         READDIR,
@@ -96,6 +97,13 @@ namespace ixxx {
         SHUTDOWN,
         SIGACTION,
         SOCKET,
+        SPAWN,
+        SPAWN_FILE_ACTIONS_ADDCLOSE,
+        SPAWN_FILE_ACTIONS_ADDDUP2,
+        SPAWN_FILE_ACTIONS_ADDOPEN,
+        SPAWN_FILE_ACTIONS_DESTROY,
+        SPAWN_FILE_ACTIONS_INIT,
+        SPAWNP,
         STAT,
         STRFTIME,
         STRTOL,
@@ -346,6 +354,12 @@ namespace ixxx {
             Function function() const override;
             const char* name() const override;
     };
+    class pipe_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
     class prctl_error : public sys_error {
         public:
             using sys_error::sys_error;
@@ -413,6 +427,48 @@ namespace ixxx {
             const char* name() const override;
     };
     class socket_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class spawn_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class spawn_file_actions_addclose_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class spawn_file_actions_adddup2_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class spawn_file_actions_addopen_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class spawn_file_actions_destroy_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class spawn_file_actions_init_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class spawnp_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;

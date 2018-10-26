@@ -329,6 +329,13 @@ namespace ixxx {
       return opendir(name.c_str());
     }
 
+    void pipe(int pipefd[2])
+    {
+        int r = ::pipe(pipefd);
+        if (r == -1)
+            throw pipe_error(errno);
+    }
+
     ssize_t read(int fd, void *buf, size_t count)
     {
       int r = ::read(fd, buf, count);
@@ -427,6 +434,62 @@ namespace ixxx {
         throw sigaction_error(errno);
     }
 #endif
+
+    void spawn(pid_t *pid, const char *path,
+            const posix_spawn_file_actions_t *file_actions,
+            const posix_spawnattr_t *attrp,
+            char *const *argv, char *const *envp)
+    {
+        int r = ::posix_spawn(pid, path, file_actions,
+                attrp,
+                argv, envp);
+        if (r)
+            throw spawn_error(r);
+    }
+    void spawnp(pid_t *pid, const char *file,
+            const posix_spawn_file_actions_t *file_actions,
+            const posix_spawnattr_t *attrp,
+            char *const *argv, char *const *envp)
+    {
+        int r = ::posix_spawnp(pid, file, file_actions,
+                attrp,
+                argv, envp);
+        if (r)
+            throw spawnp_error(r);
+    }
+    void spawn_file_actions_init(posix_spawn_file_actions_t *as)
+    {
+        int r = ::posix_spawn_file_actions_init(as);
+        if (r)
+            throw spawn_file_actions_init_error(r);
+    }
+    void spawn_file_actions_destroy(posix_spawn_file_actions_t *as)
+    {
+        int r = ::posix_spawn_file_actions_destroy(as);
+        if (r)
+            throw spawn_file_actions_destroy_error(r);
+    }
+    void spawn_file_actions_addopen(posix_spawn_file_actions_t *as,
+            int fd, const char *path, int flags, mode_t mode)
+    {
+        int r = ::posix_spawn_file_actions_addopen(as, fd, path, flags, mode);
+        if (r)
+            throw spawn_file_actions_addopen_error(r);
+    }
+    void spawn_file_actions_addclose(posix_spawn_file_actions_t *as, int fd)
+    {
+        int r = ::posix_spawn_file_actions_addclose(as, fd);
+        if (r)
+            throw spawn_file_actions_addclose_error(r);
+    }
+    void spawn_file_actions_adddup2(posix_spawn_file_actions_t *as,
+            int oldfd, int newfd)
+    {
+        int r = ::posix_spawn_file_actions_adddup2(as, oldfd, newfd);
+        if (r)
+            throw spawn_file_actions_adddup2_error(r);
+    }
+
     void stat(const char *pathname, struct stat *buf)
     {
       int r = ::stat(pathname, buf);
