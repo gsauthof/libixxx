@@ -126,19 +126,18 @@ namespace ixxx {
         *endptr = s;
       return r;
     }
-    void system(const string &command)
+    int system(const string &command)
     {
-      system(command.c_str());
+      return system(command.c_str());
     }
-    void system(const char *command)
+    int system(const char *command)
     {
       int r = ::system(command);
       if (r == -1)
         throw system_error(errno);
       if (!command && !r)
         throw system_error(errno, "shell unavailable");
-      if (r)
-        throw system_error(errno, "child failed");
+      return r;
     }
 
     time_t time(time_t *t)

@@ -36,8 +36,8 @@ namespace ixxx {
       return ixxx::ansi::strftime(s.data(), s.size(), format, tm);
     }
     long   strtol(const char *nptr, char **endptr, int base);
-    void   system(const char *command);
-    void   system(const std::string &command);
+    int    system(const char *command);
+    int    system(const std::string &command);
     time_t time  (time_t *t = nullptr);
 
   }
