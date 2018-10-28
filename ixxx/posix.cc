@@ -124,6 +124,17 @@ namespace ixxx {
     }
 #endif
 
+#if _POSIX_C_SOURCE >= 200809L
+    ssize_t getline(char **line, size_t *n, FILE *f)
+    {
+        errno = 0;
+        ssize_t r = ::getline(line, n, f);
+        if (r == -1 && errno)
+            throw getline_error(errno);
+        return r;
+    }
+#endif
+
     struct tm *gmtime_r(const time_t *timep, struct tm *result)
     {
       struct tm *r = ::gmtime_r(timep, result);
@@ -175,6 +186,7 @@ namespace ixxx {
         throw lseek_error(errno);
       return r;
     }
+#if !defined(__MINGW32__) && !defined(__MINGW64__)
     void lstat(const char *pathname, struct stat *buf)
     {
         int r = ::lstat(pathname, buf);
@@ -185,6 +197,8 @@ namespace ixxx {
     {
         ixxx::posix::lstat(pathname.c_str(), buf);
     }
+#endif
+
     void mkdir(const char *pathname, mode_t mode)
     {
 #if (defined(__MINGW32__) || defined(__MINGW64__))
@@ -336,7 +350,11 @@ namespace ixxx {
 
     void pipe(int pipefd[2])
     {
+#if defined(__MINGW32__) || defined(__MINGW64__)
+        int r = ::_pipe(pipefd, 4*1024, _O_BINARY);
+#else
         int r = ::pipe(pipefd);
+#endif
         if (r == -1)
             throw pipe_error(errno);
     }
@@ -357,6 +375,7 @@ namespace ixxx {
       return r;
     }
 
+#if !defined(__MINGW32__) && !defined(__MINGW64__)
     ssize_t readlink(const char *pathname, char *buf, size_t n)
     {
         ssize_t r = ::readlink(pathname, buf, n);
@@ -375,6 +394,8 @@ namespace ixxx {
     {
         return readlink(pathname.c_str(), buf);
     }
+#endif
+
 #if _POSIX_C_SOURCE >= 200809L
     ssize_t readlinkat(int dirfd, const char *pathname, char *buf, size_t n)
     {
@@ -438,7 +459,6 @@ namespace ixxx {
       if (r == -1)
         throw sigaction_error(errno);
     }
-#endif
 
     void spawn(pid_t *pid, const char *path,
             const posix_spawn_file_actions_t *file_actions,
@@ -494,6 +514,8 @@ namespace ixxx {
         if (r)
             throw spawn_file_actions_adddup2_error(r);
     }
+
+#endif
 
     void stat(const char *pathname, struct stat *buf)
     {

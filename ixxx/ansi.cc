@@ -80,14 +80,6 @@ namespace ixxx {
     {
       return getenv(name.c_str());
     }
-    ssize_t getline(char **line, size_t *n, FILE *f)
-    {
-        errno = 0;
-        ssize_t r = ::getline(line, n, f);
-        if (r == -1 && errno)
-            throw getline_error(errno);
-        return r;
-    }
 
     void *malloc(size_t n)
     {

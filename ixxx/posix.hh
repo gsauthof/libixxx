@@ -12,12 +12,12 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #if !defined(__MINGW32__) && !defined(__MINGW64__)
-  #include <sys/wait.h>
+    #include <sys/wait.h>
+    #include <spawn.h>
 #endif
 #include <fcntl.h>
 #include <time.h>
 #include <unistd.h>
-#include <spawn.h>
 
 namespace ixxx {
   namespace posix {
@@ -45,6 +45,11 @@ namespace ixxx {
 #else
     void gethostname(char *name, size_t len);
 #endif
+
+#if _POSIX_C_SOURCE >= 200809L
+    ssize_t getline(char **line, size_t *n, FILE *f);
+#endif
+
     struct tm *gmtime_r(const time_t *timep, struct tm *result);
     int isatty(int fd);
 #if (defined(__MINGW32__) || defined(__MINGW64__))
@@ -62,8 +67,10 @@ namespace ixxx {
         const std::string &newpath, int flags);
 #endif
     off_t lseek(int fd, off_t offset, int whence);
+#if !defined(__MINGW32__) && !defined(__MINGW64__)
     void lstat(const char *pathname, struct stat *buf);
     void lstat(const std::string &pathname, struct stat *buf);
+#endif
     void mkdir(const char *pathname, mode_t mode);
     void mkdir(const std::string &pathname, mode_t mode);
 #if defined(__sun) || (defined(__APPLE__) && defined(__MACH__))
@@ -123,7 +130,6 @@ namespace ixxx {
 #else
     void sigaction(int signum, const struct sigaction *act,
                                     struct sigaction *oldact);
-#endif
 
     void spawn(pid_t *pid, const char *path,
             const posix_spawn_file_actions_t *file_actions,
@@ -140,6 +146,7 @@ namespace ixxx {
     void spawn_file_actions_addclose(posix_spawn_file_actions_t *as, int fd);
     void spawn_file_actions_adddup2(posix_spawn_file_actions_t *as,
             int oldfd, int newfd);
+#endif
 
     void stat(const char *pathname, struct stat *buf);
     void stat(const std::string &pathname, struct stat *buf);
