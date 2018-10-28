@@ -242,6 +242,12 @@ namespace ixxx {
         throw mmap_error(errno);
       return r;
     }
+    void msync(void *addr, size_t length, int flags)
+    {
+        int r = ::msync(addr, length, flags);
+        if (r == -1)
+            throw msync_error(errno);
+    }
     void munmap(void *addr, size_t length)
     {
       int r = ::munmap(addr, length);

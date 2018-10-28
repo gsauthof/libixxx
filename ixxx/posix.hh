@@ -81,6 +81,7 @@ namespace ixxx {
 #else
     void *mmap(void *addr, size_t length, int prot, int flags,
         int fd, off_t offset);
+    void msync(void *addr, size_t length, int flags);
     void munmap(void *addr, size_t length);
 #endif
     void nanosleep(const struct timespec *req, struct timespec *rem);

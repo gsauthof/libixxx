@@ -79,6 +79,7 @@ namespace ixxx {
         MKDTEMP,
         MKSTEMP,
         MMAP,
+        MSYNC,
         MUNMAP,
         NANOSLEEP,
         OPEN,
@@ -319,6 +320,12 @@ namespace ixxx {
             const char* name() const override;
     };
     class mmap_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class msync_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;
