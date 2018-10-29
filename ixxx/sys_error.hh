@@ -51,6 +51,9 @@ namespace ixxx {
         CLOSEDIR,
         DUP,
         DUP2,
+        EXECV,
+        EXECVP,
+        EXECVPE,
         FCLOSE,
         FCNTL,
         FDOPEN,
@@ -152,6 +155,24 @@ namespace ixxx {
             const char* name() const override;
     };
     class dup2_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class execv_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class execvp_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class execvpe_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;

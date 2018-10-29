@@ -27,6 +27,15 @@ namespace ixxx {
     int dup(int oldfd);
     int dup2(int oldfd, int newfd);
 #if !defined(__MINGW32__) && !defined(__MINGW64__)
+
+    void execv(const char *path, char *const *argv);
+    void execvp(const char *file, char *const *argv);
+    void execvp(const std::string &file, char *const *argv);
+#ifdef _GNU_SOURCE
+    void execvpe(const char *file, char *const *argv,
+            char *const *envp);
+#endif
+
     int fcntl(int fd, int cmd, int arg1);
 #endif
     FILE *fdopen(int fd, const char *mode);

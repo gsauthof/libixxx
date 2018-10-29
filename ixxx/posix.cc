@@ -53,6 +53,33 @@ namespace ixxx {
       return r;
     }
 #if !defined(__MINGW32__) && !defined(__MINGW64__)
+
+    void execv(const char *path, char *const *argv)
+    {
+        int r = ::execv(path, argv);
+        if (r == -1)
+            throw execv_error(errno);
+    }
+    void execvp(const char *file, char *const *argv)
+    {
+        int r = ::execvp(file, argv);
+        if (r == -1)
+            throw execvp_error(errno);
+    }
+    void execvp(const std::string &file, char *const *argv)
+    {
+        execvp(file.c_str(), argv);
+    }
+#ifdef _GNU_SOURCE
+    void execvpe(const char *file, char *const *argv,
+            char *const *envp)
+    {
+        int r = ::execvpe(file, argv, envp);
+        if (r == -1)
+            throw execvpe_error(errno);
+    }
+#endif
+
     int fcntl(int fd, int cmd, int arg1)
     {
       int r = ::fcntl(fd, cmd, arg1);
