@@ -13,8 +13,10 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#if !defined(__MINGW32__) && !defined(__MINGW64__)
-  #include <sys/mman.h>
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+    #include <windows.h>
+#else
+    #include <sys/mman.h>
 #endif
 #include <signal.h>
 
@@ -125,15 +127,21 @@ namespace ixxx {
     {
       ixxx::posix::fstat(fd, &buf);
     }
-#if (defined(__MINGW32__) || defined(__MINGW64__))
-#else
     void fsync(int fd)
     {
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+        HANDLE h = reinterpret_cast<HANDLE>(_get_osfhandle(fd));
+        if (h == INVALID_HANDLE_VALUE)
+            throw fsync_error("invalid handle - _get_osfhandle()");
+        auto r = FlushFileBuffers(h);
+        if (!r)
+            throw fsync_error("FlushFileBuffers failed");
+#else
       int r = ::fsync(fd);
       if (r == -1)
         throw fsync_error(errno);
-    }
 #endif
+    }
     void ftruncate(int fd, off_t length)
     {
       int r = ::ftruncate(fd, length);

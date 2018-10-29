@@ -45,10 +45,7 @@ namespace ixxx {
 #endif
     void fstat(int fd, struct stat *buf);
     void fstat(int fd, struct stat &buf);
-#if (defined(__MINGW32__) || defined(__MINGW64__))
-#else
     void fsync(int fd);
-#endif
     void ftruncate(int fd, off_t length);
 #if (defined(__MINGW32__) || defined(__MINGW64__))
 #else

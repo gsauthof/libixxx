@@ -9,9 +9,17 @@ not miss checking any error condition.
 
 ## Design
 
-- All errors are reported via exceptions
-- Overloads are provided for directly supplying string arguments as `std::string`
-- Functions are added as needed
+- All errors are reported via exceptions.
+- Return type is changed to `void` if the function just
+  returns error codes.
+- Overloads are provided for some STL objects (e.g.
+  `std::string`) where it makes sense.
+- Functions are added as needed.
+- The headers are also usable in a mingw environment (under
+  Windows), i.e.  some functions unavailable in mingw are
+  disabled by the pre-processor and where it makes sense and
+  (without too much pain) a thin compatibility wrapper is
+  provided (cf. e.g. `fsync()`).
 
 ## Example
 

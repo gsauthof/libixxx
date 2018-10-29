@@ -172,7 +172,11 @@ BOOST_AUTO_TEST_SUITE( ixxx )
 
     BOOST_AUTO_TEST_CASE(open_newlines)
     {
-      int fd = posix::open("newlines", O_CREAT | O_WRONLY, 0666);
+      string filename("tmp/newlines");
+      fs::create_directory("tmp");
+      fs::remove(filename);
+
+      int fd = posix::open(filename.c_str(), O_CREAT | O_WRONLY, 0666);
       const char inp1[] = "Hello\n";
       posix::write(fd, inp1, sizeof(inp1)-1);
       const char inp2[] = "World\n";
@@ -189,6 +193,17 @@ BOOST_AUTO_TEST_SUITE( ixxx )
       ixxx::posix::setenv("FOO23", "xyz", true);
       BOOST_CHECK_EQUAL(ixxx::ansi::getenv("FOO23"), string("xyz"));
     }
+
+    BOOST_AUTO_TEST_CASE(some_fsync)
+    {
+      string filename("tmp/fsync");
+      fs::create_directory("tmp");
+      fs::remove(filename);
+      int fd = posix::open(filename, O_CREAT | O_WRONLY, 0666);
+      posix::fsync(fd);
+      posix::close(fd);
+    }
+
 
   BOOST_AUTO_TEST_SUITE_END() // posix
 
