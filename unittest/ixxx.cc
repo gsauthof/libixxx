@@ -182,8 +182,7 @@ BOOST_AUTO_TEST_SUITE( ixxx )
       const char inp2[] = "World\n";
       posix::write(fd, inp2, sizeof(inp2)-1);
       posix::close(fd);
-      BOOST_CHECK_EQUAL(boost::filesystem::file_size("newlines"),
-          12u);
+      BOOST_CHECK_EQUAL(boost::filesystem::file_size(filename), 12u);
     }
 
     BOOST_AUTO_TEST_CASE(getsetenv)
