@@ -47,6 +47,7 @@ namespace ixxx {
         ACCEPT,
         BIND,
         CALLOC,
+        CLOCK_GETTIME,
         CLOSE,
         CLOSEDIR,
         DUP,
@@ -74,6 +75,7 @@ namespace ixxx {
         LINK,
         LINKAT,
         LISTEN,
+        LOCALTIME_R,
         LSEEK,
         LSTAT,
         MALLOC,
@@ -111,6 +113,7 @@ namespace ixxx {
         STAT,
         STRFTIME,
         STRTOL,
+        SYSCONF,
         SYSTEM,
         TIME,
         UNLINK,
@@ -131,6 +134,12 @@ namespace ixxx {
             const char* name() const override;
     };
     class calloc_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class clock_gettime_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;
@@ -293,6 +302,12 @@ namespace ixxx {
             const char* name() const override;
     };
     class listen_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class localtime_r_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;
@@ -515,6 +530,12 @@ namespace ixxx {
             const char* name() const override;
     };
     class strtol_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class sysconf_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;

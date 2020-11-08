@@ -89,6 +89,8 @@ namespace ixxx {
     const char* bind_error::name() const { return "bind"; }
     Function calloc_error::function() const { return Function::CALLOC; }
     const char* calloc_error::name() const { return "calloc"; }
+    Function clock_gettime_error::function() const { return Function::CLOCK_GETTIME; }
+    const char* clock_gettime_error::name() const { return "clock_gettime"; }
     Function close_error::function() const { return Function::CLOSE; }
     const char* close_error::name() const { return "close"; }
     Function closedir_error::function() const { return Function::CLOSEDIR; }
@@ -143,6 +145,8 @@ namespace ixxx {
     const char* linkat_error::name() const { return "linkat"; }
     Function listen_error::function() const { return Function::LISTEN; }
     const char* listen_error::name() const { return "listen"; }
+    Function localtime_r_error::function() const { return Function::LOCALTIME_R; }
+    const char* localtime_r_error::name() const { return "localtime_r"; }
     Function lseek_error::function() const { return Function::LSEEK; }
     const char* lseek_error::name() const { return "lseek"; }
     Function lstat_error::function() const { return Function::LSTAT; }
@@ -217,6 +221,8 @@ namespace ixxx {
     const char* strftime_error::name() const { return "strftime"; }
     Function strtol_error::function() const { return Function::STRTOL; }
     const char* strtol_error::name() const { return "strtol"; }
+    Function sysconf_error::function() const { return Function::SYSCONF; }
+    const char* sysconf_error::name() const { return "sysconf"; }
     Function system_error::function() const { return Function::SYSTEM; }
     const char* system_error::name() const { return "system"; }
     Function time_error::function() const { return Function::TIME; }

@@ -22,6 +22,9 @@
 namespace ixxx {
   namespace posix {
 
+
+    void clock_gettime(clockid_t clk_id, struct timespec *tp);
+
     void close(int fd);
     void closedir(DIR *dirp);
     int dup(int oldfd);
@@ -72,6 +75,9 @@ namespace ixxx {
     void linkat(int olddirfd, const std::string &oldpath, int newdirfd,
         const std::string &newpath, int flags);
 #endif
+
+    void localtime_r(const time_t *timep, struct tm *result);
+
     off_t lseek(int fd, off_t offset, int whence);
 #if !defined(__MINGW32__) && !defined(__MINGW64__)
     void lstat(const char *pathname, struct stat *buf);
@@ -156,6 +162,10 @@ namespace ixxx {
 
     void stat(const char *pathname, struct stat *buf);
     void stat(const std::string &pathname, struct stat *buf);
+
+    long sysconf(int name);
+
+
     void unlink(const char *pathname);
     void unlink(const std::string &pathname);
 #if (defined(__APPLE__) && defined(__MACH__))

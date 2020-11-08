@@ -28,6 +28,13 @@ namespace ixxx {
 
   namespace posix {
 
+    void clock_gettime(clockid_t clk_id, struct timespec *tp)
+    {
+      int r = ::clock_gettime(clk_id, tp);
+      if (r == -1)
+        throw clock_gettime_error(errno);
+    }
+
     void close(int fd)
     {
       int r = ::close(fd);
@@ -213,6 +220,13 @@ namespace ixxx {
       linkat(olddirfd, oldpath.c_str(), newdirfd, newpath.c_str(), flags);
     }
 #endif
+
+    void localtime_r(const time_t *timep, struct tm *result)
+    {
+        struct tm *r = ::localtime_r(timep, result);
+        if (!r)
+            throw localtime_r_error(errno);
+    }
 
     off_t lseek(int fd, off_t offset, int whence)
     {
@@ -561,6 +575,15 @@ namespace ixxx {
     void stat(const std::string &pathname, struct stat *buf)
     {
       ixxx::posix::stat(pathname.c_str(), buf);
+    }
+
+    long sysconf(int name)
+    {
+        errno = 0;
+        long r = ::sysconf(name);
+        if (r == -1)
+            throw stat_error(errno);
+        return r;
     }
 
     void unlink(const char *pathname)
