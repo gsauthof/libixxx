@@ -425,45 +425,22 @@ namespace ixxx {
     }
 
 #if !defined(__MINGW32__) && !defined(__MINGW64__)
-    ssize_t readlink(const char *pathname, char *buf, size_t n)
+    size_t readlink(const char *pathname, char *buf, size_t n)
     {
         ssize_t r = ::readlink(pathname, buf, n);
         if (r == -1)
             throw readlink_error(errno);
         return r;
     }
-    ssize_t readlink(const char *pathname, std::array<char, 4096> &buf)
-    {
-        auto k = buf.size() - 1;
-        auto l = readlink(pathname, buf.data(), k);
-        buf[l] = 0;
-        return l;
-    }
-    ssize_t readlink(const std::string &pathname, std::array<char, 4096> &buf)
-    {
-        return readlink(pathname.c_str(), buf);
-    }
 #endif
 
 #if _POSIX_C_SOURCE >= 200809L
-    ssize_t readlinkat(int dirfd, const char *pathname, char *buf, size_t n)
+    size_t readlinkat(int dirfd, const char *pathname, char *buf, size_t n)
     {
         ssize_t r = ::readlinkat(dirfd, pathname, buf, n);
         if (r == -1)
             throw readlinkat_error(errno);
         return r;
-    }
-    ssize_t readlinkat(int dirfd, const char *pathname, std::array<char, 4096> &buf)
-    {
-        auto k = buf.size() - 1;
-        auto l = readlinkat(dirfd, pathname, buf.data(), k);
-        buf[l] = 0;
-        return l;
-    }
-    ssize_t readlinkat(int dirfd, const std::string &pathname,
-            std::array<char, 4096> &buf)
-    {
-        return readlinkat(dirfd, pathname.c_str(), buf);
     }
 #endif
 

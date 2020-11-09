@@ -5,6 +5,7 @@
 #ifndef IXXX_POSIX_H
 #define IXXX_POSIX_H
 
+// XXX replace std::array overloads with std::span()
 #include <array>
 #include <string>
 #include <dirent.h>
@@ -124,14 +125,34 @@ namespace ixxx {
 
     ssize_t read(int fd, void *buf, size_t count);
     struct dirent *readdir(DIR *dirp);
-    ssize_t readlink(const char *pathname, char *buf, size_t n);
-    ssize_t readlink(const char *pathname, std::array<char, 4096> &buf);
-    ssize_t readlink(const std::string &pathname, std::array<char, 4096> &buf);
+    size_t readlink(const char *pathname, char *buf, size_t n);
+    template <size_t U>
+    size_t readlink(const char *pathname, std::array<char, U> &buf)
+    {
+        auto l = readlink(pathname, buf.data(), buf.size() - 1);
+        buf[l] = 0;
+        return l;
+    }
+    template <size_t U>
+    size_t readlink(const std::string &pathname, std::array<char, U> &buf)
+    {
+        return readlink(pathname.c_str(), buf);
+    }
 #if _POSIX_C_SOURCE >= 200809L
-    ssize_t readlinkat(int dirfd, const char *pathname, char *buf, size_t n);
-    ssize_t readlinkat(int dirfd, const char *pathname, std::array<char, 4096> &buf);
-    ssize_t readlinkat(int dirfd, const std::string &pathname,
-            std::array<char, 4096> &buf);
+    size_t readlinkat(int dirfd, const char *pathname, char *buf, size_t n);
+    template <size_t U>
+    size_t readlinkat(int dirfd, const char *pathname, std::array<char, U> &buf)
+    {
+        auto l = readlinkat(dirfd, pathname, buf.data(), buf.size() - 1);
+        buf[l] = 0;
+        return l;
+    }
+    template <size_t U>
+    size_t readlinkat(int dirfd, const std::string &pathname,
+            std::array<char, U> &buf)
+    {
+        return readlinkat(dirfd, pathname.c_str(), buf);
+    }
 #endif
     void rmdir(const char *pathname);
     void rmdir(const std::string &pathname);
