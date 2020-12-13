@@ -19,6 +19,7 @@
     #include <sys/mman.h>
 #endif
 #include <signal.h>
+#include <pwd.h>
 
 #include "ansi.hh"
 
@@ -176,6 +177,20 @@ namespace ixxx {
         return r;
     }
 #endif
+    void getpwnam_r(const char *name, struct passwd *pwd,
+            char *buf, size_t buflen, struct passwd **result)
+    {
+        int r = ::getpwnam_r(name, pwd, buf, buflen, result);
+        if (r)
+            throw getpwnam_r_error(r);
+    }
+    void getpwuid_r(uid_t uid, struct passwd *pwd,
+            char *buf, size_t buflen, struct passwd **result)
+    {
+        int r = ::getpwuid_r(uid, pwd, buf, buflen, result);
+        if (r)
+            throw getpwuid_r_error(r);
+    }
 
     struct tm *gmtime_r(const time_t *timep, struct tm *result)
     {

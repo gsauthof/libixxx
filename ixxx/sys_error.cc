@@ -135,6 +135,10 @@ namespace ixxx {
     const char* gethostname_error::name() const { return "gethostname"; }
     Function getline_error::function() const { return Function::GETLINE; }
     const char* getline_error::name() const { return "getline"; }
+    Function getpwnam_r_error::function() const { return Function::GETPWNAM_R; }
+    const char* getpwnam_r_error::name() const { return "getpwnam_r"; }
+    Function getpwuid_r_error::function() const { return Function::GETPWUID_R; }
+    const char* getpwuid_r_error::name() const { return "getpwuid_r"; }
     Function gmtime_r_error::function() const { return Function::GMTIME_R; }
     const char* gmtime_r_error::name() const { return "gmtime_r"; }
     Function isatty_error::function() const { return Function::ISATTY; }

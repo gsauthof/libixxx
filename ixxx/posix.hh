@@ -19,6 +19,7 @@
 #include <fcntl.h>
 #include <time.h>
 #include <unistd.h>
+#include <pwd.h>
 
 namespace ixxx {
   namespace posix {
@@ -59,6 +60,10 @@ namespace ixxx {
 #if _POSIX_C_SOURCE >= 200809L
     ssize_t getline(char **line, size_t *n, FILE *f);
 #endif
+    void getpwnam_r(const char *name, struct passwd *pwd,
+            char *buf, size_t buflen, struct passwd **result);
+    void getpwuid_r(uid_t uid, struct passwd *pwd,
+            char *buf, size_t buflen, struct passwd **result);
 
     struct tm *gmtime_r(const time_t *timep, struct tm *result);
     int isatty(int fd);

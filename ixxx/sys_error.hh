@@ -70,6 +70,8 @@ namespace ixxx {
         GETENV,
         GETHOSTNAME,
         GETLINE,
+        GETPWNAM_R,
+        GETPWUID_R,
         GMTIME_R,
         ISATTY,
         LINK,
@@ -272,6 +274,18 @@ namespace ixxx {
             const char* name() const override;
     };
     class getline_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class getpwnam_r_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class getpwuid_r_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;
