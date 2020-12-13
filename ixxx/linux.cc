@@ -9,6 +9,8 @@
 #include <sys/prctl.h>
 #endif
 
+#include <errno.h>
+
 namespace ixxx {
 
   namespace linux {
