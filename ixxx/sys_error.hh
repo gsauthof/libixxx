@@ -50,8 +50,12 @@ namespace ixxx {
         CLOCK_GETTIME,
         CLOSE,
         CLOSEDIR,
+        CONNECT,
         DUP,
         DUP2,
+        EPOLL_CREATE1,
+        EPOLL_CTL,
+        EPOLL_WAIT,
         EXECV,
         EXECVP,
         EXECVPE,
@@ -118,6 +122,8 @@ namespace ixxx {
         SYSCONF,
         SYSTEM,
         TIME,
+        TIMERFD_CREATE,
+        TIMERFD_SETTIME,
         UNLINK,
         UNLINKAT,
         WAITID,
@@ -159,6 +165,12 @@ namespace ixxx {
             Function function() const override;
             const char* name() const override;
     };
+    class connect_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
     class dup_error : public sys_error {
         public:
             using sys_error::sys_error;
@@ -166,6 +178,24 @@ namespace ixxx {
             const char* name() const override;
     };
     class dup2_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class epoll_create1_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class epoll_ctl_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class epoll_wait_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;
@@ -562,6 +592,18 @@ namespace ixxx {
             const char* name() const override;
     };
     class time_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class timerfd_create_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class timerfd_settime_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;

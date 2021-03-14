@@ -95,10 +95,18 @@ namespace ixxx {
     const char* close_error::name() const { return "close"; }
     Function closedir_error::function() const { return Function::CLOSEDIR; }
     const char* closedir_error::name() const { return "closedir"; }
+    Function connect_error::function() const { return Function::CONNECT; }
+    const char* connect_error::name() const { return "connect"; }
     Function dup_error::function() const { return Function::DUP; }
     const char* dup_error::name() const { return "dup"; }
     Function dup2_error::function() const { return Function::DUP2; }
     const char* dup2_error::name() const { return "dup2"; }
+    Function epoll_create1_error::function() const { return Function::EPOLL_CREATE1; }
+    const char* epoll_create1_error::name() const { return "epoll_create1"; }
+    Function epoll_ctl_error::function() const { return Function::EPOLL_CTL; }
+    const char* epoll_ctl_error::name() const { return "epoll_ctl"; }
+    Function epoll_wait_error::function() const { return Function::EPOLL_WAIT; }
+    const char* epoll_wait_error::name() const { return "epoll_wait"; }
     Function execv_error::function() const { return Function::EXECV; }
     const char* execv_error::name() const { return "execv"; }
     Function execvp_error::function() const { return Function::EXECVP; }
@@ -231,6 +239,10 @@ namespace ixxx {
     const char* system_error::name() const { return "system"; }
     Function time_error::function() const { return Function::TIME; }
     const char* time_error::name() const { return "time"; }
+    Function timerfd_create_error::function() const { return Function::TIMERFD_CREATE; }
+    const char* timerfd_create_error::name() const { return "timerfd_create"; }
+    Function timerfd_settime_error::function() const { return Function::TIMERFD_SETTIME; }
+    const char* timerfd_settime_error::name() const { return "timerfd_settime"; }
     Function unlink_error::function() const { return Function::UNLINK; }
     const char* unlink_error::name() const { return "unlink"; }
     Function unlinkat_error::function() const { return Function::UNLINKAT; }

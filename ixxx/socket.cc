@@ -34,6 +34,14 @@ namespace ixxx {
       return r;
     }
 
+    int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
+    {
+      int r = ::connect(sockfd, addr, addrlen);
+      if (r == -1)
+        throw connect_error(errno);
+      return r;
+    }
+
     int listen(int sockfd, int backlog)
     {
       int r = ::listen(sockfd, backlog);

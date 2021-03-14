@@ -31,6 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 namespace fs = boost::filesystem;
 
 #include <ixxx/ixxx.hh>
+#include <ixxx/socket.hh>
 
 #include <errno.h>
 #include <string.h>
