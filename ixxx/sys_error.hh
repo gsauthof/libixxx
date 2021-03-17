@@ -13,12 +13,14 @@ namespace ixxx {
 
     enum class Function : int;
 
+
     // optimized for catcher doesn't need to call what() (good case),
     // i.e. the what() message is computed lazily
     class sys_error : public std::exception
     {
         public:
-            sys_error(int code, const char *literal = nullptr);
+            enum Code_Type { ERRNO, GAI };
+            sys_error(int code, const char *literal = nullptr, Code_Type type = ERRNO);
             sys_error(const char *literal = nullptr);
             sys_error(const sys_error &o);
             sys_error &operator=(const sys_error &o);
@@ -30,6 +32,7 @@ namespace ixxx {
             virtual const char* name() const = 0;
         private:
             int errno_;
+            unsigned type_;
             const char *literal_;
             mutable std::unique_ptr<std::string> what_;
     };
@@ -71,6 +74,7 @@ namespace ixxx {
         FSYNC,
         FTRUNCATE,
         FWRITE,
+        GETADDRINFO,
         GETENV,
         GETHOSTNAME,
         GETLINE,
@@ -286,6 +290,12 @@ namespace ixxx {
             const char* name() const override;
     };
     class fwrite_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class getaddrinfo_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;

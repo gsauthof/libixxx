@@ -9,11 +9,14 @@
 #include <errno.h>
 #include <string.h>
 
+#include <netdb.h>
+
 namespace ixxx {
 
-    sys_error::sys_error(int code, const char* literal)
+    sys_error::sys_error(int code, const char* literal, Code_Type type)
         : std::exception()
           , errno_(code)
+          , type_(type)
           , literal_(literal)
     {
 
@@ -21,18 +24,21 @@ namespace ixxx {
     sys_error::sys_error(const char* literal)
         : std::exception()
           , errno_(0)
+          , type_(ERRNO)
           , literal_(literal)
     {
 
     }
     sys_error::sys_error(const sys_error& o)
         : errno_(o.errno_)
+          , type_(o.type_)
           , literal_(o.literal_)
     {
     }
     sys_error& sys_error::operator=(const sys_error& o)
     {
         errno_ = o.errno_;
+        type_ = o.type_;
         literal_ = o.literal_;
         return *this;
     }
@@ -42,25 +48,35 @@ namespace ixxx {
             std::ostringstream o;
             o << name() << ": ";
             if (errno_) {
-                std::array<char, 256> buffer;
-                const char* errno_s = buffer.data();
-                buffer[0] = 0;
-                // g++ unconditionally defines _GNU_SOURCE
-                // https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=485135
-                // http://stackoverflow.com/questions/11670581/why-is-gnu-source-defined-by-default-and-how-to-turn-it-off
+                const char* errno_s = nullptr;
+                switch (type_) {
+                    case ERRNO:
+                        {
+                        std::array<char, 256> buffer;
+                        errno_s = buffer.data();
+                        buffer[0] = 0;
+                        // g++ unconditionally defines _GNU_SOURCE
+                        // https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=485135
+                        // http://stackoverflow.com/questions/11670581/why-is-gnu-source-defined-by-default-and-how-to-turn-it-off
 #ifdef _GNU_SOURCE
-                // this API makes more sense as it avoids a copy in the good case
-                errno_s = ::strerror_r(errno_, buffer.data(), buffer.size());
+                        // this API makes more sense as it avoids a copy in the good case
+                        errno_s = ::strerror_r(errno_, buffer.data(), buffer.size());
 #else
 #if defined(__MINGW32__) || defined(__MINGW64__)
-                // cf. sec_api/string_s.h
-                int r = strerror_s(buffer.data(), buffer.size(), errno_);
+                        // cf. sec_api/string_s.h
+                        int r = strerror_s(buffer.data(), buffer.size(), errno_);
 #else
-                int r = ::strerror_r(errno_, buffer.data(), buffer.size());
+                        int r = ::strerror_r(errno_, buffer.data(), buffer.size());
 #endif
-                if (r)
-                    buffer[buffer.size()-1] = 0;
+                        if (r)
+                            buffer[buffer.size()-1] = 0;
 #endif
+                        }
+                        break;
+                    case GAI:
+                        errno_s = gai_strerror(errno_);
+                        break;
+                }
                 o << errno_s << " (" << errno_ << ')';
             }
             if (literal_) {
@@ -137,6 +153,8 @@ namespace ixxx {
     const char* ftruncate_error::name() const { return "ftruncate"; }
     Function fwrite_error::function() const { return Function::FWRITE; }
     const char* fwrite_error::name() const { return "fwrite"; }
+    Function getaddrinfo_error::function() const { return Function::GETADDRINFO; }
+    const char* getaddrinfo_error::name() const { return "getaddrinfo"; }
     Function getenv_error::function() const { return Function::GETENV; }
     const char* getenv_error::name() const { return "getenv"; }
     Function gethostname_error::function() const { return Function::GETHOSTNAME; }

@@ -14,12 +14,18 @@
     #include <sys/socket.h>
 #endif
 
+struct addrinfo;
+
+
 namespace ixxx {
   namespace posix {
 
     int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
     int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
     int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+    void getaddrinfo(const char *node, const char *service,
+                     const struct addrinfo *hints,
+                     struct addrinfo **res);
     int listen(int sockfd, int backlog);
     int setsockopt(int sockfd, int level, int optname, const void *optval,
         socklen_t optlen);

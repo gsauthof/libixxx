@@ -35,6 +35,8 @@ namespace fs = boost::filesystem;
 
 #include <errno.h>
 #include <string.h>
+#include <netdb.h>
+#include <sys/types.h>
 
 #include <array>
 #include <fstream>
@@ -225,6 +227,24 @@ BOOST_AUTO_TEST_SUITE( ixxx )
       a[0] = 0;
       ixxx::ansi::strftime(a.data(), a.size(), fmt, &tm);
       BOOST_CHECK_EQUAL(string(a.data()), "Thu, 03 Aug 2017 07:47:37 GMT");
+    }
+  BOOST_AUTO_TEST_SUITE_END()
+
+
+  BOOST_AUTO_TEST_SUITE(socket)
+
+    BOOST_AUTO_TEST_CASE(gai_foo)
+    {
+        struct addrinfo hints = {
+            .ai_family   = AF_UNSPEC,
+            .ai_socktype = SOCK_STREAM
+        };
+        struct addrinfo *res = 0;
+        BOOST_CHECK_EXCEPTION(ixxx::posix::getaddrinfo("example.invalid", "123", &hints, &res),
+                ixxx::sys_error,
+                [](const sys_error &e) { return !!strstr(e.what(), "not known"); }
+                );
+
     }
 
   BOOST_AUTO_TEST_SUITE_END()

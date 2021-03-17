@@ -11,6 +11,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <netdb.h>
 
 using namespace std;
 
@@ -40,6 +41,15 @@ namespace ixxx {
       if (r == -1)
         throw connect_error(errno);
       return r;
+    }
+
+    void getaddrinfo(const char *node, const char *service,
+                     const struct addrinfo *hints,
+                     struct addrinfo **res)
+    {
+        int r = ::getaddrinfo(node, service, hints, res);
+        if (r)
+            throw getaddrinfo_error(r, nullptr, sys_error::GAI);
     }
 
     int listen(int sockfd, int backlog)
