@@ -19,8 +19,10 @@ namespace ixxx {
         void pthread_attr_init(pthread_attr_t *attr);
         void pthread_attr_destroy(pthread_attr_t *attr);
 
+#if defined(__linux__)
         void pthread_attr_setaffinity_np(pthread_attr_t *attr,
                 size_t cpusetsize, const cpu_set_t *cpuset);
+#endif
         void pthread_attr_setschedpolicy(pthread_attr_t *attr, int policy);
         void pthread_attr_setschedparam(pthread_attr_t *attr,
                 const struct sched_param *param);

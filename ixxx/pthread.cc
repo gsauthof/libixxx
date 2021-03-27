@@ -37,6 +37,7 @@ namespace ixxx {
                 throw pthread_attr_destroy_error(r);
         }
 
+#if defined(__linux__)
         void pthread_attr_setaffinity_np(pthread_attr_t *attr,
                 size_t cpusetsize, const cpu_set_t *cpuset)
         {
@@ -44,6 +45,7 @@ namespace ixxx {
             if (r)
                 throw pthread_attr_setaffinity_np_error(r);
         }
+#endif
         void pthread_attr_setschedpolicy(pthread_attr_t *attr, int policy)
         {
             int r = ::pthread_attr_setschedpolicy(attr, policy);
