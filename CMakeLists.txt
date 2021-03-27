@@ -15,6 +15,10 @@ IF(${CMAKE_PROJECT_NAME} STREQUAL "ixxx")
       unit_test_framework
     REQUIRED)
 
+    set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+    set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+    find_package(Threads REQUIRED)
+
 endif()
 
 #SET_SOURCE_FILES_PROPERTIES(ixxx.cc PROPERTIES COMPILE_FLAGS -D_XOPEN_SOURCE=600)
@@ -44,6 +48,7 @@ set(LIB_SRC
   ixxx/posix.cc
   ixxx/linux.cc
   ixxx/socket.cc
+  ixxx/pthread.cc
   )
 
 add_library(ixxx SHARED
@@ -74,6 +79,8 @@ IF(${CMAKE_PROJECT_NAME} STREQUAL "ixxx")
   set_property(TARGET ut PROPERTY INCLUDE_DIRECTORIES
     ${Boost_INCLUDE_DIRS}
   )
+
+  target_link_libraries(ut Threads::Threads)
 
   # for executing it from a quickfix environment
   add_custom_target(check COMMAND ut)

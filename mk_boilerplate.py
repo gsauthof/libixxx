@@ -4,7 +4,7 @@ import subprocess
 import sys
 
 def get_fn_list():
-    o = subprocess.check_output(r'''awk '/\(/ {s=$0} /^ +{/ {print s}' ixxx/{ansi,posix,socket,linux}.cc | sed 's/^.\+[ *]\([a-z0-9_]\+\)(.\+/\1/' | sort -u''',
+    o = subprocess.check_output(r'''awk ' /\/\/|#/ { gsub("(//|#).*", "") }   /namespace/ {next} /}/ {skip=0} skip {next} /[(]/ { x=1 } x { s=s $0 } /{/ { skip=1} /[;{]/ { gsub(" +", " ", s); gsub("^ +", "", s); gsub(" +$", "", s); print s; s=""; x=0; next } ' ixxx/{ansi,posix,pthread,socket,linux}.hh | sed 's/(.*//' | awk '{print $NF}' | tr -d '*' | grep -v '^$' | sort -u''',
             shell=True, universal_newlines=True)
     return o.splitlines()
 

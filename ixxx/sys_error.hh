@@ -102,6 +102,14 @@ namespace ixxx {
         OPENDIR,
         PIPE,
         PRCTL,
+        PTHREAD_ATTR_DESTROY,
+        PTHREAD_ATTR_INIT,
+        PTHREAD_ATTR_SETAFFINITY_NP,
+        PTHREAD_ATTR_SETINHERITSCHED,
+        PTHREAD_ATTR_SETSCHEDPARAM,
+        PTHREAD_ATTR_SETSCHEDPOLICY,
+        PTHREAD_CREATE,
+        PTHREAD_JOIN,
         READ,
         READDIR,
         READLINK,
@@ -458,6 +466,54 @@ namespace ixxx {
             const char* name() const override;
     };
     class prctl_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class pthread_attr_destroy_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class pthread_attr_init_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class pthread_attr_setaffinity_np_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class pthread_attr_setinheritsched_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class pthread_attr_setschedparam_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class pthread_attr_setschedpolicy_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class pthread_create_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class pthread_join_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;

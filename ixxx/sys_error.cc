@@ -52,24 +52,24 @@ namespace ixxx {
                 switch (type_) {
                     case ERRNO:
                         {
-                        std::array<char, 256> buffer;
-                        errno_s = buffer.data();
-                        buffer[0] = 0;
-                        // g++ unconditionally defines _GNU_SOURCE
-                        // https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=485135
-                        // http://stackoverflow.com/questions/11670581/why-is-gnu-source-defined-by-default-and-how-to-turn-it-off
+                            std::array<char, 256> buffer;
+                            errno_s = buffer.data();
+                            buffer[0] = 0;
+                            // g++ unconditionally defines _GNU_SOURCE
+                            // https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=485135
+                            // http://stackoverflow.com/questions/11670581/why-is-gnu-source-defined-by-default-and-how-to-turn-it-off
 #ifdef _GNU_SOURCE
-                        // this API makes more sense as it avoids a copy in the good case
-                        errno_s = ::strerror_r(errno_, buffer.data(), buffer.size());
+                            // this API makes more sense as it avoids a copy in the good case
+                            errno_s = ::strerror_r(errno_, buffer.data(), buffer.size());
 #else
 #if defined(__MINGW32__) || defined(__MINGW64__)
-                        // cf. sec_api/string_s.h
-                        int r = strerror_s(buffer.data(), buffer.size(), errno_);
+                            // cf. sec_api/string_s.h
+                            int r = strerror_s(buffer.data(), buffer.size(), errno_);
 #else
-                        int r = ::strerror_r(errno_, buffer.data(), buffer.size());
+                            int r = ::strerror_r(errno_, buffer.data(), buffer.size());
 #endif
-                        if (r)
-                            buffer[buffer.size()-1] = 0;
+                            if (r)
+                                buffer[buffer.size()-1] = 0;
 #endif
                         }
                         break;
@@ -209,6 +209,22 @@ namespace ixxx {
     const char* pipe_error::name() const { return "pipe"; }
     Function prctl_error::function() const { return Function::PRCTL; }
     const char* prctl_error::name() const { return "prctl"; }
+    Function pthread_attr_destroy_error::function() const { return Function::PTHREAD_ATTR_DESTROY; }
+    const char* pthread_attr_destroy_error::name() const { return "pthread_attr_destroy"; }
+    Function pthread_attr_init_error::function() const { return Function::PTHREAD_ATTR_INIT; }
+    const char* pthread_attr_init_error::name() const { return "pthread_attr_init"; }
+    Function pthread_attr_setaffinity_np_error::function() const { return Function::PTHREAD_ATTR_SETAFFINITY_NP; }
+    const char* pthread_attr_setaffinity_np_error::name() const { return "pthread_attr_setaffinity_np"; }
+    Function pthread_attr_setinheritsched_error::function() const { return Function::PTHREAD_ATTR_SETINHERITSCHED; }
+    const char* pthread_attr_setinheritsched_error::name() const { return "pthread_attr_setinheritsched"; }
+    Function pthread_attr_setschedparam_error::function() const { return Function::PTHREAD_ATTR_SETSCHEDPARAM; }
+    const char* pthread_attr_setschedparam_error::name() const { return "pthread_attr_setschedparam"; }
+    Function pthread_attr_setschedpolicy_error::function() const { return Function::PTHREAD_ATTR_SETSCHEDPOLICY; }
+    const char* pthread_attr_setschedpolicy_error::name() const { return "pthread_attr_setschedpolicy"; }
+    Function pthread_create_error::function() const { return Function::PTHREAD_CREATE; }
+    const char* pthread_create_error::name() const { return "pthread_create"; }
+    Function pthread_join_error::function() const { return Function::PTHREAD_JOIN; }
+    const char* pthread_join_error::name() const { return "pthread_join"; }
     Function read_error::function() const { return Function::READ; }
     const char* read_error::name() const { return "read"; }
     Function readdir_error::function() const { return Function::READDIR; }

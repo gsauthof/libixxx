@@ -32,6 +32,7 @@ namespace fs = boost::filesystem;
 
 #include <ixxx/ixxx.hh>
 #include <ixxx/socket.hh>
+#include <ixxx/pthread.hh>
 
 #include <errno.h>
 #include <string.h>
@@ -42,6 +43,17 @@ namespace fs = boost::filesystem;
 #include <fstream>
 using namespace std;
 using namespace ixxx;
+
+
+static void *sleep_thread_main(void *x)
+{
+    struct timespec ts { .tv_nsec = 100000000 };
+    ixxx::posix::nanosleep(&ts, nullptr);
+
+    size_t a = (size_t)x;
+
+    return (void*)(a+2);
+}
 
 BOOST_AUTO_TEST_SUITE( ixxx )
 
@@ -244,6 +256,22 @@ BOOST_AUTO_TEST_SUITE( ixxx )
                 ixxx::sys_error,
                 [](const sys_error &e) { return !!strstr(e.what(), "not known"); }
                 );
+
+    }
+
+  BOOST_AUTO_TEST_SUITE_END()
+
+  BOOST_AUTO_TEST_SUITE(thread)
+
+    BOOST_AUTO_TEST_CASE(pthread_basic)
+    {
+        pthread_t thread_id;
+        ixxx::posix::pthread_create(&thread_id, nullptr, sleep_thread_main, (void*)21);
+        void *r = 0;
+        ixxx::posix::pthread_join(thread_id, &r);
+        size_t x = 0;
+        memcpy(&x, &r, sizeof x);
+        BOOST_CHECK_EQUAL(x, 23);
 
     }
 
