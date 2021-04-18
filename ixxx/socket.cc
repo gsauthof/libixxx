@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <netdb.h>
+#include <net/if.h>
 
 using namespace std;
 
@@ -50,6 +51,14 @@ namespace ixxx {
         int r = ::getaddrinfo(node, service, hints, res);
         if (r)
             throw getaddrinfo_error(r, nullptr, sys_error::GAI);
+    }
+
+    unsigned if_nametoindex(const char *ifname)
+    {
+        unsigned r = ::if_nametoindex(ifname);
+        if (!r)
+            throw if_nametoindex_error(errno);
+        return r;
     }
 
     int listen(int sockfd, int backlog)

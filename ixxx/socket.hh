@@ -26,6 +26,7 @@ namespace ixxx {
     void getaddrinfo(const char *node, const char *service,
                      const struct addrinfo *hints,
                      struct addrinfo **res);
+    unsigned if_nametoindex(const char *ifname);
     int listen(int sockfd, int backlog);
     int setsockopt(int sockfd, int level, int optname, const void *optval,
         socklen_t optlen);

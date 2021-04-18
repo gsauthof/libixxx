@@ -20,6 +20,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <pwd.h>
+#include <poll.h>
 
 namespace ixxx {
   namespace posix {
@@ -127,6 +128,7 @@ namespace ixxx {
     DIR *opendir(const std::string &name);
 
     void pipe(int pipefd[2]);
+    int poll(struct pollfd *fds, nfds_t nfds, int timeout);
 
     ssize_t read(int fd, void *buf, size_t count);
     struct dirent *readdir(DIR *dirp);

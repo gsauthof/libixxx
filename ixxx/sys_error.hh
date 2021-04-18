@@ -81,6 +81,7 @@ namespace ixxx {
         GETPWNAM_R,
         GETPWUID_R,
         GMTIME_R,
+        IF_NAMETOINDEX,
         ISATTY,
         LINK,
         LINKAT,
@@ -101,6 +102,7 @@ namespace ixxx {
         OPENAT,
         OPENDIR,
         PIPE,
+        POLL,
         PRCTL,
         PTHREAD_ATTR_DESTROY,
         PTHREAD_ATTR_INIT,
@@ -345,6 +347,12 @@ namespace ixxx {
             Function function() const override;
             const char* name() const override;
     };
+    class if_nametoindex_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
     class isatty_error : public sys_error {
         public:
             using sys_error::sys_error;
@@ -460,6 +468,12 @@ namespace ixxx {
             const char* name() const override;
     };
     class pipe_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class poll_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;

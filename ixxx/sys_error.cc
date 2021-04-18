@@ -167,6 +167,8 @@ namespace ixxx {
     const char* getpwuid_r_error::name() const { return "getpwuid_r"; }
     Function gmtime_r_error::function() const { return Function::GMTIME_R; }
     const char* gmtime_r_error::name() const { return "gmtime_r"; }
+    Function if_nametoindex_error::function() const { return Function::IF_NAMETOINDEX; }
+    const char* if_nametoindex_error::name() const { return "if_nametoindex"; }
     Function isatty_error::function() const { return Function::ISATTY; }
     const char* isatty_error::name() const { return "isatty"; }
     Function link_error::function() const { return Function::LINK; }
@@ -207,6 +209,8 @@ namespace ixxx {
     const char* opendir_error::name() const { return "opendir"; }
     Function pipe_error::function() const { return Function::PIPE; }
     const char* pipe_error::name() const { return "pipe"; }
+    Function poll_error::function() const { return Function::POLL; }
+    const char* poll_error::name() const { return "poll"; }
     Function prctl_error::function() const { return Function::PRCTL; }
     const char* prctl_error::name() const { return "prctl"; }
     Function pthread_attr_destroy_error::function() const { return Function::PTHREAD_ATTR_DESTROY; }

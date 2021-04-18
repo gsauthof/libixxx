@@ -423,6 +423,14 @@ namespace ixxx {
             throw pipe_error(errno);
     }
 
+    int poll(struct pollfd *fds, nfds_t nfds, int timeout)
+    {
+        int r = ::poll(fds, nfds, timeout);
+        if (r == -1)
+            throw poll_error(errno);
+        return r;
+    }
+
     ssize_t read(int fd, void *buf, size_t count)
     {
       int r = ::read(fd, buf, count);
