@@ -441,12 +441,15 @@ namespace ixxx {
         return r;
     }
 
+#if (defined(__APPLE__) && defined(__MACH__))
+#else
     void posix_fallocate(int fd, off_t offset, off_t len)
     {
         int r = ::posix_fallocate(fd, offset, len);
         if (r)
             throw posix_fallocate_error(r);
     }
+#endif
 
     ssize_t read(int fd, void *buf, size_t count)
     {

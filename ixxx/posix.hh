@@ -132,7 +132,10 @@ namespace ixxx {
     void pipe(int pipefd[2]);
     int poll(struct pollfd *fds, nfds_t nfds, int timeout);
 
+#if (defined(__APPLE__) && defined(__MACH__))
+#else
     void posix_fallocate(int fd, off_t offset, off_t len);
+#endif
 
     ssize_t read(int fd, void *buf, size_t count);
     struct dirent *readdir(DIR *dirp);
