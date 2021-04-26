@@ -26,6 +26,8 @@ namespace ixxx {
     char  *getenv(const std::string &name);
     void  *malloc(size_t n);
     void  *realloc(void *p, size_t n);
+    void rename(const char *oldpath, const char *newpath);
+    void rename(const std::string &oldpath, const std::string &newpath);
     size_t strftime(char *s, size_t max, const char *format,
         const struct tm *tm);
     template <size_t U>

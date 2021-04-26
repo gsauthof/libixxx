@@ -51,6 +51,8 @@ namespace ixxx {
 #endif
     void fstat(int fd, struct stat *buf);
     void fstat(int fd, struct stat &buf);
+    void  fstatat(int dirfd, const char *pathname, struct stat *statbuf, int flags);
+    void  fstatat(int dirfd, const std::string &pathname, struct stat *statbuf, int flags);
     void fsync(int fd);
     void ftruncate(int fd, off_t length);
 #if (defined(__MINGW32__) || defined(__MINGW64__))
@@ -130,6 +132,8 @@ namespace ixxx {
     void pipe(int pipefd[2]);
     int poll(struct pollfd *fds, nfds_t nfds, int timeout);
 
+    void posix_fallocate(int fd, off_t offset, off_t len);
+
     ssize_t read(int fd, void *buf, size_t count);
     struct dirent *readdir(DIR *dirp);
     size_t readlink(const char *pathname, char *buf, size_t n);
@@ -161,6 +165,10 @@ namespace ixxx {
         return readlinkat(dirfd, pathname.c_str(), buf);
     }
 #endif
+    void renameat(int olddirfd, const char *oldpath,
+            int newdirfd, const char *newpath);
+    void renameat(int olddirfd, const std::string &oldpath,
+            int newdirfd, const std::string &newpath);
     void rmdir(const char *pathname);
     void rmdir(const std::string &pathname);
     void setenv(const char *name, const char *value, bool overwrite);
@@ -170,6 +178,7 @@ namespace ixxx {
 #else
     void sigaction(int signum, const struct sigaction *act,
                                     struct sigaction *oldact);
+    void sigprocmask(int how, const sigset_t *set, sigset_t *oldset);
 
     void spawn(pid_t *pid, const char *path,
             const posix_spawn_file_actions_t *file_actions,
@@ -193,6 +202,8 @@ namespace ixxx {
 
     long sysconf(int name);
 
+    void truncate(const char *path, off_t length);
+    void truncate(const std::string &path, off_t length);
 
     void unlink(const char *pathname);
     void unlink(const std::string &pathname);

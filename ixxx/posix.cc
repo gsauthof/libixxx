@@ -135,6 +135,16 @@ namespace ixxx {
     {
       ixxx::posix::fstat(fd, &buf);
     }
+    void fstatat(int dirfd, const char *pathname, struct stat *statbuf, int flags)
+    {
+        int r = ::fstatat(dirfd, pathname, statbuf, flags);
+        if (r == -1)
+            throw fstat_error(errno);
+    }
+    void fstatat(int dirfd, const std::string &pathname, struct stat *statbuf, int flags)
+    {
+        ixxx::posix::fstatat(dirfd, pathname.c_str(), statbuf, flags);
+    }
     void fsync(int fd)
     {
 #if (defined(__MINGW32__) || defined(__MINGW64__))
@@ -431,6 +441,13 @@ namespace ixxx {
         return r;
     }
 
+    void posix_fallocate(int fd, off_t offset, off_t len)
+    {
+        int r = ::posix_fallocate(fd, offset, len);
+        if (r)
+            throw posix_fallocate_error(r);
+    }
+
     ssize_t read(int fd, void *buf, size_t count)
     {
       int r = ::read(fd, buf, count);
@@ -466,6 +483,20 @@ namespace ixxx {
         return r;
     }
 #endif
+
+    void renameat(int olddirfd, const char *oldpath,
+            int newdirfd, const char *newpath)
+    {
+        int r = ::renameat(olddirfd, oldpath, newdirfd, newpath);
+        if (r == -1)
+            throw renameat_error(errno);
+    }
+    void renameat(int olddirfd, const std::string &oldpath,
+            int newdirfd, const std::string &newpath)
+    {
+        ixxx::posix::renameat(olddirfd, oldpath.c_str(),
+                newdirfd, newpath.c_str());
+    }
 
     void rmdir(const char *pathname)
     {
@@ -507,6 +538,12 @@ namespace ixxx {
       int r = ::sigaction(signum, act, oldact);
       if (r == -1)
         throw sigaction_error(errno);
+    }
+    void sigprocmask(int how, const sigset_t *set, sigset_t *oldset)
+    {
+        int r = ::sigprocmask(how, set, oldset);
+        if (r == -1)
+            throw sigprocmask_error(errno);
     }
 
     void spawn(pid_t *pid, const char *path,
@@ -584,6 +621,17 @@ namespace ixxx {
         if (r == -1)
             throw stat_error(errno);
         return r;
+    }
+
+    void truncate(const char *path, off_t length)
+    {
+        int r = ::truncate(path, length);
+        if (r == -1)
+            throw truncate_error(errno);
+    }
+    void truncate(const std::string &path, off_t length)
+    {
+        ixxx::posix::truncate(path.c_str(), length);
     }
 
     void unlink(const char *pathname)

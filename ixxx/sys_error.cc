@@ -129,6 +129,8 @@ namespace ixxx {
     const char* execvp_error::name() const { return "execvp"; }
     Function execvpe_error::function() const { return Function::EXECVPE; }
     const char* execvpe_error::name() const { return "execvpe"; }
+    Function eventfd_error::function() const { return Function::EVENTFD; }
+    const char* eventfd_error::name() const { return "eventfd"; }
     Function fclose_error::function() const { return Function::FCLOSE; }
     const char* fclose_error::name() const { return "fclose"; }
     Function fcntl_error::function() const { return Function::FCNTL; }
@@ -147,6 +149,8 @@ namespace ixxx {
     const char* fputs_error::name() const { return "fputs"; }
     Function fstat_error::function() const { return Function::FSTAT; }
     const char* fstat_error::name() const { return "fstat"; }
+    Function fstatat_error::function() const { return Function::FSTATAT; }
+    const char* fstatat_error::name() const { return "fstatat"; }
     Function fsync_error::function() const { return Function::FSYNC; }
     const char* fsync_error::name() const { return "fsync"; }
     Function ftruncate_error::function() const { return Function::FTRUNCATE; }
@@ -165,6 +169,8 @@ namespace ixxx {
     const char* getpwnam_r_error::name() const { return "getpwnam_r"; }
     Function getpwuid_r_error::function() const { return Function::GETPWUID_R; }
     const char* getpwuid_r_error::name() const { return "getpwuid_r"; }
+    Function getsockopt_error::function() const { return Function::GETSOCKOPT; }
+    const char* getsockopt_error::name() const { return "getsockopt"; }
     Function gmtime_r_error::function() const { return Function::GMTIME_R; }
     const char* gmtime_r_error::name() const { return "gmtime_r"; }
     Function if_nametoindex_error::function() const { return Function::IF_NAMETOINDEX; }
@@ -211,6 +217,8 @@ namespace ixxx {
     const char* pipe_error::name() const { return "pipe"; }
     Function poll_error::function() const { return Function::POLL; }
     const char* poll_error::name() const { return "poll"; }
+    Function posix_fallocate_error::function() const { return Function::POSIX_FALLOCATE; }
+    const char* posix_fallocate_error::name() const { return "posix_fallocate"; }
     Function prctl_error::function() const { return Function::PRCTL; }
     const char* prctl_error::name() const { return "prctl"; }
     Function pthread_attr_destroy_error::function() const { return Function::PTHREAD_ATTR_DESTROY; }
@@ -239,6 +247,10 @@ namespace ixxx {
     const char* readlinkat_error::name() const { return "readlinkat"; }
     Function realloc_error::function() const { return Function::REALLOC; }
     const char* realloc_error::name() const { return "realloc"; }
+    Function rename_error::function() const { return Function::RENAME; }
+    const char* rename_error::name() const { return "rename"; }
+    Function renameat_error::function() const { return Function::RENAMEAT; }
+    const char* renameat_error::name() const { return "renameat"; }
     Function rmdir_error::function() const { return Function::RMDIR; }
     const char* rmdir_error::name() const { return "rmdir"; }
     Function setenv_error::function() const { return Function::SETENV; }
@@ -249,6 +261,10 @@ namespace ixxx {
     const char* shutdown_error::name() const { return "shutdown"; }
     Function sigaction_error::function() const { return Function::SIGACTION; }
     const char* sigaction_error::name() const { return "sigaction"; }
+    Function signalfd_error::function() const { return Function::SIGNALFD; }
+    const char* signalfd_error::name() const { return "signalfd"; }
+    Function sigprocmask_error::function() const { return Function::SIGPROCMASK; }
+    const char* sigprocmask_error::name() const { return "sigprocmask"; }
     Function socket_error::function() const { return Function::SOCKET; }
     const char* socket_error::name() const { return "socket"; }
     Function spawn_error::function() const { return Function::SPAWN; }
@@ -273,6 +289,8 @@ namespace ixxx {
     const char* strtol_error::name() const { return "strtol"; }
     Function sysconf_error::function() const { return Function::SYSCONF; }
     const char* sysconf_error::name() const { return "sysconf"; }
+    Function truncate_error::function() const { return Function::TRUNCATE; }
+    const char* truncate_error::name() const { return "truncate"; }
     Function system_error::function() const { return Function::SYSTEM; }
     const char* system_error::name() const { return "system"; }
     Function time_error::function() const { return Function::TIME; }

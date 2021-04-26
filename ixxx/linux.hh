@@ -8,6 +8,8 @@
 struct epoll_event;
 struct itimerspec;
 
+#include <signal.h>
+
 namespace ixxx {
 
   // work-around GCC/Clang that `define linux 1` with -std=gnu++11/14 ...
@@ -23,8 +25,12 @@ namespace ixxx {
       void epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
       int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);
 
+      int eventfd(unsigned initval, int flags);
+
     int prctl(int option, unsigned long arg2, unsigned long arg3 = 0,
         unsigned long arg4 = 0, unsigned long arg5 = 0);
+
+      int signalfd(int fd, const sigset_t *mask, int flags);
 
       int timerfd_create(int clockid, int flags);
       void timerfd_settime(int fd, int flags, const struct itimerspec *new_value, struct itimerspec *old_value);

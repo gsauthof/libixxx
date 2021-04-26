@@ -97,6 +97,17 @@ namespace ixxx {
         return r;
     }
 
+    void rename(const char *oldpath, const char *newpath)
+    {
+        int r = ::rename(oldpath, newpath);
+        if (r == -1)
+            throw rename_error(errno);
+    }
+    void rename(const std::string &oldpath, const std::string &newpath)
+    {
+        ixxx::ansi::rename(oldpath.c_str(), newpath.c_str());
+    }
+
     size_t strftime(char *s, size_t max, const char *format, const struct tm *tm)
     {
       size_t r = ::strftime(s, max, format, tm);

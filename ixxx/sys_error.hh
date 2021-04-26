@@ -62,6 +62,7 @@ namespace ixxx {
         EXECV,
         EXECVP,
         EXECVPE,
+        EVENTFD,
         FCLOSE,
         FCNTL,
         FDOPEN,
@@ -71,6 +72,7 @@ namespace ixxx {
         FORK,
         FPUTS,
         FSTAT,
+        FSTATAT,
         FSYNC,
         FTRUNCATE,
         FWRITE,
@@ -80,6 +82,7 @@ namespace ixxx {
         GETLINE,
         GETPWNAM_R,
         GETPWUID_R,
+        GETSOCKOPT,
         GMTIME_R,
         IF_NAMETOINDEX,
         ISATTY,
@@ -103,6 +106,7 @@ namespace ixxx {
         OPENDIR,
         PIPE,
         POLL,
+        POSIX_FALLOCATE,
         PRCTL,
         PTHREAD_ATTR_DESTROY,
         PTHREAD_ATTR_INIT,
@@ -117,11 +121,15 @@ namespace ixxx {
         READLINK,
         READLINKAT,
         REALLOC,
+        RENAME,
+        RENAMEAT,
         RMDIR,
         SETENV,
         SETSOCKOPT,
         SHUTDOWN,
         SIGACTION,
+        SIGNALFD,
+        SIGPROCMASK,
         SOCKET,
         SPAWN,
         SPAWN_FILE_ACTIONS_ADDCLOSE,
@@ -134,6 +142,7 @@ namespace ixxx {
         STRFTIME,
         STRTOL,
         SYSCONF,
+        TRUNCATE,
         SYSTEM,
         TIME,
         TIMERFD_CREATE,
@@ -203,6 +212,12 @@ namespace ixxx {
             Function function() const override;
             const char* name() const override;
     };
+    class posix_fallocate_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
     class epoll_ctl_error : public sys_error {
         public:
             using sys_error::sys_error;
@@ -228,6 +243,12 @@ namespace ixxx {
             const char* name() const override;
     };
     class execvpe_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class eventfd_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;
@@ -287,6 +308,12 @@ namespace ixxx {
             Function function() const override;
             const char* name() const override;
     };
+    class fstatat_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
     class fsync_error : public sys_error {
         public:
             using sys_error::sys_error;
@@ -336,6 +363,12 @@ namespace ixxx {
             const char* name() const override;
     };
     class getpwuid_r_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class getsockopt_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;
@@ -563,6 +596,18 @@ namespace ixxx {
             Function function() const override;
             const char* name() const override;
     };
+    class rename_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class renameat_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
     class rmdir_error : public sys_error {
         public:
             using sys_error::sys_error;
@@ -588,6 +633,18 @@ namespace ixxx {
             const char* name() const override;
     };
     class sigaction_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class signalfd_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class sigprocmask_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;
@@ -660,6 +717,12 @@ namespace ixxx {
             const char* name() const override;
     };
     class sysconf_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class truncate_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;

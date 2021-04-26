@@ -53,6 +53,14 @@ namespace ixxx {
             throw getaddrinfo_error(r, nullptr, sys_error::GAI);
     }
 
+    int getsockopt(int fd, int level, int optname, void *val, socklen_t *len)
+    {
+        int r = ::getsockopt(fd, level, optname, val, len);
+        if (r == -1)
+            throw getsockopt_error(errno);
+        return r;
+    }
+
     unsigned if_nametoindex(const char *ifname)
     {
         unsigned r = ::if_nametoindex(ifname);
