@@ -85,6 +85,10 @@ namespace ixxx {
         GETSOCKOPT,
         GMTIME_R,
         IF_NAMETOINDEX,
+        IO_DESTROY,
+        IO_GETEVENTS,
+        IO_SETUP,
+        IO_SUBMIT,
         ISATTY,
         LINK,
         LINKAT,
@@ -381,6 +385,30 @@ namespace ixxx {
             const char* name() const override;
     };
     class if_nametoindex_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class io_destroy_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class io_getevents_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class io_setup_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class io_submit_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;

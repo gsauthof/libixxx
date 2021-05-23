@@ -175,6 +175,14 @@ namespace ixxx {
     const char* gmtime_r_error::name() const { return "gmtime_r"; }
     Function if_nametoindex_error::function() const { return Function::IF_NAMETOINDEX; }
     const char* if_nametoindex_error::name() const { return "if_nametoindex"; }
+    Function io_destroy_error::function() const { return Function::IO_DESTROY; }
+    const char* io_destroy_error::name() const { return "io_destroy"; }
+    Function io_getevents_error::function() const { return Function::IO_GETEVENTS; }
+    const char* io_getevents_error::name() const { return "io_getevents"; }
+    Function io_setup_error::function() const { return Function::IO_SETUP; }
+    const char* io_setup_error::name() const { return "io_setup"; }
+    Function io_submit_error::function() const { return Function::IO_SUBMIT; }
+    const char* io_submit_error::name() const { return "io_submit"; }
     Function isatty_error::function() const { return Function::ISATTY; }
     const char* isatty_error::name() const { return "isatty"; }
     Function link_error::function() const { return Function::LINK; }
