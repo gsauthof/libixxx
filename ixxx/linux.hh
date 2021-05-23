@@ -12,7 +12,7 @@ struct itimerspec;
 
 
 // cf. /usr/include/linux/aio_abi.h
-typedef unsigned long io_context_t;
+typedef unsigned long aio_context_t;
 struct iocb;
 struct io_event;
 struct timespec;
@@ -42,10 +42,10 @@ namespace ixxx {
       int timerfd_create(int clockid, int flags);
       void timerfd_settime(int fd, int flags, const struct itimerspec *new_value, struct itimerspec *old_value);
 
-      void io_setup(unsigned nr_events, io_context_t *ctx);
-      void io_destroy(io_context_t ctx_id);
-      int io_submit(io_context_t ctx_id, long nr, struct iocb **iocbpp);
-      int io_getevents(io_context_t ctx_id, long min_nr, long nr,
+      void io_setup(unsigned nr_events, aio_context_t *ctx);
+      void io_destroy(aio_context_t ctx_id);
+      int io_submit(aio_context_t ctx_id, long nr, struct iocb **iocbpp);
+      int io_getevents(aio_context_t ctx_id, long min_nr, long nr,
               struct io_event *events, struct timespec *timeout);
 
 

@@ -83,26 +83,26 @@ namespace ixxx {
         throw timerfd_settime_error(errno);
     }
 
-      void io_setup(unsigned nr_events, io_context_t *ctx)
+      void io_setup(unsigned nr_events, aio_context_t *ctx)
       {
           int r = ::syscall(SYS_io_setup, nr_events, ctx);
           if (r == -1)
               throw io_setup_error(errno);
       }
-      void io_destroy(io_context_t ctx)
+      void io_destroy(aio_context_t ctx)
       {
           int r = ::syscall(SYS_io_destroy, ctx);
           if (r == -1)
               throw io_destroy_error(errno);
       }
-      int io_submit(io_context_t ctx, long nr, struct iocb **iocbpp)
+      int io_submit(aio_context_t ctx, long nr, struct iocb **iocbpp)
       {
           int r = ::syscall(SYS_io_submit, ctx, nr, iocbpp);
           if (r == -1)
               throw io_submit_error(errno);
           return r;
       }
-      int io_getevents(io_context_t ctx, long min_nr, long nr,
+      int io_getevents(aio_context_t ctx, long min_nr, long nr,
               struct io_event *events, struct timespec *timeout)
       {
           int r = ::syscall(SYS_io_getevents, ctx, min_nr, nr, events, timeout);
