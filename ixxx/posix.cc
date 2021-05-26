@@ -441,6 +441,21 @@ namespace ixxx {
         return r;
     }
 
+    ssize_t pread(int fd, void *buf, size_t count, off_t offset)
+    {
+        ssize_t r = ::pread(fd, buf, count, offset);
+        if (r == -1)
+            throw pread_error(errno);
+        return r;
+    }
+    ssize_t pwrite(int fd, const void *buf, size_t count, off_t offset)
+    {
+        ssize_t r = ::pwrite(fd, buf, count, offset);
+        if (r == -1)
+            throw pwrite_error(errno);
+        return r;
+    }
+
 #if (defined(__APPLE__) && defined(__MACH__))
 #else
     void posix_fallocate(int fd, off_t offset, off_t len)

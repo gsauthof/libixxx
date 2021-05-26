@@ -225,6 +225,10 @@ namespace ixxx {
     const char* pipe_error::name() const { return "pipe"; }
     Function poll_error::function() const { return Function::POLL; }
     const char* poll_error::name() const { return "poll"; }
+    Function pread_error::function() const { return Function::PREAD; }
+    const char* pread_error::name() const { return "pread"; }
+    Function pwrite_error::function() const { return Function::PWRITE; }
+    const char* pwrite_error::name() const { return "pwrite"; }
     Function posix_fallocate_error::function() const { return Function::POSIX_FALLOCATE; }
     const char* posix_fallocate_error::name() const { return "posix_fallocate"; }
     Function prctl_error::function() const { return Function::PRCTL; }

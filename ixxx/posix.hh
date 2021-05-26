@@ -131,6 +131,8 @@ namespace ixxx {
 
     void pipe(int pipefd[2]);
     int poll(struct pollfd *fds, nfds_t nfds, int timeout);
+    ssize_t pread(int fd, void *buf, size_t count, off_t offset);
+    ssize_t pwrite(int fd, const void *buf, size_t count, off_t offset);
 
 #if (defined(__APPLE__) && defined(__MACH__))
 #else

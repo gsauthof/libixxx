@@ -112,6 +112,7 @@ namespace ixxx {
         POLL,
         POSIX_FALLOCATE,
         PRCTL,
+        PREAD,
         PTHREAD_ATTR_DESTROY,
         PTHREAD_ATTR_INIT,
         PTHREAD_ATTR_SETAFFINITY_NP,
@@ -120,6 +121,7 @@ namespace ixxx {
         PTHREAD_ATTR_SETSCHEDPOLICY,
         PTHREAD_CREATE,
         PTHREAD_JOIN,
+        PWRITE,
         READ,
         READDIR,
         READLINK,
@@ -535,6 +537,18 @@ namespace ixxx {
             const char* name() const override;
     };
     class poll_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class pread_error : public sys_error {
+        public:
+            using sys_error::sys_error;
+            Function function() const override;
+            const char* name() const override;
+    };
+    class pwrite_error : public sys_error {
         public:
             using sys_error::sys_error;
             Function function() const override;
