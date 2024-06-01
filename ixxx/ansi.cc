@@ -108,6 +108,8 @@ namespace ixxx {
         ixxx::ansi::rename(oldpath.c_str(), newpath.c_str());
     }
 
+    // NB: gcc 13 and earlier warn under -Wformat-nonliteral,
+    //     arguably this is a bug, cf. https://gcc.gnu.org/bugzilla/show_bug.cgi?id=39438
     size_t strftime(char *s, size_t max, const char *format, const struct tm *tm)
     {
       size_t r = ::strftime(s, max, format, tm);

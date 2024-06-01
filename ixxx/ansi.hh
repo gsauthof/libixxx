@@ -29,8 +29,11 @@ namespace ixxx {
     void rename(const char *oldpath, const char *newpath);
     void rename(const std::string &oldpath, const std::string &newpath);
     size_t strftime(char *s, size_t max, const char *format,
-        const struct tm *tm);
+        const struct tm *tm)
+        __attribute__ ((format (strftime, 3, 0)))
+        ;
     template <size_t U>
+    __attribute__ ((format (strftime, 2, 0)))
     size_t strftime(std::array<char, U> &s, const char *format,
         const struct tm *tm)
     {
